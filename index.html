@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSB Türkiye - Fransa Gençlik Değişimi 2026 | Dijital Atlas & Portalı</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <span class="flag-badge">🇹🇷 🇫🇷</span>
+        <div class="brand-text">
+          <h1>GSB France-Türkiye 2026</h1>
+          <p>Gençlik Değişimi & Fransa Araştırma Atlası</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <button class="nav-btn active" data-tab="atlas">🏛️ Fransa Atlası</button>
+        <button class="nav-btn" data-tab="regions">🗺️ Bölgeler & Şehirler</button>
+        <button class="nav-btn" data-tab="vocabulary">🗣️ Sözlük & Flashcard</button>
+        <button class="nav-btn" data-tab="workshops">🤝 Çalıştaylar & Saha</button>
+        <button class="nav-btn" data-tab="quiz">🧠 Bilgi Testi</button>
+      </nav>
+      <div class="nav-actions">
+        <a href="https://github.com/arch-yunus/gsb-france-exchange-2026" target="_blank" class="github-link">
+          <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">T.C. Gençlik ve Spor Bakanlığı Koordinasyonunda</div>
+      <h2 class="hero-title">İki Ülke, Ortak Gelecek: Gençlik Diplomasisi & Kültür Köprüsü</h2>
+      <p class="hero-quote">
+        <em>"Le véritable voyage de découverte ne consiste pas à chercher de nouveaux paysages, mais à avoir de nouveaux yeux."</em>
+        <span>— Marcel Proust</span>
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">13</span>
+          <span class="stat-label">Fransa Metropol Bölgesi</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">4</span>
+          <span class="stat-label">Tematik Çalıştay</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">8 Gün</span>
+          <span class="stat-label">Ankara, İst, Paris, Lyon</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">100+</span>
+          <span class="stat-label">Diplomatik & Kültürel Terim</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Tabs -->
+  <main class="main-container">
+    <!-- TAB 1: ATLAS -->
+    <section id="tab-atlas" class="tab-content active">
+      <div class="section-header">
+        <h2>🏛️ Fransa Araştırma ve Kültür Atlası</h2>
+        <p>Aydınlanma felsefesinden nükleer sanayiye, kurumsal mimariden sokak kültürüne kapsamlı inceleme</p>
+      </div>
+
+      <div class="atlas-grid">
+        <div class="atlas-card" onclick="openAtlasModal('history')">
+          <div class="card-icon">📜</div>
+          <h3>Düşünce & Fikir Tarihi</h3>
+          <p>Descartes, Voltaire, Rousseau, 1789 İhtilali, Varoluşçuluk (Sartre, Camus) ve Mayıs 68 hareketi.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('institutions')">
+          <div class="card-icon">⚖️</div>
+          <h3>Devlet & Laïcité Modeli</h3>
+          <p>5. Cumhuriyet, Yarı-Başkanlık, 1905 Laiklik Kanunu, Danıştay, Anayasa Konseyi ve MJC Gençlik Evleri.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('arts')">
+          <div class="card-icon">🎨</div>
+          <h3>Sanat, Edebiyat & Sinema</h3>
+          <p>Molière, Victor Hugo, Marcel Proust, Flâneur estetiği, Empresyonizm ve Nouvelle Vague sineması.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('science')">
+          <div class="card-icon">🔬</div>
+          <h3>Bilim, Enerji & French Tech</h3>
+          <p>Messmer Planı (%70 Nükleer), Airbus/Uzay sanayisi, TGV demiryolları ve Station F kuluçka merkezi.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('culture')">
+          <div class="card-icon">🥐</div>
+          <h3>Yaşam Sanatı & Argot / Verlan</h3>
+          <p>L'art de vivre, UNESCO Gastronomi Mirası, kafe terasları, sokak dili, Verlan hece sistemi ve nezaket kodları.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('diplomacy')">
+          <div class="card-icon">🌐</div>
+          <h3>Türkiye-Fransa İlişkileri</h3>
+          <p>1536 Kanuni-François ittifakından Galatasaray geleneğine ve 2026 Gençlik Eylem Planı'na köklü bağlar.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: REGIONS -->
+    <section id="tab-regions" class="tab-content">
+      <div class="section-header">
+        <h2>🗺️ Fransa Bölge & Şehir Atlası ("L'Hexagone")</h2>
+        <p>13 Metropoliten bölgeyi ve sosyo-ekonomik kimliklerini keşfedin</p>
+      </div>
+
+      <div class="region-controls">
+        <input type="text" id="regionSearch" placeholder="Bölge veya şehir ara (örn. Lyon, Toulouse, Bretagne)..." class="search-input">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterRegions('all')">Tümü</button>
+          <button class="chip" onclick="filterRegions('kuzey')">Kuzey & Başkent</button>
+          <button class="chip" onclick="filterRegions('guney')">Güney & Akdeniz</button>
+          <button class="chip" onclick="filterRegions('bati')">Batı & Atlantik</button>
+          <button class="chip" onclick="filterRegions('dogu')">Doğu & Alpler</button>
+        </div>
+      </div>
+
+      <div class="regions-grid" id="regionsContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- TAB 3: VOCABULARY -->
+    <section id="tab-vocabulary" class="tab-content">
+      <div class="section-header">
+        <h2>🗣️ Fransızca - Türkçe Diplomasi & Yaşam Sözlüğü</h2>
+        <p>Müzakere terimleri, günlük ifadeler, argo (Argot/Verlan) ve interaktif flashcard kartları</p>
+      </div>
+
+      <div class="vocab-layout">
+        <!-- Flashcard View -->
+        <div class="flashcard-section">
+          <h3>⚡ Günün Flashcard'ı</h3>
+          <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">
+                <span class="card-category" id="fcCategory">Diplomasi</span>
+                <h4 id="fcFrench">La diplomatie publique</h4>
+                <p class="fc-pronun" id="fcPronun">/la di.plɔ.ma.si py.blik/</p>
+                <span class="card-hint">Kartı çevirmek için tıkla ↻</span>
+              </div>
+              <div class="flashcard-back">
+                <span class="card-category">Türkçe Karşılık</span>
+                <h4 id="fcTurkish">Kamu Diplomasisi</h4>
+                <p class="fc-example" id="fcExample">"Renforcer la diplomatie publique par la jeunesse."</p>
+                <span class="card-hint">Kartı çevirmek için tıkla ↻</span>
+              </div>
+            </div>
+          </div>
+          <div class="fc-controls">
+            <button class="btn-secondary" onclick="prevCard()">← Önceki</button>
+            <span id="fcCounter">1 / 15</span>
+            <button class="btn-primary" onclick="nextCard()">Sonraki →</button>
+          </div>
+        </div>
+
+        <!-- Dictionary Table -->
+        <div class="dict-section">
+          <div class="dict-search-box">
+            <input type="text" id="vocabSearch" placeholder="Kelime veya anlam ara..." class="search-input">
+            <select id="vocabFilter" class="select-input">
+              <option value="all">Tüm Kategoriler</option>
+              <option value="diplomacy">Gençlik Diplomasisi</option>
+              <option value="daily">Günlük & Seyahat</option>
+              <option value="argot">Argot & Verlan</option>
+              <option value="idioms">Deyimler</option>
+            </select>
+          </div>
+          <div class="dict-table-wrapper">
+            <table class="dict-table">
+              <thead>
+                <tr>
+                  <th>Fransızca</th>
+                  <th>Telaffuz</th>
+                  <th>Türkçe Anlamı</th>
+                  <th>Kategori</th>
+                </tr>
+              </thead>
+              <tbody id="vocabTableBody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: WORKSHOPS & DIARY -->
+    <section id="tab-workshops" class="tab-content">
+      <div class="section-header">
+        <h2>🤝 Çalıştaylar, Saha Seyir Defteri & Eylem Planı</h2>
+        <p>Ankara, İstanbul, Paris ve Lyon temasları ile 2026-2027 Eylem Planı</p>
+      </div>
+
+      <div class="workshops-container">
+        <div class="timeline-stages">
+          <!-- Stage Turkey -->
+          <div class="stage-card">
+            <div class="stage-header">
+              <span class="stage-flag">🇹🇷</span>
+              <div>
+                <h3>I. Etap: Türkiye (Ankara & İstanbul)</h3>
+                <p>Heyetlerarası Karşılama, Anıtkabir, GSB Bakanlığı, Galatasaray Lisesi & Çalıştaylar</p>
+              </div>
+            </div>
+            <ul class="stage-list">
+              <li><strong>Gün 1 (Ankara):</strong> Esenboğa Karşılama, Anıtkabir Töreni ve Felsefi Oryantasyon.</li>
+              <li><strong>Gün 2 (Ankara):</strong> GSB Bakanlık Ziyareti, Altındağ Gençlik Merkezi & Politika Masası.</li>
+              <li><strong>Gün 3 (İstanbul):</strong> YHT Yolculuğu, Tarihi Yarımada, Galatasaray Lisesi & Boğaz Gezisi.</li>
+              <li><strong>Gün 4 (İstanbul):</strong> Çalıştay Raporlarının Birleştirilmesi ve İstanbul Ortak Bildirisi.</li>
+            </ul>
+          </div>
+
+          <!-- Stage France -->
+          <div class="stage-card">
+            <div class="stage-header">
+              <span class="stage-flag">🇫🇷</span>
+              <div>
+                <h3>II. Etap: Fransa (Paris & Lyon)</h3>
+                <p>Gençlik Bakanlığı, MJC Ağı, Station F, UNESCO Genel Merkezi & Lyon Deklarasyonu</p>
+              </div>
+            </div>
+            <ul class="stage-list">
+              <li><strong>Gün 1 (Paris):</strong> CDG Karşılama, Quartier Latin, Panthéon & Kafe Kültürü İncelemesi.</li>
+              <li><strong>Gün 2 (Paris):</strong> Fransız Gençlik Bakanlığı, MJC Paris 13 & Station F Girişimcilik Kampüsü.</li>
+              <li><strong>Gün 3 (Paris):</strong> UNESCO Genel Merkezi, T.C. Paris Büyükelçiliği & Louvre/Orsay Ziyareti.</li>
+              <li><strong>Gün 4 (Lyon):</strong> TGV Yolculuğu, Vieux Lyon İpekçilik Mirası, Grand Lyon & Kapanış Deklarasyonu.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Key 4 Workshops Summary -->
+        <div class="workshops-cards">
+          <div class="ws-card">
+            <span class="ws-tag">Çalıştay 1</span>
+            <h4>🌐 Kamu Diplomasisi & Gençlik</h4>
+            <p>Kanuni-I. François ittifakından günümüze ikili ilişkiler, kardeş gençlik meclisleri ve yıllık forum önerisi.</p>
+          </div>
+          <div class="ws-card">
+            <span class="ws-tag">Çalıştay 2</span>
+            <h4>🌍 Kültürlerarası Diyalog</h4>
+            <p>Stereotiplerin kırılması, diller arası ortak 5000 kelime ve iki dilli gençlik medya üretimi.</p>
+          </div>
+          <div class="ws-card">
+            <span class="ws-tag">Çalıştay 3</span>
+            <h4>🌱 Yeşil Dönüşüm & İklim</h4>
+            <p>15 dakikalık şehirler, bisiklet şebekeleri, gıda israfıyla mücadele yasası ve Türk-Fransız Gençlik Ormanları.</p>
+          </div>
+          <div class="ws-card">
+            <span class="ws-tag">Çalıştay 4</span>
+            <h4>🤝 Sivil Katılım & Gönüllülük</h4>
+            <p>Fransa Service Civique ile GSB Gönüllülük Sistemi karşılaştırması ve Akdeniz gençlik kampları.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: QUIZ -->
+    <section id="tab-quiz" class="tab-content">
+      <div class="section-header">
+        <h2>🧠 Kültürel Diplomasi ve Fransa Bilgi Testi</h2>
+        <p>10 soruda Fransa ve Türkiye-Fransa ilişkileri bilginizi test edin!</p>
+      </div>
+
+      <div class="quiz-box">
+        <div id="quizContainer">
+          <div class="quiz-header">
+            <span id="quizProgress">Soru 1 / 10</span>
+            <span id="quizScore">Skor: 0</span>
+          </div>
+          <h3 id="quizQuestion" class="quiz-question">Soru metni yükleniyor...</h3>
+          <div class="quiz-options" id="quizOptions">
+            <!-- Options injected by JS -->
+          </div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+          <button id="quizNextBtn" class="btn-primary" style="display:none;" onclick="nextQuizQuestion()">Sonraki Soru →</button>
+        </div>
+        <div id="quizResult" class="quiz-result" style="display:none;">
+          <!-- Result summary -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for Atlas Dossier Reading -->
+  <div class="modal-overlay" id="atlasModal" onclick="closeAtlasModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeAtlasModal()">&times;</button>
+      <div class="modal-header">
+        <span class="modal-badge" id="modalBadge">Atlas Dosyası</span>
+        <h3 id="modalTitle">Dosya Başlığı</h3>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>🇹🇷 🇫🇷 GSB France-Exchange 2026</h4>
+        <p>T.C. Gençlik ve Spor Bakanlığı Gençlik Değişimi Programı kapsamında hazırlanan açık kaynaklı araştırma ve diplomasi deposudur.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Hızlı Bağlantılar</h4>
+        <ul>
+          <li><a href="https://genclik.gov.tr" target="_blank">GSB Resmi Web Sitesi</a></li>
+          <li><a href="https://gencgonulluler.gov.tr" target="_blank">Genç Gönüllüler Portalı</a></li>
+          <li><a href="https://github.com/arch-yunus/gsb-france-exchange-2026" target="_blank">GitHub Deposu</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Alıntı</h4>
+        <p><em>"Liberté, Égalité, Fraternité"</em></p>
+        <p><small>© 2026 GSB Gençlik Delegasyonu. Açık Kaynak Lisanslıdır.</small></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
