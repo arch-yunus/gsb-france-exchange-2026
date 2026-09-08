@@ -22,30 +22,31 @@ Bu açık kaynaklı depo; **T.C. Gençlik ve Spor Bakanlığı (GSB)** koordinas
 
 1. [🌍 Dünya Aydınlarının Gözünden Fransa ve Paris](#-dünya-aydınlarının-gözünden-fransa-ve-paris)
 2. [🇹🇷 Türk Edebiyatı ve Düşüncesinde Fransa & Paris İzleri](#-türk-edebiyatı-ve-düşüncesinde-fransa--paris-izleri)
-3. [📜 Büyük Fransız Düşünce ve Alıntılar Galerisi](#-büyük-fransız-düşünce-ve-alıntılar-galerisi)
-4. [📖 Fransız Edebiyatının Büyük Çağları & Şiir Antolojisi](#-fransız-edebiyatının-büyük-çağları--şiir-antolojisi)
-5. [☕ Edebi Fragmanlar: Proust, Hugo ve Camus Çözümlemeleri](#-edebi-fragmanlar-proust-hugo-ve-camus-çözümlemeleri)
-6. [🚶 Paris'te "Flâneur" Olmak ve Edebi Rotalar](#-pariste-flâneur-olmak-ve-edebi-rotalar)
-7. [🎬 Fransız Sineması (*Le Septième Art*), Tiyatro & Müzik](#-fransız-sineması-le-septième-art-tiyatro--müzik)
-8. [🍷 Fransız Gastronomisi, *Terroir* ve Peynir Haritası](#-fransız-gastronomisi-terroir-ve-peynir-haritası)
-9. [🏛️ Fransa'nın Felsefi Temelleri & Fikir Tarihi](#️-fransanın-felsefi-temelleri--fikir-tarihi)
-10. [⚖️ Devlet Mimarisi, Anayasal Düzen & "Laïcité"](#️-devlet-mimarisi-anayasal-düzen--laïcité)
-11. [🗺️ Coğrafya ve 13 Metropoliten Bölge Atlası ("L'Hexagone")](#️-coğrafya-ve-13-metropoliten-bölge-atlası-lhexagone)
-12. [🔬 Bilim, Yüksek Teknoloji, Nükleer & "La French Tech"](#-bilim-yüksek-teknoloji-nükleer--la-french-tech)
-13. [🥐 Gündelik Yaşam Sosyolojisi: "L'art de vivre", Argot & Verlan](#-gündelik-yaşam-sosyolojisi-lart-de-vivre-argot--verlan)
-14. [🤝 500 Yıllık Türkiye - Fransa İlişkileri & Frankofoni](#-500-yıllık-türkiye---fransa-ilişkileri--frankofoni)
-15. [🗣️ Fransızca - Türkçe Diplomasi & Yaşam Sözlüğü](#️-fransızca---türkçe-diplomasi--yaşam-sözlüğü)
-16. [⏳ Galya'dan 2026'ya Fransa Tarihsel Kronolojisi](#-galyadan-2026ya-fransa-tarihsel-kronolojisi)
-17. [📅 2026 Değişim Programı Takvimi ve 5 Eylem Maddesi](#-2026-değişim-programı-takvimi-ve-5-eylem-maddesi)
-18. [🧭 Depo Mimarisi ve Dosya Gezgini](#-depo-mimarisi-ve-dosya-gezgini)
-19. [🌐 İnteraktif Portalı Çalıştırma](#-interaktif-portalı-çalıştırma)
+3. [📜 Fransız Düşünürlerinin Yaşam, Akıl ve İnsanlık Aforizmaları](#-fransız-düşünürlerinin-yaşam-akıl-ve-insanlık-aforizmaları)
+4. [🏛️ Felsefe, Akıl ve Aydınlanma (*Les Lumières*)](#️-felsefe-akıl-ve-aydınlanma-les-lumières)
+5. [⚡ Varoluşçuluk, Başkaldırı ve 20. Yüzyıl](#-varoluşçuluk-başkaldırı-ve-20-yüzyıl)
+6. [📖 Fransız Edebiyatının Büyük Çağları & Şiir Antolojisi](#-fransız-edebiyatının-büyük-çağları--şiir-antolojisi)
+7. [☕ Edebi Fragmanlar: Proust, Hugo ve Camus Çözümlemeleri](#-edebi-fragmanlar-proust-hugo-ve-camus-çözümlemeleri)
+8. [🚶 Paris'te "Flâneur" Olmak ve Edebi Rotalar](#-pariste-flâneur-olmak-ve-edebi-rotalar)
+9. [🎬 Fransız Sineması (*Le Septième Art*), Tiyatro & Müzik](#-fransız-sineması-le-septième-art-tiyatro--müzik)
+10. [🍷 Fransız Gastronomisi, *Terroir* ve Peynir Haritası](#-fransız-gastronomisi-terroir-ve-peynir-haritası)
+11. [⚖️ Devlet Mimarisi, Anayasal Düzen & "Laïcité"](#️-devlet-mimarisi-anayasal-düzen--laïcité)
+12. [🗺️ Coğrafya ve 13 Metropoliten Bölge Atlası ("L'Hexagone")](#️-coğrafya-ve-13-metropoliten-bölge-atlası-lhexagone)
+13. [🔬 Bilim, Yüksek Teknoloji, Nükleer & "La French Tech"](#-bilim-yüksek-teknoloji-nükleer--la-french-tech)
+14. [🥐 Gündelik Yaşam Sosyolojisi: "L'art de vivre", Argot & Verlan](#-gündelik-yaşam-sosyolojisi-lart-de-vivre-argot--verlan)
+15. [🤝 500 Yıllık Türkiye - Fransa İlişkileri & Frankofoni](#-500-yıllık-türkiye---fransa-ilişkileri--frankofoni)
+16. [🗣️ Fransızca - Türkçe Diplomasi & Yaşam Sözlüğü](#️-fransızca---türkçe-diplomasi--yaşam-sözlüğü)
+17. [⏳ Galya'dan 2026'ya Fransa Tarihsel Kronolojisi](#-galyadan-2026ya-fransa-tarihsel-kronolojisi)
+18. [📅 2026 Değişim Programı Takvimi ve 5 Eylem Maddesi](#-2026-değişim-programı-takvimi-ve-5-eylem-maddesi)
+19. [🧭 Depo Mimarisi ve Dosya Gezgini](#-depo-mimarisi-ve-dosya-gezgini)
+20. [🌐 İnteraktif Portalı Çalıştırma](#-interaktif-portalı-çalıştırma)
 
 ---
 
 ## 🌍 Dünya Aydınlarının Gözünden Fransa ve Paris
 ### *Ce que les grands esprits du monde disent de la France et de Paris*
 
-Fransa ve özellikle Paris; yüzyıllar boyunca dünya edebiyatçılarının, düşünürlerinin ve sanatçılarının ilham sığınağı, estetik laboratuvarı ve ikinci vatanı olmuştur.
+Fransa ve özellikle Paris; yüzyıllar boyunca dünya edebiyatçılarının, düşünürlerinin, sürgünlerinin ve sanatçılarının ilham sığınağı, estetik laboratuvarı ve ikinci vatanı olmuştur.
 
 > *"If you are lucky enough to have lived in Paris as a young man, then wherever you go for the rest of your life, it stays with you, for Paris is a moveable feast."*  
 > — **Ernest Hemingway**, *A Moveable Feast (Paris Bir Şölendir)*  
@@ -54,6 +55,14 @@ Fransa ve özellikle Paris; yüzyıllar boyunca dünya edebiyatçılarının, d�
 > *"An artist has no home in Europe except in Paris."*  
 > — **Friedrich Nietzsche**, *Ecce Homo (1888)*  
 > *(Bir sanatçının Avrupa'daki tek yurdu Paris'tir.)*
+
+> *"The best of America drifts to Paris. The American in Paris is the best American."*  
+> — **F. Scott Fitzgerald** *(Muhteşem Gatsby'nin Yazarı)*  
+> *(Amerika'nın en iyileri Paris'e akar; Paris'teki Amerikalı en iyi Amerikalıdır.)*
+
+> *"I had to leave America to be able to write... Paris gave me the freedom to breathe and look at my own country with clear eyes."*  
+> — **James Baldwin** *(Amerikalı Yazar & Sivil Haklar Öncüsü)*  
+> *(Yazabilmek için Amerika'yı terk etmek zorundaydım... Paris bana nefes alma ve kendi ülkeme berrak gözlerle bakma özgürlüğü verdi.)*
 
 > *"Every man has two countries, his own and France."*  
 > — **Thomas Jefferson** *(ABD'nin 3. Başkanı & Bağımsızlık Bildirisi Yazarı)*  
@@ -78,6 +87,14 @@ Fransa ve özellikle Paris; yüzyıllar boyunca dünya edebiyatçılarının, d�
 > — **Oscar Wilde**, *A Woman of No Importance (1893)*  
 > *(İyi Amerikalılar öldüklerinde Paris'e giderler.)*
 
+> *"In Paris, they simply stared when I spoke to them in French; I never did succeed in making those idiots understand their own language."*  
+> — **Mark Twain** *(Mizahın Ustası)*  
+> *(Paris'te onlarla Fransızca konuştuğumda öylece yüzüme baktılar; o ahmaklara kendi dillerini anlatmayı asla başaramadım!)*
+
+> *"Paris is like an alien city, a city of light and shadows, where one can be completely alone and yet feel intensely alive."*  
+> — **Henry Miller**  
+> *(Paris ışık ve gölgelerin şehridir... İnsan yapayalnızken bile kendini son derece canlı hisseder.)*
+
 > *"Paris'i düşünün; dünyanın en parlak zihinlerinin tek bir noktada toplandığı, birbirini her gün bilediği ve aydınlattığı o yeri..."*  
 > — **Johann Wolfgang von Goethe**, *Eckermann ile Konuşmalar*
 
@@ -86,6 +103,15 @@ Fransa ve özellikle Paris; yüzyıllar boyunca dünya edebiyatçılarının, d�
 
 > *"Paris'te herkes kendini biraz şair, biraz filozof hisseder; çünkü bu şehrin taşları bile estetik fısıldar."*  
 > — **Stefan Zweig**, *Dünün Dünyası (Die Welt von Gestern)*
+
+> *"Fransa, kültürün ve roman sanatının en soylu mabedidir. Roman Avrupa'nın ruhudur ve o ruhun başkenti Paris'tir."*  
+> — **Milan Kundera**, *Perde (Le Rideau)*
+
+> *"Paris, insanı kendi iç derinliğine doğru çeken dipsiz bir aynadır."*  
+> — **Rainer Maria Rilke**, *Malte Laurids Brigge'nin Notları*
+
+> *"Paris'te soğuk bir çatı katında aç karnına otururken bile insanın içinde edebiyatın ve hikâyenin ateşi yanar."*  
+> — **Gabriel García Márquez**
 
 ---
 
@@ -106,14 +132,83 @@ Tanzimat'tan Cumhuriyet'e, Türk aydınlanması ile Fransız kültürü arasınd
 > *"Baudelaire, Mallarmé ve Valéry; bize kelimelerin yalnızca birer etiket olmadığını, arkalarında gizemli bir musiki ve rüya dünyası taşıdığını öğrettiler. Şiir, dille kurulan bir büyü sanatıdır."*  
 > — **Ahmet Hamdi Tanpınar**, *Edebiyat Üzerine Makaleler*
 
+> *"Flaubert ve Balzac'ın romanlarını okurken, roman sanatının modern dünyayı anlama gücünü kavradım; İstanbul'u yazarken Flaubert'in Doğu gezisi ve Madam Bovary'nin kusursuz cümle arayışı hep zihnimdeydi."*  
+> — **Orhan Pamuk** *(Nobel Edebiyat Ödüllü Yazar)*
+
+> *"Paris'te sonbahar bir başka iner sokaklara... Baudelaire'in ve Verlaine'in mısraları rüzgarda savrulan kuru yapraklar gibi fısıldar içime."*  
+> — **Cahit Sıtkı Tarancı**, *Paris Mektupları*
+
+> *"Sorbonne'da felsefe tahsil ederken Seine Nehri kıyısında Paris'in bohem gecelerini ve insanın varoluş buhranını iliklerime kadar yaşadım. Batı'nın aklıyla Doğu'nun kalbi arasındaki büyük hesaplaşma orada başladı."*  
+> — **Necip Fazıl Kısakürek**, *Bâbıâli & O ve Ben*
+
+> *"Paris'te Louis Aragon ve Paul Éluard ile omuz omuza şiir okurken barışın, insan sevgisinin ve enternasyonal dostluğun hiçbir sınır tanımadığını gördüm."*  
+> — **Nâzım Hikmet**
+
+> *"Paris'te André Lhote atölyesinde boya sürerken, rengin ve çizginin evrensel dilini öğrendim; ama o fırçayla dönüp Anadolu'nun kilim nakışlarını ve yazmalarını yeniden keşfettim."*  
+> — **Bedri Rahmi Eyüboğlu**
+
 > *"Batı medeniyetinin kapısını aralayan anahtar, Fransız rasyonalizmi ve hürriyet mefkuresidir. Şinasi'den Namık Kemal'e, Ziya Gökalp'ten Tevfik Fikret'e kadar maarifimizin mayasında Fransız aklı vardır."*  
 > — **Hilmi Ziya Ülken**, *Türkiye'de Çağdaş Düşünce Tarihi*
 
 ---
 
-## 📜 Büyük Fransız Düşünce ve Alıntılar Galerisi
+## 📜 Fransız Düşünürlerinin Yaşam, Akıl ve İnsanlık Aforizmaları
 
-### 🏛️ Felsefe, Akıl ve Aydınlanma (*Les Lumières*)
+> *"Tout le malheur des hommes vient d'une seule chose, qui est de ne pas savoir demeurer en repos, dans une chambre."*  
+> — **Blaise Pascal**, *Pensées (1670)*  
+> *(Bütün insanların mutsuzluğu tek bir şeyden kaynaklanır: Kendi odasında sessizce tek başına durmayı bilememekten.)*
+
+> *"Sur le plus beau trône du monde, on n'est jamais assis que sur son cul."*  
+> — **Michel de Montaigne**, *Les Essais (1580)*  
+> *(Dünyanın en güzel tahtına da çıksanız, oturacağınız yer yine kendi kıçınızın üstüdür.)*
+
+> *"La vraie vie est absente. Nous ne sommes pas au monde."*  
+> — **Arthur Rimbaud**, *Une Saison en enfer (1873)*  
+> *(Gerçek hayat burada değil. Biz dünyada değiliz.)*
+
+> *"Changer la vie !"*  
+> — **Arthur Rimbaud**  
+> *(Hayatı değiştirmeli!)*
+
+> *"La beauté n'est que la promesse du bonheur."*  
+> — **Stendhal** *(Henri Beyle), De l'amour (1822)*  
+> *(Güzellik, mutluluğun vaadinden başka bir şey değildir.)*
+
+> *"Le désespoir est l'asile des lâches."*  
+> — **Honoré de Balzac**  
+> *(Umutsuzluk, korkakların sığınağıdır.)*
+
+> *"La vérité est en marche et rien ne l'arrêtera."*  
+> — **Émile Zola**, *Dreyfus Davası Bildirisi (1898)*  
+> *(Hakikat yürüyüşe geçti ve onu hiçbir güç durduramaz.)*
+
+> *"Le vent se lève !.. Il faut tenter de vivre !"*  
+> — **Paul Valéry**, *Le Cimetière marin (1920)*  
+> *(Rüzgâr yükseliyor!.. Yaşamayı denemek gerek!)*
+
+> *"On ne découvre pas de terre nouvelle sans consentir à perdre de vue, très longtemps, tout rivage."*  
+> — **André Gide**, *Les Faux-monnayeurs (1925)*  
+> *(Kıyıyı çok uzun süre gözden kaybetmeyi göze almadıkça yeni topraklar keşfedemezsiniz.)*
+
+> *"L'attention est la forme la plus rare et la plus pure de la générosité."*  
+> — **Simone Weil**, *Attente de Dieu (1950)*  
+> *(Dikkat ve özen, cömertliğin en nadir ve en saf biçimidir.)*
+
+> *"Penser, c'est créer des concepts."*  
+> — **Gilles Deleuze & Félix Guattari**, *Qu'est-ce que la philosophie ? (1991)*  
+> *(Düşünmek, yeni kavramlar yaratmaktır.)*
+
+> *"La plus perdue de toutes les journées est celle où l'on n'a pas ri."*  
+> — **Nicolas Chamfort**, *Maximes et Pensées (1795)*  
+> *(Günlerin en çok boşa harcanmış olanı, insanın bir kez bile gülmediği gündür.)*
+
+> *"L'amour-propre est le plus grand de tous les flatteurs."*  
+> — **François de La Rochefoucauld**, *Maximes (1665)*  
+> *(Öz sevgi ve benlik, dalkavukların en büyüğüdür.)*
+
+---
+
+## 🏛️ Felsefe, Akıl ve Aydınlanma (*Les Lumières*)
 
 > *"Cogito, ergo sum." (Je pense, donc je suis.)*  
 > — **René Descartes**, *Discours de la méthode (1637)*  
@@ -139,17 +234,9 @@ Tanzimat'tan Cumhuriyet'e, Türk aydınlanması ile Fransız kültürü arasınd
 > — **Michel de Montaigne**, *Les Essais (1580)*  
 > *(Ben ne biliyorum ki? / Kuşkucu bilgeliğin kurucu sorusu)*
 
-> *"La plus perdue de toutes les journées est celle où l'on n'a pas ri."*  
-> — **Nicolas Chamfort**, *Maximes et Pensées (1795)*  
-> *(Günlerin en çok boşa harcanmış olanı, insanın bir kez bile gülmediği gündür.)*
-
-> *"L'amour-propre est le plus grand de tous les flatteurs."*  
-> — **François de La Rochefoucauld**, *Maximes (1665)*  
-> *(Öz sevgi / benlik, dalkavukların en büyüğüdür.)*
-
 ---
 
-### ⚡ Varoluşçuluk, Başkaldırı ve Kadın Hakları
+## ⚡ Varoluşçuluk, Başkaldırı ve 20. Yüzyıl
 
 > *"L'existence précède l'essence."*  
 > — **Jean-Paul Sartre**, *L'existentialisme est un humanisme (1946)*  
@@ -316,26 +403,6 @@ Fransız Gastronomi Yemeği, 2010 yılından bu yana **UNESCO Somut Olmayan Kül
 * **Geleneksel Baget (*Baguette de tradition*):** 2022 UNESCO Mirası. Yalnızca 4 malzeme (un, su, maya, tuz) ve katkısız uzun fermantasyon.
 * **Kruvasan & Viennoiserie:** Kaliteli Fransız tereyağıyla kat kat lamine edilen çıtır hamurlar.
 * **Klasikler:** Éclair, Paris-Brest, Mille-feuille, Tarte Tatin, Canelé de Bordeaux, Macaron.
-
----
-
-## 🏛️ Fransa'nın Felsefi Temelleri & Fikir Tarihi
-
-```mermaid
-graph LR
-    A[Kartezyen Rasyonalizm<br/>Descartes 1637] --> B[Aydınlanma Çağı<br/>Voltaire, Rousseau, Montesquieu]
-    B --> C[1789 Devrimi & İnsan Hakları<br/>Yurttaşlık Devrimi]
-    C --> D[19. Yüzyıl Pozitivizmi<br/>Auguste Comte & Durkheim]
-    D --> E[Varoluşçuluk & Başkaldırı<br/>Sartre, Camus, Beauvoir]
-    E --> F[Mayıs 68 & Postmodernizm<br/>Foucault, Derrida, Deleuze]
-```
-
-* **René Descartes (1596–1650):** Kartezyen şüphe ve akılcılık (*Discours de la méthode*).
-* **Voltaire (1694–1778):** Dini hoşgörü ve düşünce özgürlüğü savunusu (*Traité sur la tolérance*).
-* **Jean-Jacques Rousseau (1712–1778):** Halk egemenliği ve toplum sözleşmesi (*Du contrat social*).
-* **Montesquieu (1689–1755):** Kuvvetler ayrılığı ilkesi (*De l'esprit des lois*).
-* **1789 İnsan ve Yurttaş Hakları Bildirisi:** Evrensel eşitlik, masumiyet karinesi ve mülkiyet dokunulmazlığı.
-* **Jean-Paul Sartre & Simone de Beauvoir & Albert Camus:** Varoluşçuluk, etik sorumluluk ve başkaldırı felsefesi.
 
 ---
 
