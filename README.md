@@ -354,6 +354,10 @@ Liberté.
 
 ## 🚶 Paris'te "Flâneur" Olmak ve Edebi Rotalar
 
+<div align="center">
+  <img src="assets/images/banner-paris-flaneur.jpg" alt="Paris Flânerie ve Bouquinistes Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
+
 *Flânerie*; hiçbir yere yetişme kaygısı gütmeden, kenti açık hava müzesi gibi seyretme ve kalabalıklar içinde tek başına kentin ruhunu dinleme felsefesidir (Baudelaire & Walter Benjamin).
 
 ### Paris'in 5 Büyük Edebi Yürüyüş Rotası:
@@ -366,6 +370,10 @@ Liberté.
 ---
 
 ## 🎬 Fransız Sineması (*Le Septième Art*), Tiyatro & Müzik
+
+<div align="center">
+  <img src="assets/images/banner-cinema-arts.jpg" alt="Fransız Sineması, Tiyatro ve Müzik Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
 
 ### 1. Yedinci Sanat: Lumière Kardeşlerden Nouvelle Vague'a
 * **Sinemanın Doğuşu (1895):** Auguste ve Louis Lumière kardeşlerin Lyon'dan Paris'e getirdiği ilk hareketli görüntüler.
@@ -403,6 +411,26 @@ Fransız Gastronomi Yemeği, 2010 yılından bu yana **UNESCO Somut Olmayan Kül
 * **Geleneksel Baget (*Baguette de tradition*):** 2022 UNESCO Mirası. Yalnızca 4 malzeme (un, su, maya, tuz) ve katkısız uzun fermantasyon.
 * **Kruvasan & Viennoiserie:** Kaliteli Fransız tereyağıyla kat kat lamine edilen çıtır hamurlar.
 * **Klasikler:** Éclair, Paris-Brest, Mille-feuille, Tarte Tatin, Canelé de Bordeaux, Macaron.
+
+---
+
+## 🏛️ Fransa'nın Felsefi Temelleri & Fikir Tarihi
+
+```mermaid
+graph LR
+    A[Kartezyen Rasyonalizm<br/>Descartes 1637] --> B[Aydınlanma Çağı<br/>Voltaire, Rousseau, Montesquieu]
+    B --> C[1789 Devrimi & İnsan Hakları<br/>Yurttaşlık Devrimi]
+    C --> D[19. Yüzyıl Pozitivizmi<br/>Auguste Comte & Durkheim]
+    D --> E[Varoluşçuluk & Başkaldırı<br/>Sartre, Camus, Beauvoir]
+    E --> F[Mayıs 68 & Postmodernizm<br/>Foucault, Derrida, Deleuze]
+```
+
+* **René Descartes (1596–1650):** Kartezyen şüphe ve akılcılık (*Discours de la méthode*).
+* **Voltaire (1694–1778):** Dini hoşgörü ve düşünce özgürlüğü savunusu (*Traité sur la tolérance*).
+* **Jean-Jacques Rousseau (1712–1778):** Halk egemenliği ve toplum sözleşmesi (*Du contrat social*).
+* **Montesquieu (1689–1755):** Kuvvetler ayrılığı ilkesi (*De l'esprit des lois*).
+* **1789 İnsan ve Yurttaş Hakları Bildirisi:** Evrensel eşitlik, masumiyet karinesi ve mülkiyet dokunulmazlığı.
+* **Jean-Paul Sartre & Simone de Beauvoir & Albert Camus:** Varoluşçuluk, etik sorumluluk ve başkaldırı felsefesi.
 
 ---
 
@@ -554,6 +582,10 @@ M.Ö. 52   ──> Alesia Kuşatması: Jül Sezar & Vercingétorix (Galya'nın R
 
 ## 📅 2026 Değişim Programı Takvimi ve 5 Eylem Maddesi
 
+<div align="center">
+  <img src="assets/images/banner-workshops-diplomacy.jpg" alt="Türkiye - Fransa Gençlik Çalıştayları ve Diplomasi Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
+
 | Aşama | Tarih / Konum | Odak Alanı & Temel Faaliyetler | Durum |
 | :--- | :--- | :--- | :---: |
 | **I. Hazırlık** | Ankara / Çevrim içi | Heyet seçimi, diplomatik brifingler, dil ve kültür atölyeleri | 🟢 Tamamlandı |
@@ -574,13 +606,16 @@ M.Ö. 52   ──> Alesia Kuşatması: Jül Sezar & Vercingétorix (Galya'nın R
 
 ```text
 gsb-france-exchange-2026/
-├── assets/                                # 🖼️ Görsel Varlıklar ve Bannerlar
+├── assets/                                # 🖼️ Görsel Varlıklar ve 8 Tematik Banner
 │   └── images/
 │       ├── banner-hero-diplomacy.jpg      # 🇹🇷 🇫🇷 Gençlik Diplomasisi & İstanbul-Paris Köprüsü
 │       ├── banner-literature-philosophy.jpg# 📚 Edebiyat, Felsefe ve Saint-Germain Masası
+│       ├── banner-paris-flaneur.jpg       # 🚶 Paris Flânerie, Seine Rıhtımları & Bouquinistes
+│       ├── banner-cinema-arts.jpg         # 🎬 Nouvelle Vague Sineması, Tiyatro & Chanson
 │       ├── banner-regions-geography.jpg   # 🗺️ Fransa Coğrafyası (Lavanta, Şato, Alpler, TGV)
 │       ├── banner-gastronomy-terroir.jpg  # 🍷 Gastronomi, AOP Peynirleri, Şarap & Baget
-│       └── banner-science-tech.jpg        # 🔬 Airbus, Ariane 6, TGV ve Station F
+│       ├── banner-science-tech.jpg        # 🔬 Airbus, Ariane 6, TGV ve Station F
+│       └── banner-workshops-diplomacy.jpg # 🤝 Gençlik Çalıştayları ve İkili Müzakere Masası
 │
 ├── README.md                              # 📘 Kapsamlı Başvuru Kılavuzu & Kültür Atlası
 ├── index.html                             # 🌐 İnteraktif Web Portalı ve Dijital Atlas
