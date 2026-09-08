@@ -1,6 +1,10 @@
 # 🇹🇷 🇫🇷 GSB Türkiye - Fransa Gençlik Değişimi 2026
 ### *Programme d'Échange de Jeunesse Türkiye - France 2026 & Grand Atlas Culturel de la France*
 
+<div align="center">
+  <img src="assets/images/banner-hero-diplomacy.jpg" alt="GSB Türkiye - Fransa Gençlik Değişimi 2026 Hero Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
+
 > *"Le véritable voyage de découverte ne consiste pas à chercher de nouveaux paysages, mais à avoir de nouveaux yeux."*  
 > — **Marcel Proust**, *À la recherche du temps perdu*  
 > *(Asıl keşif yolculuğu yeni manzaralar aramak değil, yeni gözlere sahip olmaktır.)*
@@ -111,43 +115,11 @@ Fransa'yı tanımak; felsefecilerinin akıl arayışını, şairlerinin hüznün
 
 ---
 
-### 🔬 Bilim, Doğa ve Akıl
-
-> *"Rien ne se perd, rien ne se crée, tout se transforme."*  
-> — **Antoine Lavoisier** *(Modern Kimyanın Kurucusu)*  
-> *(Hiçbir şey kaybolmaz, hiçbir şey yoktan var olmaz; her şey dönüşür.)*
-
-> *"Dans les champs de l'observation, le hasard ne favorise que les esprits préparés."*  
-> — **Louis Pasteur**  
-> *(Gözlem alanında şans, yalnızca hazırlıklı zihinlerin yanındadır.)*
-
-> *"Dans la vie, rien n'est à craindre, tout est à comprendre. C'est le moment de comprendre plus, pour avoir moins peur."*  
-> — **Marie Curie** *(İki Farklı Dalda Nobel Kazanan İlk Bilim İnsanı)*  
-> *(Hayatta hiçbir şeyden korkmamalı, her şey anlaşılmalıdır. Şimdi daha az korkmak için daha çok anlama zamanıdır.)*
-
----
-
-### 🏛️ Siyaset, Cumhuriyet ve Diplomasi
-
-> *"Liberté, Égalité, Fraternité"*  
-> — **Devise de la République française**  
-> *(Özgürlük, Eşitlik, Kardeşlik)*
-
-> *"La France ne peut être la France sans la grandeur."*  
-> — **Charles de Gaulle**, *Mémoires de guerre (1954)*  
-> *(Fransa, büyüklük olmadan Fransa olamaz.)*
-
-> *"Le courage, c'est de chercher la vérité et de la dire ; c'est de ne pas subir la loi du mensonge triomphant."*  
-> — **Jean Jaurès** *(Sosyalist Düşünür & Barış Öncüsü)*  
-> *(Cesaret; hakikati aramak ve onu söylemektir; zafer kazanmış yalanın yasasına boyun eğmemektir.)*
-
-> *"L'Europe ne se fera pas d'un coup, ni dans une construction d'ensemble : elle se fera par des réalisations concrètes créant d'abord une solidarité de fait."*  
-> — **Robert Schuman**, *9 Mayıs 1950 Schuman Bildirisi*  
-> *(Avrupa bir anda ya da tek bir planla inşa edilmeyecektir: fiili bir dayanışma yaratan somut kazanımlarla kurulacaktır.)*
-
----
-
 ## 📖 Fransız Edebiyatının Büyük Çağları & Şiir Antolojisi
+
+<div align="center">
+  <img src="assets/images/banner-literature-philosophy.jpg" alt="Fransız Edebiyatı, Felsefesi ve Şiir Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
 
 Fransız edebiyatı, Orta Çağ şövalye destanlarından (*Chanson de Roland*) 21. yüzyıl çağdaş romanına kadar insanın evrensel dramını dile getirmiştir.
 
@@ -243,6 +215,10 @@ Liberté.
 
 ## 🍷 Fransız Gastronomisi, *Terroir* ve Peynir Haritası
 
+<div align="center">
+  <img src="assets/images/banner-gastronomy-terroir.jpg" alt="Fransız Gastronomisi ve Terroir Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
+
 Fransız Gastronomi Yemeği, 2010 yılından bu yana **UNESCO Somut Olmayan Kültürel Mirası** listesindedir.
 
 ### 1. *Terroir* Felsefesi ve AOP Kalite Sistemi
@@ -299,6 +275,10 @@ graph LR
 
 ## 🗺️ Coğrafya ve 13 Metropoliten Bölge Atlası ("L'Hexagone")
 
+<div align="center">
+  <img src="assets/images/banner-regions-geography.jpg" alt="Fransa Coğrafyası ve 13 Bölge Atlası Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
+
 Fransa anakarası, 6 köşeli geometrisi sebebiyle **"L'Hexagone" (Altıgen)** olarak anılır. 643.801 km² yüzölçümüyle AB'nin en geniş toprağına sahiptir.
 
 ```text
@@ -338,6 +318,10 @@ Fransa anakarası, 6 köşeli geometrisi sebebiyle **"L'Hexagone" (Altıgen)** o
 ---
 
 ## 🔬 Bilim, Yüksek Teknoloji, Nükleer & "La French Tech"
+
+<div align="center">
+  <img src="assets/images/banner-science-tech.jpg" alt="Fransız Bilim, Sanayi, Havacılık ve French Tech Banner" width="100%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
 
 * **Nükleer Enerji Modeli (*Messmer Planı*):** 56 ticari reaktör ile elektriğin ~%70'ini nükleerden karşılar (~50g CO2/kWh emisyon). ITER nükleer füzyon araştırma reaktörüne ev sahipliği yapar (Cadarache).
 * **Havacılık & Uzay:** Toulouse merkezli **Airbus**, Fransız Guyanası Kourou Uzay Limanı'ndan fırlatılan **Ariane 6** roketleri, Dassault Aviation (*Rafale* savaş uçakları), Safran motorları.
@@ -442,6 +426,14 @@ M.Ö. 52   ──> Alesia Kuşatması: Jül Sezar & Vercingétorix (Galya'nın R
 
 ```text
 gsb-france-exchange-2026/
+├── assets/                                # 🖼️ Görsel Varlıklar ve Bannerlar
+│   └── images/
+│       ├── banner-hero-diplomacy.jpg      # 🇹🇷 🇫🇷 Gençlik Diplomasisi & İstanbul-Paris Köprüsü
+│       ├── banner-literature-philosophy.jpg# 📚 Edebiyat, Felsefe ve Saint-Germain Masası
+│       ├── banner-regions-geography.jpg   # 🗺️ Fransa Coğrafyası (Lavanta, Şato, Alpler, TGV)
+│       ├── banner-gastronomy-terroir.jpg  # 🍷 Gastronomi, AOP Peynirleri, Şarap & Baget
+│       └── banner-science-tech.jpg        # 🔬 Airbus, Ariane 6, TGV ve Station F
+│
 ├── README.md                              # 📘 Kapsamlı Başvuru Kılavuzu & Kültür Atlası
 ├── index.html                             # 🌐 İnteraktif Web Portalı ve Dijital Atlas
 ├── style.css                              # 🎨 Modern Portal Arayüz Stilleri (Glassmorphism)
