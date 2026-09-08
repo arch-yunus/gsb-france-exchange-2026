@@ -492,6 +492,67 @@ const atlasModalData = {
       </ul>
       <p><small>Detaylı dosya için: <code>workshops/youth-diplomacy.md</code></small></p>
     `
+  },
+  poetry: {
+    badge: "Şiir & Lirizm",
+    title: "Büyük Fransız Şiiri Antolojisi",
+    content: `
+      <p>Baudelaire'in melankolisinden Rimbaud'nun renklerine ve Paul Éluard'ın Direniş marşına Fransız şiiri.</p>
+      <h4>Öne Çıkan Şairler & Şiirler:</h4>
+      <ul>
+        <li><strong>Charles Baudelaire:</strong> <em>L'Albatros</em> ve <em>L'Invitation au voyage</em>.</li>
+        <li><strong>Arthur Rimbaud:</strong> <em>Voyelles</em> ve <em>Le Bateau ivre</em>.</li>
+        <li><strong>Paul Verlaine:</strong> <em>Chanson d'automne</em> ve saf müzikalite.</li>
+        <li><strong>Paul Éluard:</strong> Nazi işgaline karşı gökten atılan <em>Liberté</em> marşı.</li>
+        <li><strong>Jacques Prévert:</strong> <em>Les Feuilles mortes</em> ve sokakların lirik dili.</li>
+      </ul>
+      <p><small>Detaylı dosya için: <code>france-atlas/french-poetry-anthology.md</code></small></p>
+    `
+  },
+  gastronomy: {
+    badge: "Gastronomi & Terroir",
+    title: "Fransız Mutfağı, Peynirler ve Bağcılık",
+    content: `
+      <p>UNESCO Somut Olmayan Mirası Fransız Gastronomi Yemeği ve terroir felsefesi.</p>
+      <h4>Mutfak Mirası:</h4>
+      <ul>
+        <li><strong>1200+ Peynir:</strong> Comté AOP, Roquefort, Camembert, Reblochon ve Sainte-Maure.</li>
+        <li><strong>Şarap Bölgeleri:</strong> Bordeaux, Bourgogne (Climats), Champagne ve Rhône.</li>
+        <li><strong>Boulangerie:</strong> Katkısız geleneksel Fransız bageti ve çıtır kruvasanlar.</li>
+        <li><strong>Paul Bocuse & Michelin:</strong> Lyon gastronomi başkenti ve Bocuse d'Or yarışması.</li>
+      </ul>
+      <p><small>Detaylı dosya için: <code>france-atlas/gastronomy-terroir-guide.md</code></small></p>
+    `
+  },
+  cinema: {
+    badge: "Sinema & Müzik",
+    title: "Yedinci Sanat, Tiyatro ve Chanson / French Touch",
+    content: `
+      <p>Lumière kardeşlerden Nouvelle Vague auteur sinemasına ve Daft Punk elektronik devrimine.</p>
+      <h4>Sanat Dalları:</h4>
+      <ul>
+        <li><strong>Sinema (Nouvelle Vague):** Jean-Luc Godard, François Truffaut ve Agnès Varda.</li>
+        <li><strong>Tiyatro:** Comédie-Française ve Samuel Beckett / Eugène Ionesco'nun Absürd Tiyatrosu.</li>
+        <li><strong>Chanson:** Édith Piaf, Jacques Brel, Charles Aznavour ve Serge Gainsbourg.</li>
+        <li><strong>French Touch:** Daft Punk, Justice ve küresel elektronik müzik.</li>
+      </ul>
+      <p><small>Detaylı dosya için: <code>france-atlas/cinema-theatre-music.md</code></small></p>
+    `
+  },
+  flaneur: {
+    badge: "Şehir Felsefesi",
+    title: "Paris'te Flâneur Olmak ve Edebi Rotalar",
+    content: `
+      <p>Baudelaire ve Walter Benjamin'in aylak kent gözlemcisi (Flâneur) felsefesi.</p>
+      <h4>Edebi Duraklar:</h4>
+      <ul>
+        <li><strong>Saint-Germain-des-Prés:</strong> Café de Flore, Les Deux Magots ve Sartre-Beauvoir masaları.</li>
+        <li><strong>Quartier Latin & Panthéon:</strong> Sorbonne, Shakespeare & Company ve Fransız aydınları panteonu.</li>
+        <li><strong>Montmartre:</strong> Picasso'nun Bateau-Lavoir atölyesi ve bohem sanatçı kabareleri.</li>
+        <li><strong>Seine Bouquinistes:</strong> 16. yüzyıldan bu yana nehir kenarındaki tarihi yeşil sahaf kutuları.</li>
+      </ul>
+      <p><small>Detaylı dosya için: <code>france-atlas/paris-flaneur-guide.md</code></small></p>
+    `
   }
 };
 
