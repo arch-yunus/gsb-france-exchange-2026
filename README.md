@@ -619,10 +619,12 @@ gsb-france-exchange-2026/
 │
 ├── README.md                              # 📘 Kapsamlı Başvuru Kılavuzu & Kültür Atlası
 ├── index.html                             # 🌐 İnteraktif Web Portalı ve Dijital Atlas
-├── style.css                              # 🎨 Modern Portal Arayüz Stilleri (Glassmorphism)
-├── app.js                                 # ⚡ Dinamik Arama, Flashcard & 10 Soruluk Quiz Motoru
+├── style.css                              # 🎨 Modern Portal Arayüz Stilleri (Glassmorphism & Dual Theme)
+├── app.js                                 # ⚡ Dinamik Arama, Sesli Şiir Okuyucu, Flashcard & 20 Soruluk Quiz Motoru
 │
 ├── france-atlas/                          # 📚 Kapsamlı Fransa Araştırma Atlası
+│   ├── franco-turkish-relations.md        # 🇹🇷🤝🇫🇷 500 Yıllık Türkiye-Fransa Diplomasi ve Kültür Köprüsü (1536-2026)
+│   ├── music-sound-traditions.md          # 🎵 Barok Opera, Debussy Empresyonizmi, Chanson & French Touch
 │   ├── french-poetry-anthology.md         # 📜 Baudelaire, Rimbaud, Verlaine, Éluard, Prévert
 │   ├── gastronomy-terroir-guide.md        # 🍷 Terroir, Peynirler, Şaraplar, Baget & Michelin
 │   ├── cinema-theatre-music.md            # 🎬 Nouvelle Vague, Absürd Tiyatro, Chanson & Daft Punk
@@ -662,7 +664,7 @@ gsb-france-exchange-2026/
 
 ## 🌐 İnteraktif Portalı Çalıştırma
 
-Bu depoda yer alan modern, responsive ve dinamik web portalını çalıştırmak için:
+Bu depoda yer alan modern, responsive, çift temalı (Dark/Light) ve dinamik web portalını çalıştırmak için:
 
 ```bash
 # Seçenek 1: Python ile yerel sunucu başlatma
@@ -675,12 +677,16 @@ npx serve .
 http://localhost:8000
 ```
 
-Portal Özellikleri:
-* 🗺️ **13 Fransa Bölgesi İnteraktif Filtreleme ve Arama**
-* ⚡ **3D Çevrilebilir Fransızca - Türkçe Flashcard Sistemi**
-* 📖 **Kapsamlı Arama Yapılabilir Diplomasi Sözlüğü**
-* 🧠 **10 Soruluk Anında Puanlamalı Kültürel Diplomasi Quiz Modülü**
-* 📜 **Modallar Aracılığıyla Tüm Atlas Dosyalarını Tarayıcıda Okuma**
+### 🌟 Portalın Gelişmiş Özellikleri:
+* 🌙 **Karanlık / Aydınlık Mod (Dark & Light Theme):** Kalıcı `localStorage` destekli modern tema geçişi.
+* 💬 **Alıntılar & Düşünce Galerisi:** 30+ aforizma, kategori filtreleme, gerçek zamanlı arama ve tek tıkla panoya kopyalama.
+* 🖋️ **Çift Dilli Şiir & Edebiyat Okuyucusu:** Baudelaire, Rimbaud, Verlaine, Apollinaire, Éluard ve Prévert şiirlerini Fransızca orijinali ve Türkçe çevirisi ile yan yana okuma; **Web Speech API ile sesli Fransızca telaffuz dinleme**.
+* 🗺️ **13 Metropoliten Bölge Atlası:** Bölgesel ekonomi, nüfus, kilit şehirler ve yönlere göre dinamik filtreleme.
+* 🍷 **Terroir & AOP Peynir Kataloğu:** Süt türü (İnek, Koyun, Keçi), olgunlaşma süresi ve şarap eşleşmeleri.
+* ⚡ **3D Animasyonlu Flashcard Modülü:** Boşluk tuşu ve klavye yön tuşlarıyla çevrilebilen diplomasi, günlük yaşam, argot ve münazara kartları.
+* 🚶 **Paris Flâneur Rota Rehberi:** 5 edebi yürüyüş parkuru, süreler, duraklar ve flâneur gizemleri.
+* 🧠 **20 Soruluk Kültürel Diplomasi Bilgi Testi:** Kategorilere ayrılmış sorular, anlık açıklamalar, ilerleme çubuğu ve 4 seviyeli başarı rozetleri (Grand Diplomate, Flâneur de Paris vb.).
+* 📜 **Modallar Aracılığıyla Tüm Atlas Dosyalarını Tarayıcıda Okuma.**
 
 ---
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GSB Türkiye - Fransa Gençlik Değişimi 2026 | Dijital Atlas & Portalı</title>
+  <title>GSB Türkiye - Fransa Gençlik Değişimi 2026 | Dijital Portalı & Ansiklopedik Atlas</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600;1,800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Header / Navbar -->
@@ -17,17 +17,24 @@
         <span class="flag-badge">🇹🇷 🇫🇷</span>
         <div class="brand-text">
           <h1>GSB France-Türkiye 2026</h1>
-          <p>Gençlik Değişimi & Fransa Araştırma Atlası</p>
+          <p>Gençlik Değişimi & Ansiklopedik Araştırma Portalı</p>
         </div>
       </div>
       <nav class="nav-links">
         <button class="nav-btn active" data-tab="atlas">🏛️ Fransa Atlası</button>
+        <button class="nav-btn" data-tab="quotes">💬 Alıntılar & Düşünce</button>
+        <button class="nav-btn" data-tab="poetry">🖋️ Çift Dilli Şiir & Edebiyat</button>
         <button class="nav-btn" data-tab="regions">🗺️ Bölgeler & Şehirler</button>
+        <button class="nav-btn" data-tab="gastronomy">🍷 Terroir & Gastronomi</button>
         <button class="nav-btn" data-tab="vocabulary">🗣️ Sözlük & Flashcard</button>
+        <button class="nav-btn" data-tab="flaneur">🚶 Paris Flâneur Rotaları</button>
         <button class="nav-btn" data-tab="workshops">🤝 Çalıştaylar & Saha</button>
-        <button class="nav-btn" data-tab="quiz">🧠 Bilgi Testi</button>
+        <button class="nav-btn" data-tab="quiz">🧠 20 Soruluk Bilgi Testi</button>
       </nav>
       <div class="nav-actions">
+        <button id="themeToggleBtn" class="theme-toggle" title="Karanlık/Aydınlık Modu Değiştir">
+          <span id="themeIcon">🌙</span>
+        </button>
         <a href="https://github.com/arch-yunus/gsb-france-exchange-2026" target="_blank" class="github-link">
           <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
           GitHub
@@ -39,28 +46,32 @@
   <!-- Hero Banner -->
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-badge">T.C. Gençlik ve Spor Bakanlığı Koordinasyonunda</div>
-      <h2 class="hero-title">İki Ülke, Ortak Gelecek: Gençlik Diplomasisi & Kültür Köprüsü</h2>
+      <div class="hero-badge">T.C. Gençlik ve Spor Bakanlığı Koordinasyonunda • Gençlik Diplomasisi 2026</div>
+      <h2 class="hero-title">İki Kadim Kültür, Ortak Gelecek: Kültür, Düşünce ve Diplomasi Köprüsü</h2>
       <p class="hero-quote">
         <em>"Le véritable voyage de découverte ne consiste pas à chercher de nouveaux paysages, mais à avoir de nouveaux yeux."</em>
-        <span>— Marcel Proust</span>
+        <span>— Marcel Proust, <em>À la recherche du temps perdu</em></span>
       </p>
       <div class="hero-stats">
         <div class="stat-card">
+          <span class="stat-num">500 Yıl</span>
+          <span class="stat-label">Diplomatik & Kültürel Miras (1536-2026)</span>
+        </div>
+        <div class="stat-card">
           <span class="stat-num">13</span>
-          <span class="stat-label">Fransa Metropol Bölgesi</span>
+          <span class="stat-label">Metropol Bölgesi & Coğrafi Atlas</span>
         </div>
         <div class="stat-card">
           <span class="stat-num">4</span>
-          <span class="stat-label">Tematik Çalıştay</span>
+          <span class="stat-label">Tematik İkili Politika Çalıştayı</span>
         </div>
         <div class="stat-card">
           <span class="stat-num">8 Gün</span>
-          <span class="stat-label">Ankara, İst, Paris, Lyon</span>
+          <span class="stat-label">Ankara, İstanbul, Paris & Lyon</span>
         </div>
         <div class="stat-card">
-          <span class="stat-num">100+</span>
-          <span class="stat-label">Diplomatik & Kültürel Terim</span>
+          <span class="stat-num">150+</span>
+          <span class="stat-label">Fransızca Terim, Deyim & Argot</span>
         </div>
       </div>
     </div>
@@ -68,11 +79,12 @@
 
   <!-- Main Content Tabs -->
   <main class="main-container">
+
     <!-- TAB 1: ATLAS -->
     <section id="tab-atlas" class="tab-content active">
       <div class="section-header">
-        <h2>🏛️ Fransa Araştırma ve Kültür Atlası</h2>
-        <p>Aydınlanma felsefesinden nükleer sanayiye, kurumsal mimariden sokak kültürüne kapsamlı inceleme</p>
+        <h2>🏛️ Fransa Ansiklopedik Araştırma Atlası</h2>
+        <p>Aydınlanma felsefesinden nükleer sanayiye, anayasal mimariden flânerie estetiğine 12 ana araştırma dosyası</p>
       </div>
 
       <div class="atlas-grid">
@@ -92,15 +104,15 @@
 
         <div class="atlas-card" onclick="openAtlasModal('arts')">
           <div class="card-icon">🎨</div>
-          <h3>Sanat, Edebiyat & Sinema</h3>
-          <p>Molière, Victor Hugo, Marcel Proust, Flâneur estetiği, Empresyonizm ve Nouvelle Vague sineması.</p>
+          <h3>Sanat, Edebiyat & Roman</h3>
+          <p>Molière, Victor Hugo, Marcel Proust, Flâneur estetiği, Empresyonizm ve çağdaş edebiyat ödülleri.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
         <div class="atlas-card" onclick="openAtlasModal('science')">
           <div class="card-icon">🔬</div>
           <h3>Bilim, Enerji & French Tech</h3>
-          <p>Messmer Planı (%70 Nükleer), Airbus/Uzay sanayisi, TGV demiryolları ve Station F kuluçka merkezi.</p>
+          <p>Messmer Planı (%70 Nükleer), Airbus/Uzay sanayisi, TGV demiryolları ve Mistral AI / Station F ekosistemi.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
@@ -113,52 +125,127 @@
 
         <div class="atlas-card" onclick="openAtlasModal('diplomacy')">
           <div class="card-icon">🌐</div>
-          <h3>Türkiye-Fransa İlişkileri</h3>
-          <p>1536 Kanuni-François ittifakından Galatasaray geleneğine ve 2026 Gençlik Eylem Planı'na köklü bağlar.</p>
+          <h3>Türkiye-Fransa İlişkileri (500 Yıl)</h3>
+          <p>1536 Kanuni-François ittifakından Tanzimat aydınlarına, Galatasaray geleneğine ve 2026 Gençlik Eylem Planı'na.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
         <div class="atlas-card" onclick="openAtlasModal('poetry')">
           <div class="card-icon">🖋️</div>
-          <h3>Büyük Fransız Şiiri</h3>
+          <h3>Büyük Fransız Şiiri Antolojisi</h3>
           <p>Baudelaire (L'Albatros), Rimbaud, Verlaine, Apollinaire (Pont Mirabeau), Paul Éluard (Liberté) ve Prévert.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
         <div class="atlas-card" onclick="openAtlasModal('gastronomy')">
           <div class="card-icon">🍷</div>
-          <h3>Gastronomi & Terroir</h3>
+          <h3>Gastronomi & Terroir Doktrini</h3>
           <p>1200+ peynir çeşidi (AOP), büyük şarap bağları, UNESCO geleneksel baget mirası ve Paul Bocuse mutfağı.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
         <div class="atlas-card" onclick="openAtlasModal('cinema')">
           <div class="card-icon">🎬</div>
-          <h3>Sinema, Tiyatro & Müzik</h3>
-          <p>Lumière kardeşler, Godard & Truffaut (Nouvelle Vague), Absürd Tiyatro (Beckett, Ionesco), Piaf ve Daft Punk.</p>
+          <h3>Sinema, Tiyatro & Absürd</h3>
+          <p>Lumière kardeşler, Godard & Truffaut (Nouvelle Vague), Absürd Tiyatro (Beckett, Ionesco) ve Cannes Festivali.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('music')">
+          <div class="card-icon">🎵</div>
+          <h3>Müzik: Barok'tan French Touch'a</h3>
+          <p>Lully ve Rameau'dan Debussy ve Ravel'e; Édith Piaf, Jacques Brel ve Daft Punk elektronik devrimi.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
         <div class="atlas-card" onclick="openAtlasModal('flaneur')">
           <div class="card-icon">🚶</div>
-          <h3>Paris'te Flâneur Rotaları</h3>
-          <p>Baudelaire ve Walter Benjamin'in Flânerie felsefesi, Saint-Germain, Montmartre, Seine Bouquinistes ve edebiyat salonları.</p>
+          <h3>Paris Kent Morfolojisi & Flânerie</h3>
+          <p>Baudelaire ve Walter Benjamin'in Flâneur felsefesi, Saint-Germain, Montmartre, Seine Bouquinistes ve edebiyat salonları.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('actionplan')">
+          <div class="card-icon">📋</div>
+          <h3>2026-2027 Ortak Eylem Planı</h3>
+          <p>Kardeş Gençlik Merkezleri, İklim Hackathonları, Çift Dilli Podcast Projeleri ve Karşılıklı Staj Hareketlilikleri.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
       </div>
     </section>
 
-    <!-- TAB 2: REGIONS -->
+    <!-- TAB 2: QUOTES EXPLORER -->
+    <section id="tab-quotes" class="tab-content">
+      <div class="section-header">
+        <h2>💬 Alıntılar, Aforizmalar & Entelektüel Düşünce Galerisi</h2>
+        <p>Fransız düşünürler, Türk edebiyatçıları ve dünya aydınlarının Fransa, edebiyat, diplomasi ve sanat üzerine sözleri</p>
+      </div>
+
+      <div class="quotes-controls">
+        <input type="text" id="quoteSearch" placeholder="Düşünür, yazar veya kavram ara (örn. Proust, Cemil Meriç, Baudelaire)..." class="search-input">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterQuotes('all')">Tümü (30+)</button>
+          <button class="chip" onclick="filterQuotes('french')">Fransız Edebiyatı & Felsefesi</button>
+          <button class="chip" onclick="filterQuotes('turkish')">Türk Aydınları & Şairleri</button>
+          <button class="chip" onclick="filterQuotes('world')">Dünya Yazarları & Paris</button>
+          <button class="chip" onclick="filterQuotes('diplomacy')">Diplomasi & Özgürlük</button>
+        </div>
+      </div>
+
+      <div class="quotes-grid" id="quotesContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 3: POETRY BILINGUAL READER -->
+    <section id="tab-poetry" class="tab-content">
+      <div class="section-header">
+        <h2>🖋️ Çift Dilli Fransız Şiir Kütüphanesi</h2>
+        <p>Baudelaire, Rimbaud, Verlaine, Apollinaire, Paul Éluard ve Jacques Prévert'in başyapıtları yan yana Fransızca & Türkçe çevirileriyle</p>
+      </div>
+
+      <div class="poetry-selector">
+        <label for="poemSelect"><strong>Şiir Seçiniz:</strong></label>
+        <select id="poemSelect" class="select-input" onchange="loadPoem(this.value)">
+          <option value="albatros">Charles Baudelaire — L'Albatros (Albatros)</option>
+          <option value="voyelles">Arthur Rimbaud — Voyelles (Sesliler)</option>
+          <option value="chanson">Paul Verlaine — Chanson d'automne (Sonbahar Şarkısı)</option>
+          <option value="mirabeau">Guillaume Apollinaire — Le Pont Mirabeau (Mirabeau Köprüsü)</option>
+          <option value="liberte">Paul Éluard — Liberté (Hürriyet)</option>
+          <option value="feuilles">Jacques Prévert — Les Feuilles mortes (Dökülen Yapraklar)</option>
+        </select>
+        <button class="btn-secondary" onclick="speakPoemFrench()" title="Fransızca Telaffuzunu Dinle">
+          🔊 Fransızca Dinle
+        </button>
+      </div>
+
+      <div class="poetry-reader-box">
+        <div class="poem-column french-column">
+          <div class="poem-lang-badge">🇫🇷 Français (Orijinal Metin)</div>
+          <h3 id="poemTitleFr">L'Albatros</h3>
+          <p class="poem-author" id="poemAuthorFr">Charles Baudelaire, <em>Les Fleurs du mal</em> (1857)</p>
+          <div class="poem-body" id="poemBodyFr"></div>
+        </div>
+        <div class="poem-column turkish-column">
+          <div class="poem-lang-badge">🇹🇷 Türkçe Çeviri</div>
+          <h3 id="poemTitleTr">Albatros</h3>
+          <p class="poem-author" id="poemAuthorTr">Çeviri & Açıklama</p>
+          <div class="poem-body" id="poemBodyTr"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: REGIONS -->
     <section id="tab-regions" class="tab-content">
       <div class="section-header">
         <h2>🗺️ Fransa Bölge & Şehir Atlası ("L'Hexagone")</h2>
-        <p>13 Metropoliten bölgeyi ve sosyo-ekonomik kimliklerini keşfedin</p>
+        <p>13 Metropoliten bölgeyi, sanayi merkezlerini, kültürel miraslarını ve demografilerini keşfedin</p>
       </div>
 
       <div class="region-controls">
-        <input type="text" id="regionSearch" placeholder="Bölge veya şehir ara (örn. Lyon, Toulouse, Bretagne)..." class="search-input">
+        <input type="text" id="regionSearch" placeholder="Bölge veya şehir ara (örn. Lyon, Toulouse, Bretagne, Bordeaux)..." class="search-input">
         <div class="filter-chips">
-          <button class="chip active" onclick="filterRegions('all')">Tümü</button>
+          <button class="chip active" onclick="filterRegions('all')">Tümü (13 Bölge)</button>
           <button class="chip" onclick="filterRegions('kuzey')">Kuzey & Başkent</button>
           <button class="chip" onclick="filterRegions('guney')">Güney & Akdeniz</button>
           <button class="chip" onclick="filterRegions('bati')">Batı & Atlantik</button>
@@ -171,24 +258,56 @@
       </div>
     </section>
 
-    <!-- TAB 3: VOCABULARY -->
+    <!-- TAB 5: GASTRONOMY & TERROIR -->
+    <section id="tab-gastronomy" class="tab-content">
+      <div class="section-header">
+        <h2>🍷 Terroir, Peynir & UNESCO Gastronomi Mirası</h2>
+        <p>Fransa'nın 1200+ peynir mirası, AOP koruma statüleri, bağcılık bölgeleri ve klasik fırıncılık sanatı</p>
+      </div>
+
+      <div class="gastronomy-stats-bar">
+        <div class="g-stat"><span>1200+</span> Çeşit Peynir</div>
+        <div class="g-stat"><span>46</span> AOP Sertifikalı Peynir</div>
+        <div class="g-stat"><span>3200+</span> Yıllık Bağcılık Tarihi</div>
+        <div class="g-stat"><span>2010</span> UNESCO Mutfak Mirası</div>
+      </div>
+
+      <div class="cheese-controls">
+        <input type="text" id="cheeseSearch" placeholder="Peynir veya bölge ara (örn. Comté, Roquefort, Camembert)..." class="search-input">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterCheeses('all')">Tümü</button>
+          <button class="chip" onclick="filterCheeses('inek')">İnek Sütü</button>
+          <button class="chip" onclick="filterCheeses('koyun')">Koyun Sütü</button>
+          <button class="chip" onclick="filterCheeses('keci')">Keçi Sütü</button>
+        </div>
+      </div>
+
+      <div class="cheese-grid" id="cheeseContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 6: VOCABULARY -->
     <section id="tab-vocabulary" class="tab-content">
       <div class="section-header">
         <h2>🗣️ Fransızca - Türkçe Diplomasi & Yaşam Sözlüğü</h2>
-        <p>Müzakere terimleri, günlük ifadeler, argo (Argot/Verlan) ve interaktif flashcard kartları</p>
+        <p>Müzakere terimleri, günlük ifadeler, argo (Argot/Verlan), deyimler ve 3D çevrilebilir interaktif flashcard kartları</p>
       </div>
 
       <div class="vocab-layout">
         <!-- Flashcard View -->
         <div class="flashcard-section">
-          <h3>⚡ Günün Flashcard'ı</h3>
+          <div class="fc-header-row">
+            <h3>⚡ İnteraktif Flashcard Öğrenim Modülü</h3>
+            <button class="btn-voice" onclick="speakCurrentFlashcard()" title="Telaffuzu Dinle">🔊 Dinle</button>
+          </div>
           <div class="flashcard" id="flashcard" onclick="flipCard()">
             <div class="flashcard-inner">
               <div class="flashcard-front">
                 <span class="card-category" id="fcCategory">Diplomasi</span>
                 <h4 id="fcFrench">La diplomatie publique</h4>
                 <p class="fc-pronun" id="fcPronun">/la di.plɔ.ma.si py.blik/</p>
-                <span class="card-hint">Kartı çevirmek için tıkla ↻</span>
+                <span class="card-hint">Kartı çevirmek için tıkla ↻ (veya Boşluk tuşu)</span>
               </div>
               <div class="flashcard-back">
                 <span class="card-category">Türkçe Karşılık</span>
@@ -200,7 +319,7 @@
           </div>
           <div class="fc-controls">
             <button class="btn-secondary" onclick="prevCard()">← Önceki</button>
-            <span id="fcCounter">1 / 15</span>
+            <span id="fcCounter">1 / 25</span>
             <button class="btn-primary" onclick="nextCard()">Sonraki →</button>
           </div>
         </div>
@@ -214,7 +333,8 @@
               <option value="diplomacy">Gençlik Diplomasisi</option>
               <option value="daily">Günlük & Seyahat</option>
               <option value="argot">Argot & Verlan</option>
-              <option value="idioms">Deyimler</option>
+              <option value="idioms">Deyimler & Kalıplar</option>
+              <option value="connectors">Münazara Bağlaçları</option>
             </select>
           </div>
           <div class="dict-table-wrapper">
@@ -222,7 +342,7 @@
               <thead>
                 <tr>
                   <th>Fransızca</th>
-                  <th>Telaffuz</th>
+                  <th>Telaffuz (IPA)</th>
                   <th>Türkçe Anlamı</th>
                   <th>Kategori</th>
                 </tr>
@@ -236,11 +356,23 @@
       </div>
     </section>
 
-    <!-- TAB 4: WORKSHOPS & DIARY -->
+    <!-- TAB 7: PARIS FLANEUR ROUTES -->
+    <section id="tab-flaneur" class="tab-content">
+      <div class="section-header">
+        <h2>🚶 Paris Edebi & Felsefi Flâneur Rotaları</h2>
+        <p>Baudelaire ve Walter Benjamin'in ayak izlerinde, 5 tematik edebi yürüyüş güzergahı</p>
+      </div>
+
+      <div class="flaneur-routes-grid" id="flaneurRoutesContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 8: WORKSHOPS & DIARY -->
     <section id="tab-workshops" class="tab-content">
       <div class="section-header">
-        <h2>🤝 Çalıştaylar, Saha Seyir Defteri & Eylem Planı</h2>
-        <p>Ankara, İstanbul, Paris ve Lyon temasları ile 2026-2027 Eylem Planı</p>
+        <h2>🤝 Çalıştaylar, Saha Seyir Defteri & Ortak Bildiriler</h2>
+        <p>Ankara, İstanbul, Paris ve Lyon temasları ile 4 tematik politika masasının çıktıları</p>
       </div>
 
       <div class="workshops-container">
@@ -285,7 +417,7 @@
           <div class="ws-card">
             <span class="ws-tag">Çalıştay 1</span>
             <h4>🌐 Kamu Diplomasisi & Gençlik</h4>
-            <p>Kanuni-I. François ittifakından günümüze ikili ilişkiler, kardeş gençlik meclisleri ve yıllık forum önerisi.</p>
+            <p>Kanuni-I. François ittifakından günümüze ikili ilişkiler, kardeş gençlik meclisleri ve yıllık gençlik zirvesi.</p>
           </div>
           <div class="ws-card">
             <span class="ws-tag">Çalıştay 2</span>
@@ -306,19 +438,23 @@
       </div>
     </section>
 
-    <!-- TAB 5: QUIZ -->
+    <!-- TAB 9: QUIZ -->
     <section id="tab-quiz" class="tab-content">
       <div class="section-header">
-        <h2>🧠 Kültürel Diplomasi ve Fransa Bilgi Testi</h2>
-        <p>10 soruda Fransa ve Türkiye-Fransa ilişkileri bilginizi test edin!</p>
+        <h2>🧠 20 Soruluk Kültürel Diplomasi, Felsefe & Fransa Bilgi Testi</h2>
+        <p>Tarih, edebiyat, anayasa, gastronomi, sinema ve ikili ilişkiler bilginizi test edin; uzmanlık rozeti kazanın!</p>
       </div>
 
       <div class="quiz-box">
         <div id="quizContainer">
           <div class="quiz-header">
-            <span id="quizProgress">Soru 1 / 10</span>
-            <span id="quizScore">Skor: 0</span>
+            <span id="quizProgress" class="quiz-badge-progress">Soru 1 / 20</span>
+            <div class="quiz-bar-wrapper">
+              <div class="quiz-bar-fill" id="quizBarFill"></div>
+            </div>
+            <span id="quizScore" class="quiz-badge-score">Skor: 0 Puan</span>
           </div>
+          <div class="quiz-category-tag" id="quizCatTag">Kategori: Genel</div>
           <h3 id="quizQuestion" class="quiz-question">Soru metni yükleniyor...</h3>
           <div class="quiz-options" id="quizOptions">
             <!-- Options injected by JS -->
@@ -331,6 +467,7 @@
         </div>
       </div>
     </section>
+
   </main>
 
   <!-- Modal for Atlas Dossier Reading -->
@@ -347,12 +484,15 @@
     </div>
   </div>
 
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="toast">Alıntı panoya kopyalandı! ✨</div>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-col">
         <h4>🇹🇷 🇫🇷 GSB France-Exchange 2026</h4>
-        <p>T.C. Gençlik ve Spor Bakanlığı Gençlik Değişimi Programı kapsamında hazırlanan açık kaynaklı araştırma ve diplomasi deposudur.</p>
+        <p>T.C. Gençlik ve Spor Bakanlığı Gençlik Değişimi Programı kapsamında hazırlanan açık kaynaklı araştırma, düşünce ve kamu diplomasisi deposudur.</p>
       </div>
       <div class="footer-col">
         <h4>Hızlı Bağlantılar</h4>
@@ -365,7 +505,7 @@
       <div class="footer-col">
         <h4>Alıntı</h4>
         <p><em>"Liberté, Égalité, Fraternité"</em></p>
-        <p><small>© 2026 GSB Gençlik Delegasyonu. Açık Kaynak Lisanslıdır.</small></p>
+        <p><small>© 2026 GSB Gençlik Delegasyonu. Açık Kaynak Lisanslıdır (MIT).</small></p>
       </div>
     </div>
   </footer>
