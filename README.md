@@ -637,6 +637,24 @@ gsb-france-exchange-2026/
 │   ├── everyday-culture.md                # 🥐 Art de Vivre, Gastronomi, Argot ve Verlan
 │   └── vocabulary-guide.md                # 🗣️ Diplomasi, Müzakere ve Günlük Fransızca Kılavuzu
 │
+├── france-atlas/                           # 📚 15 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+│   ├── history-thought.md                 # 📜 Düşünce & Fikir Tarihi (Aydınlanma, İhtilal, Mayıs 68)
+│   ├── institutions-state.md              # ⚖️ Devlet Mimarisi, Anayasa & Laïcité Modeli
+│   ├── geography-regions.md               # 🗺️ Coğrafya & 13 Metropoliten Bölge Atlası
+│   ├── arts-literature.md                 # 🎨 Sanat, Roman, Edebiyat & Şiir
+│   ├── french-poetry-anthology.md         # 🖋️ Büyük Fransız Şiiri Antolojisi (6 Başyapıt)
+│   ├── cinema-theatre-music.md            # 🎬 Sinema (Nouvelle Vague), Tiyatro & Müzik Mirası
+│   ├── music-sound-traditions.md          # 🎵 Müzik Geleneği (Lully'den Daft Punk'a)
+│   ├── paris-flaneur-guide.md             # 🚶 Paris Kent Morfolojisi & 5 Flâneur Rotası
+│   ├── gastronomy-terroir.md              # 🍷 Terroir Doktrini, Peynir Atlası & UNESCO Mutfak Mirası
+│   ├── science-industry.md                # 🔬 Bilim, Nükleer Enerji, Havacılık & French Tech
+│   ├── everyday-culture.md                # 🥐 Gündelik Yaşam Sanatı, Sosyoloji, Argot & Verlan
+│   ├── franco-turkish-relations.md        # 🤝 500 Yıllık Türkiye-Fransa İlişkileri & Frankofoni
+│   ├── diplomacy-chronology-1536-2026.md  # ⏳ 500 Yıllık Diplomatik & Kültürel Kronoloji
+│   ├── phonetics-linguistics-guide.md     # 🗣️ Fonetik, Sesbilim, Burun Ünlüleri & Faux Amis
+│   ├── franco-turkish-etiquette-guide.md  # 🤝 Sosyolojik Görgü Kuralları & Karşılaştırmalı Protokol
+│   └── vocabulary-guide.md                # 🗣️ Diplomasi & Yaşam Sözlüğü (150+ Terim)
+│
 ├── workshops/                             # 🏛️ Tematik Gençlik Çalıştayları ve Müzakereler
 │   ├── youth-diplomacy.md                 # 🌐 Kamu Diplomasisi ve Türkiye-Fransa İkili İlişkileri
 │   ├── intercultural-dialogue.md          # 🌍 Kültürlerarası İletişim ve Tarihsel Köprüler
@@ -679,14 +697,17 @@ http://localhost:8000
 
 ### 🌟 Portalın Gelişmiş Özellikleri:
 * 🌙 **Karanlık / Aydınlık Mod (Dark & Light Theme):** Kalıcı `localStorage` destekli modern tema geçişi.
-* 💬 **Alıntılar & Düşünce Galerisi:** 30+ aforizma, kategori filtreleme, gerçek zamanlı arama ve tek tıkla panoya kopyalama.
-* 🖋️ **Çift Dilli Şiir & Edebiyat Okuyucusu:** Baudelaire, Rimbaud, Verlaine, Apollinaire, Éluard ve Prévert şiirlerini Fransızca orijinali ve Türkçe çevirisi ile yan yana okuma; **Web Speech API ile sesli Fransızca telaffuz dinleme**.
-* 🗺️ **13 Metropoliten Bölge Atlası:** Bölgesel ekonomi, nüfus, kilit şehirler ve yönlere göre dinamik filtreleme.
-* 🍷 **Terroir & AOP Peynir Kataloğu:** Süt türü (İnek, Koyun, Keçi), olgunlaşma süresi ve şarap eşleşmeleri.
-* ⚡ **3D Animasyonlu Flashcard Modülü:** Boşluk tuşu ve klavye yön tuşlarıyla çevrilebilen diplomasi, günlük yaşam, argot ve münazara kartları.
-* 🚶 **Paris Flâneur Rota Rehberi:** 5 edebi yürüyüş parkuru, süreler, duraklar ve flâneur gizemleri.
-* 🧠 **20 Soruluk Kültürel Diplomasi Bilgi Testi:** Kategorilere ayrılmış sorular, anlık açıklamalar, ilerleme çubuğu ve 4 seviyeli başarı rozetleri (Grand Diplomate, Flâneur de Paris vb.).
-* 📜 **Modallar Aracılığıyla Tüm Atlas Dosyalarını Tarayıcıda Okuma.**
+* ⏳ **500 Yıllık İnteraktif Diplomasi Zaman Tüneli:** 1536-2026 arası 4 tarihi döneme göre filtreleme, anlık arama ve tarihsel nüans kutuları.
+* 🎵 **Fransızca Fonetik & Sesbilim Laboratuvarı:** 4 burun ünlüsü (/ɑ̃/, /ɛ̃/, /ɔ̃/, /œ̃/), U vs OU ayrımı, boğaz R'si ve Web Speech API sesli telaffuz oynatıcıları.
+* ⚠️ **Yalancı Eşdeğerler (Faux Amis) Keşfedici:** Yanıltıcı Türkçe-Fransızca kelimelerin doğru karşılıkları ve sesli telaffuzları.
+* 🧳 **Gençlik Değişimi Saha Rehberi & Kontrol Listesi:** `localStorage` senkronizasyonlu interaktif bavul/evrak hazırlık listesi, ilerleme çubuğu, Do's & Don'ts davranış tablosu ve acil durum hatları.
+* ⚡ **Hızlı Kelime Eşleştirme Oyunu (Speed Match Game):** 45 saniyelik zamanlayıcı, dinamik skor, kombo puanlama ve Fransızca-Türkçe eşleştirme.
+* 🧠 **20 Soruluk Kültürel Diplomasi Bilgi Testi:** Açıklamalı cevaplar, dinamik ilerleme çubuğu ve seviye rozetleri.
+* 💬 **Alıntılar & Düşünce Galerisi:** 35+ aforizma, filtreleme, arama ve tek tıkla panoya kopyalama.
+* 🖋️ **Çift Dilli Şiir & Edebiyat Okuyucusu:** 6 klasik şiir, çift sütun karşılaştırma ve sesli okuma motoru.
+* 🗺️ **13 Metropoliten Bölge Atlası & 🍷 Terroir AOP Peynir Kataloğu.**
+* 🖨️ **Tek Tıkla Yazdırılabilir / PDF Çıktı Tasarımı:** Araştırmacılar ve katılımcılar için optimize edilmiş print stylesheet.
+* 📜 **Modallar Aracılığıyla 15 Atlas Dosyasını Tarayıcıda Doğrudan Okuma.**
 
 ---
 

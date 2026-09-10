@@ -1472,6 +1472,51 @@ const atlasModalData = {
       </ul>
       <p><small>Detaylı dosya: <code>presentations/youth-action-plan-2026.md</code></small></p>
     `
+  },
+  chronology: {
+    badge: "Diplomasi & Tarih",
+    title: "500 Yıllık Türkiye - Fransa Diplomatik Kronolojisi",
+    content: `
+      <p>1536'dan 2026'ya yarım binyıllık diplomatik, edebi ve gençlik eksenli ortak tarih.</p>
+      <h4>Önemli Kilometre Taşları:</h4>
+      <ul>
+        <li><strong>1536 Kapitülasyonları:</strong> Kanuni Sultan Süleyman & I. François stratejik ittifakı.</li>
+        <li><strong>1720 Paris Sefaretnamesi:</strong> Yirmisekiz Çelebi Mehmed Efendi'nin Batılılaşma ve matbaa raporu.</li>
+        <li><strong>1868 Mekteb-i Sultânî:</strong> Modern laik eğitimin ve Frankofon aydınlanmanın öncüsü Galatasaray Lisesi.</li>
+        <li><strong>1921 Ankara Antlaşması & Lozan:</strong> TBMM Hükümeti'ni tanıyan ilk İtilaf devleti Fransa ve Cumhuriyet diplomasisi.</li>
+        <li><strong>1968 General de Gaulle Ziyareti:</strong> Türkiye-Fransa ilişkilerinde altın çağ ve bağımsız dış politika vizyonu.</li>
+      </ul>
+      <p><small>Detaylı dosya: <code>france-atlas/diplomacy-chronology-1536-2026.md</code></small></p>
+    `
+  },
+  phonetics: {
+    badge: "Sesbilim & Fonetik",
+    title: "Fransızca Fonetik, Telaffuz & Faux Amis Rehberi",
+    content: `
+      <p>Burun ünlüleri, ulamalar, boğaz R'si ve Türkçe-Fransızca yalancı eşdeğer kelimeler.</p>
+      <h4>Öne Çıkan Başlıklar:</h4>
+      <ul>
+        <li><strong>4 Temel Nazal Ses:</strong> /ɑ̃/ (an/en), /ɛ̃/ (in/ain), /ɔ̃/ (on), /œ̃/ (un).</li>
+        <li><strong>Ulama (Liaison):</strong> Sesli harfle başlayan kelimelerin akıcı birleşimi (<em>les amis</em> -> /le.za.mi/).</li>
+        <li><strong>Faux Amis Tuzakları:</strong> <em>Actuellement</em> (Şu an) ≠ Aktüel, <em>Figure</em> (Yüz) ≠ Figür, <em>Attendre</em> (Beklemek) ≠ Katılmak.</li>
+      </ul>
+      <p><small>Detaylı dosya: <code>france-atlas/phonetics-linguistics-guide.md</code></small></p>
+    `
+  },
+  etiquette: {
+    badge: "Sosyoloji & Protokol",
+    title: "Fransız Gündelik Yaşam Adab-ı Muaşereti & Nezaket Kodları",
+    content: `
+      <p>Fransa'da sosyal kodlar, nezaket kuralları ve Türk-Fransız karşılaştırmalı protokolü.</p>
+      <h4>Altın Kurallar:</h4>
+      <ul>
+        <li><strong>Bonjour Önceliği:</strong> Herhangi bir iletişime başlamadan önce mutlaka <em>"Bonjour"</em> denmelidir.</li>
+        <li><strong>Vouvoiement Nezaketi:</strong> Karşı taraf önermedikçe <em>"Vous"</em> (Siz) hitabı korunur.</li>
+        <li><strong>Masa Adabı:</strong> Ekmek elle lokmalara ayrılır; ücretsiz su için <em>"Une carafe d'eau"</em> istenir.</li>
+        <li><strong>Münazara Kültürü:</strong> Zıt fikir beyan etmek saygısızlık değil, konuyu derinleştirme erdemidir.</li>
+      </ul>
+      <p><small>Detaylı dosya: <code>france-atlas/franco-turkish-etiquette-guide.md</code></small></p>
+    `
   }
 };
 
@@ -1490,7 +1535,401 @@ function closeAtlasModal(e) {
 }
 
 // ==========================================================================
-// 13. INITIAL INITIALIZATION
+// 13. TIMELINE DATA & ENGINE (500 YILLIK DİPLOMASİ)
+// ==========================================================================
+const timelineData = [
+  {
+    year: "1536",
+    era: "era1",
+    eraName: "Klasik Dönem (1536-1789)",
+    title: "Kanuni Sultan Süleyman & I. François İlk Resmi İttifakı",
+    desc: "Şarlken'in imparatorluk baskısına karşı Osmanlı ve Fransa arasında kurulan stratejik askeri-ticari ittifak ve kapitülasyonlar.",
+    detail: "Fransa, Akdeniz ticaretinde geniş imtiyazlar elde etti; İstanbul'da daimi elçilik açan ilk Avrupa devleti oldu."
+  },
+  {
+    year: "1543",
+    era: "era1",
+    eraName: "Klasik Dönem (1536-1789)",
+    title: "Barbaros Hayreddin Paşa Donanmasının Toulon Limanında Kışlaması",
+    desc: "Osmanlı ve Fransız donanmalarının ortak Nice kuşatması sonrasında Osmanlı donanması kışı Toulon'da geçirdi.",
+    detail: "Fransa kralı François I'in emriyle Toulon şehri 6 ay boyunca Osmanlı donanmasına tahsis edildi."
+  },
+  {
+    year: "1669",
+    era: "era1",
+    eraName: "Klasik Dönem (1536-1789)",
+    title: "Müteferrika Süleyman Ağa Paris Elçiliği & 'Turquerie' Modası",
+    desc: "XIV. Louis sarayına elçi olarak giden Süleyman Ağa, Paris sosyetesine Türk kahvesini tanıttı.",
+    detail: "Molière'in 'Kibarık Budalası' (Le Bourgeois Gentilhomme) eserindeki Türk töreni sahnesine ilham verdi."
+  },
+  {
+    year: "1720",
+    era: "era1",
+    eraName: "Klasik Dönem (1536-1789)",
+    title: "Yirmisekiz Çelebi Mehmed Efendi Paris Sefaretnamesi",
+    desc: "Lale Devri'nin mimarı Çelebi Mehmed Efendi, Fransa'nın bilim, matbaa, mimari ve askeri kurumlarını inceledi.",
+    detail: "İbrahim Müteferrika ile birlikte Osmanlı'da ilk Müslüman devlet matbaasının kurulmasının yolunu açtı."
+  },
+  {
+    year: "1789",
+    era: "era2",
+    eraName: "İhtilal & Tanzimat (1789-1923)",
+    title: "Fransız İhtilali & Osmanlı Aydınlanması",
+    desc: "İnsan ve Yurttaş Hakları Bildirisi; hürriyet, eşitlik ve anayasacılık fikirleriyle Osmanlı entelektüellerini etkiledi.",
+    detail: "III. Selim Nizam-ı Cedid reformlarında Fransız askeri ve teknik uzmanlardan geniş ölçüde yararlandı."
+  },
+  {
+    year: "1867",
+    era: "era2",
+    eraName: "İhtilal & Tanzimat (1789-1923)",
+    title: "Sultan Abdülaziz'in Paris Evrensel Sergisi Ziyareti",
+    desc: "III. Napoléon'un resmi davetiyle Paris'e giden Sultan Abdülaziz, Avrupa'yı barışçıl amaçla ziyaret eden ilk padişah oldu.",
+    detail: "Paris Operası, Louvre ve Versailles'da ağırlanan Osmanlı heyeti iki ülke kültürel bağlarını zirveye taşıdı."
+  },
+  {
+    year: "1868",
+    era: "era2",
+    eraName: "İhtilal & Tanzimat (1789-1923)",
+    title: "Mekteb-i Sultânî'nin (Galatasaray Lisesi) Kuruluşu",
+    desc: "Fransızca ve Türkçe iki dilli, laik ve modern eğitim veren eğitim kurumunun açılışı.",
+    detail: "Tevfik Fikret, Şinasi, Namık Kemal geleneğiyle Türk edebiyatı ve diplomasisinin yetiştirici beşiği oldu."
+  },
+  {
+    year: "1921",
+    era: "era3",
+    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
+    title: "TBMM ile Fransa Arasında Ankara Antlaşması (Franklin-Bouillon)",
+    desc: "Fransa, TBMM Hükümeti'ni ve Misak-ı Milli'yi resmen tanıyan ilk İtilaf devleti oldu.",
+    detail: "Güney Cephesi kapandı; Fransız hükümeti Ankara Hükümeti'nin meşruiyetini uluslararası alanda tescilledi."
+  },
+  {
+    year: "1938",
+    era: "era3",
+    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
+    title: "Hatay Antlaşması ve Diplomatik Uzlaşma",
+    desc: "Atatürk'ün diplomatik vizyonu ve Fransa ile yürütülen müzakerelerle Hatay Cumhuriyeti bağımsızlığını kazandı.",
+    detail: "1939'da Hatay'ın anavatana katılmasıyla sonuçlanan barışçıl ve rasyonel diplomasi zaferi."
+  },
+  {
+    year: "1968",
+    era: "era3",
+    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
+    title: "General Charles de Gaulle'ün Resmi Türkiye Ziyareti",
+    desc: "Fransa Cumhurbaşkanı De Gaulle, Anıtkabir'i ve Galatasaray Lisesi'nin 100. yılını ziyaret etti.",
+    detail: "Soğuk Savaş döneminde bağımsız dış politika ekseninde Franko-Türk diyaloğu stratejik güç kazandı."
+  },
+  {
+    year: "1992",
+    era: "era3",
+    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
+    title: "Galatasaray Üniversitesi Uluslararası Antlaşması",
+    desc: "Cumhurbaşkanı Turgut Özal ve François Mitterrand tarafından imzalanan devletlerarası anlaşmayla kuruldu.",
+    detail: "Türkiye ve Fransa ortak himayesinde faaliyet gösteren frankofon yükseköğretim amiral gemisi."
+  },
+  {
+    year: "2026",
+    era: "era4",
+    eraName: "21. Yüzyıl & Gelecek (2000-2026+)",
+    title: "GSB Türkiye - Fransa Gençlik Değişimi & Ortak Eylem Planı",
+    desc: "T.C. Gençlik ve Spor Bakanlığı öncülüğünde ikili gençlik diplomasisi, çevre hackathonları ve kardeş gençlik merkezleri hamlesi.",
+    detail: "Ankara, İstanbul, Paris ve Lyon ayaklarında genç delegasyonların hazırladığı 2026-2027 ortak yol haritası."
+  }
+];
+
+function renderTimeline(items) {
+  const container = document.getElementById('timelineContainer');
+  if (!container) return;
+  container.innerHTML = items.map(t => `
+    <div class="timeline-item" data-era="${t.era}">
+      <div class="timeline-item-header">
+        <span class="timeline-year">${t.year}</span>
+        <span class="timeline-era-tag">${t.eraName}</span>
+      </div>
+      <h4>${t.title}</h4>
+      <p class="timeline-desc">${t.desc}</p>
+      <div class="timeline-detail-box">
+        💡 <strong>Tarihsel Nüans:</strong> ${t.detail}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterTimeline(era) {
+  document.querySelectorAll('.timeline-controls .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList?.add('active');
+
+  const q = document.getElementById('timelineSearch')?.value.toLowerCase().trim() || '';
+  let filtered = era === 'all' ? timelineData : timelineData.filter(t => t.era === era);
+  if (q) {
+    filtered = filtered.filter(t => t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.year.includes(q));
+  }
+  renderTimeline(filtered);
+}
+
+document.getElementById('timelineSearch')?.addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase().trim();
+  const filtered = timelineData.filter(t => 
+    t.title.toLowerCase().includes(q) || 
+    t.desc.toLowerCase().includes(q) || 
+    t.year.includes(q) ||
+    t.detail.toLowerCase().includes(q)
+  );
+  renderTimeline(filtered);
+});
+
+// ==========================================================================
+// 14. PHONETICS, SPEECH SYNTHESIS & FAUX AMIS ENGINE
+// ==========================================================================
+function speakText(text, lang = 'fr-FR') {
+  if (!('speechSynthesis' in window)) {
+    showToast('Tarayıcınız ses sentezini desteklemiyor.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = 0.85;
+  utterance.pitch = 1.0;
+  window.speechSynthesis.speak(utterance);
+  playTone(520, 'sine', 0.05);
+}
+
+const fauxAmisData = [
+  { fr: "Actuellement", trap: "Aktüel / Güncel DEĞİL!", real: "Şu anda, halihazırda (Örn: Actuellement à Paris)" },
+  { fr: "Figure", trap: "Desen / Figür DEĞİL!", real: "İnsan yüzü, sima (Örn: Une belle figure)" },
+  { fr: "Attendre", trap: "Katılmak / Atanmak DEĞİL!", real: "Beklemek (Örn: J'attends le train)" },
+  { fr: "Sensible", trap: "Mantıklı DEĞİL!", real: "Hassas, duygusal, duyarlı" },
+  { fr: "Déception", trap: "Aldatma / Hile DEĞİL!", real: "Hayal kırıklığı (Örn: Quelle déception !)" },
+  { fr: "Prétendre", trap: "Rol yapmak DEĞİL!", real: "İddia etmek, ileri sürmek" },
+  { fr: "Éventuellement", trap: "Sonuç olarak DEĞİL!", real: "Gerekirse, ihtimal dahilinde" },
+  { fr: "Opportunité", trap: "Fırsat / Şans DEĞİL!", real: "Zamanlama uygunluğu" },
+  { fr: "Chaud", trap: "Şov / Gösteri DEĞİL!", real: "Sıcak (Örn: Il fait très chaud)" },
+  { fr: "Journée", trap: "Jurnal / İhbar DEĞİL!", real: "Gündüz / Gün boyu süren zaman" },
+  { fr: "Monnaie", trap: "Para (Genel) DEĞİL!", real: "Bozuk para / Para üstü (Örn: Avez-vous de la monnaie ?)" },
+  { fr: "Blesser", trap: "Kutsamak (Bless) DEĞİL!", real: "Yaralamak / İncitmek" }
+];
+
+function renderFauxAmis() {
+  const container = document.getElementById('fauxAmisContainer');
+  if (!container) return;
+  container.innerHTML = fauxAmisData.map(item => `
+    <div class="faux-card">
+      <div class="faux-header">
+        <span class="faux-fr">${item.fr}</span>
+        <button class="btn-audio-mini" onclick="speakText('${item.fr}')" title="Telaffuz Dinle">🔊</button>
+      </div>
+      <span class="faux-trap">❌ ${item.trap}</span>
+      <span class="faux-real">✔️ ${item.real}</span>
+    </div>
+  `).join('');
+}
+
+// ==========================================================================
+// 15. SURVIVAL CHECKLIST & LOCALSTORAGE SYNC
+// ==========================================================================
+const checklistItemsData = [
+  "Pasaport & Schengen Vizesi (En az 6 ay geçerlilik süresi)",
+  "GSB Görevlendirme ve Kabul Belgeleri (Fransızca & Türkçe çıktı)",
+  "Uçak Biletleri & Seyahat Sigortası Poliçesi",
+  "Fransa Tipi Priz Dönüştürücü / Powerbank",
+  "Çift Dilli Gençlik Diplomasisi Çalıştay Notları & Kalem",
+  "Türkiye Kültür Hediyeleri (Türk kahvesi, lokum, broş)",
+  "Hava Durumuna Uygun Katmanlı Giysiler & Rahat Yürüyüş Ayakkabısı",
+  "Acil İletişim Rehberi & T.C. Paris Başkonsolosluğu İletişim Numaraları",
+  "Navigo Easy Ulaşım Kartı Hazırlığı",
+  "Fransızca-Türkçe Mini Cep Sözlüğü & Flashcard Özeti"
+];
+
+function initChecklist() {
+  const saved = JSON.parse(localStorage.getItem('gsb-france-checklist') || '[]');
+  const container = document.getElementById('checklistItems');
+  if (!container) return;
+
+  container.innerHTML = checklistItemsData.map((item, idx) => {
+    const isChecked = saved.includes(idx);
+    return `
+      <label class="cl-item ${isChecked ? 'checked' : ''}">
+        <input type="checkbox" onchange="toggleChecklistItem(${idx})" ${isChecked ? 'checked' : ''}>
+        <span>${item}</span>
+      </label>
+    `;
+  }).join('');
+
+  updateChecklistProgress(saved.length, checklistItemsData.length);
+}
+
+function toggleChecklistItem(index) {
+  let saved = JSON.parse(localStorage.getItem('gsb-france-checklist') || '[]');
+  if (saved.includes(index)) {
+    saved = saved.filter(i => i !== index);
+  } else {
+    saved.push(index);
+    playTone(600, 'sine', 0.08);
+  }
+  localStorage.setItem('gsb-france-checklist', JSON.stringify(saved));
+  initChecklist();
+}
+
+function updateChecklistProgress(checkedCount, total) {
+  const percent = Math.round((checkedCount / total) * 100);
+  const progText = document.getElementById('clProgress');
+  const progBar = document.getElementById('clBarFill');
+  if (progText) progText.innerText = `%${percent} Tamamlandı (${checkedCount}/${total})`;
+  if (progBar) progBar.style.width = `${percent}%`;
+}
+
+// ==========================================================================
+// 16. MINI-GAMES: SPEED WORD MATCH GAME
+// ==========================================================================
+const matchWordPairsMaster = [
+  { fr: "La diplomatie", tr: "Diplomasi" },
+  { fr: "L'égalité", tr: "Eşitlik" },
+  { fr: "La fraternité", tr: "Kardeşlik" },
+  { fr: "La laïcité", tr: "Laiklik" },
+  { fr: "Le terroir", tr: "Yöre & Toprak Mirası" },
+  { fr: "Le flâneur", tr: "Aylak Kent Gezgini" },
+  { fr: "La jeunesse", tr: "Gençlik" },
+  { fr: "L'engagement", tr: "Gönüllü Katılım" },
+  { fr: "L'amitié", tr: "Dostluk" },
+  { fr: "Le patrimoine", tr: "Kültürel Miras" },
+  { fr: "La négociation", tr: "Müzakere" },
+  { fr: "Le citoyen", tr: "Yurttaş / Vatandaş" }
+];
+
+let matchGameTimer = null;
+let matchTimeLeft = 45;
+let matchScore = 0;
+let matchPairsMatched = 0;
+let matchSelectedCards = [];
+let matchActiveCards = [];
+
+function switchGameMode(mode) {
+  const btnQuiz = document.getElementById('btnModeQuiz');
+  const btnMatch = document.getElementById('btnModeMatch');
+  const quizBox = document.getElementById('modeQuizContainer');
+  const matchBox = document.getElementById('modeMatchContainer');
+
+  if (mode === 'quiz') {
+    btnQuiz?.classList.add('active');
+    btnMatch?.classList.remove('active');
+    if (quizBox) quizBox.style.display = 'block';
+    if (matchBox) matchBox.style.display = 'none';
+    if (matchGameTimer) clearInterval(matchGameTimer);
+  } else {
+    btnMatch?.classList.add('active');
+    btnQuiz?.classList.remove('active');
+    if (quizBox) quizBox.style.display = 'none';
+    if (matchBox) matchBox.style.display = 'block';
+    initMatchGame();
+  }
+}
+
+function initMatchGame() {
+  if (matchGameTimer) clearInterval(matchGameTimer);
+  matchTimeLeft = 45;
+  matchScore = 0;
+  matchPairsMatched = 0;
+  matchSelectedCards = [];
+
+  document.getElementById('matchTimer').innerText = matchTimeLeft;
+  document.getElementById('matchScore').innerText = matchScore;
+  document.getElementById('matchPairs').innerText = '0 / 6';
+  document.getElementById('matchWinMsg').style.display = 'none';
+
+  // Pick 6 random pairs
+  const shuffled = [...matchWordPairsMaster].sort(() => Math.random() - 0.5).slice(0, 6);
+  matchActiveCards = [];
+  shuffled.forEach((pair, idx) => {
+    matchActiveCards.push({ id: idx, text: pair.fr, type: 'fr', pairId: idx, matched: false });
+    matchActiveCards.push({ id: idx + 100, text: pair.tr, type: 'tr', pairId: idx, matched: false });
+  });
+  matchActiveCards.sort(() => Math.random() - 0.5);
+
+  renderMatchGrid();
+
+  matchGameTimer = setInterval(() => {
+    matchTimeLeft--;
+    document.getElementById('matchTimer').innerText = matchTimeLeft;
+    if (matchTimeLeft <= 0) {
+      clearInterval(matchGameTimer);
+      showToast('Süre doldu! Skorunuz: ' + matchScore);
+      playTone(200, 'sawtooth', 0.2);
+    }
+  }, 1000);
+}
+
+function renderMatchGrid() {
+  const grid = document.getElementById('matchGrid');
+  if (!grid) return;
+  grid.innerHTML = matchActiveCards.map((card, idx) => `
+    <div class="match-card ${card.matched ? 'matched' : ''}" id="mcard-${idx}" onclick="handleMatchCardClick(${idx})">
+      ${card.text}
+    </div>
+  `).join('');
+}
+
+function handleMatchCardClick(index) {
+  const card = matchActiveCards[index];
+  if (!card || card.matched || matchSelectedCards.some(c => c.index === index)) return;
+
+  const el = document.getElementById(`mcard-${index}`);
+  el.classList.add('selected');
+  matchSelectedCards.push({ index, card, el });
+
+  playTone(400, 'sine', 0.05);
+
+  if (matchSelectedCards.length === 2) {
+    const [first, second] = matchSelectedCards;
+    if (first.card.pairId === second.card.pairId && first.card.type !== second.card.type) {
+      // MATCH!
+      first.card.matched = true;
+      second.card.matched = true;
+      first.el.classList.add('matched');
+      second.el.classList.add('matched');
+      first.el.classList.remove('selected');
+      second.el.classList.remove('selected');
+      matchPairsMatched++;
+      matchScore += 20 + Math.round(matchTimeLeft / 2);
+      document.getElementById('matchScore').innerText = matchScore;
+      document.getElementById('matchPairs').innerText = `${matchPairsMatched} / 6`;
+      playTone(680, 'triangle', 0.15);
+
+      if (first.card.type === 'fr') speakText(first.card.text);
+      else speakText(second.card.text);
+
+      matchSelectedCards = [];
+
+      if (matchPairsMatched === 6) {
+        clearInterval(matchGameTimer);
+        document.getElementById('matchWinMsg').style.display = 'block';
+        playTone(800, 'sine', 0.3);
+      }
+    } else {
+      // MISMATCH
+      playTone(240, 'square', 0.15);
+      setTimeout(() => {
+        first.el.classList.remove('selected');
+        second.el.classList.remove('selected');
+        matchSelectedCards = [];
+      }, 500);
+    }
+  }
+}
+
+// Keyboard shortcuts for flashcards & game
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && document.getElementById('tab-vocabulary')?.classList.contains('active')) {
+    e.preventDefault();
+    flipCard();
+  } else if (e.code === 'ArrowRight' && document.getElementById('tab-vocabulary')?.classList.contains('active')) {
+    nextCard();
+  } else if (e.code === 'ArrowLeft' && document.getElementById('tab-vocabulary')?.classList.contains('active')) {
+    prevCard();
+  }
+});
+
+// ==========================================================================
+// 17. INITIAL INITIALIZATION
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -1502,4 +1941,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderVocabTable(vocabData);
   renderFlaneurRoutes();
   renderQuizQuestion();
+  renderTimeline(timelineData);
+  renderFauxAmis();
+  initChecklist();
 });
+

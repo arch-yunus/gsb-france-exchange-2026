@@ -21,17 +21,23 @@
         </div>
       </div>
       <nav class="nav-links">
-        <button class="nav-btn active" data-tab="atlas">🏛️ Fransa Atlası</button>
-        <button class="nav-btn" data-tab="quotes">💬 Alıntılar & Düşünce</button>
-        <button class="nav-btn" data-tab="poetry">🖋️ Çift Dilli Şiir & Edebiyat</button>
-        <button class="nav-btn" data-tab="regions">🗺️ Bölgeler & Şehirler</button>
-        <button class="nav-btn" data-tab="gastronomy">🍷 Terroir & Gastronomi</button>
+        <button class="nav-btn active" data-tab="atlas">🏛️ Atlas</button>
+        <button class="nav-btn" data-tab="timeline">⏳ 500 Yıl Diplomasi</button>
+        <button class="nav-btn" data-tab="quotes">💬 Düşünce & Alıntılar</button>
+        <button class="nav-btn" data-tab="poetry">🖋️ Şiir & Edebiyat</button>
+        <button class="nav-btn" data-tab="regions">🗺️ Bölgeler</button>
+        <button class="nav-btn" data-tab="gastronomy">🍷 Terroir & Mutfak</button>
         <button class="nav-btn" data-tab="vocabulary">🗣️ Sözlük & Flashcard</button>
-        <button class="nav-btn" data-tab="flaneur">🚶 Paris Flâneur Rotaları</button>
-        <button class="nav-btn" data-tab="workshops">🤝 Çalıştaylar & Saha</button>
-        <button class="nav-btn" data-tab="quiz">🧠 20 Soruluk Bilgi Testi</button>
+        <button class="nav-btn" data-tab="phonetics">🎵 Fonetik & Faux Amis</button>
+        <button class="nav-btn" data-tab="flaneur">🚶 Flâneur Rotaları</button>
+        <button class="nav-btn" data-tab="survival">🧳 Değişim Rehberi</button>
+        <button class="nav-btn" data-tab="workshops">🤝 Saha Seyir Defteri</button>
+        <button class="nav-btn" data-tab="quiz">🧠 Bilgi & Mini Oyunlar</button>
       </nav>
       <div class="nav-actions">
+        <button id="printBtn" class="theme-toggle" title="Özeti Yazdır / PDF Al" onclick="window.print()">
+          <span>🖨️</span>
+        </button>
         <button id="themeToggleBtn" class="theme-toggle" title="Karanlık/Aydınlık Modu Değiştir">
           <span id="themeIcon">🌙</span>
         </button>
@@ -130,6 +136,27 @@
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
+        <div class="atlas-card" onclick="openAtlasModal('chronology')">
+          <div class="card-icon">⏳</div>
+          <h3>500 Yıllık Diplomasi Kronolojisi</h3>
+          <p>Kapitülasyonlar, Çelebi Mehmed Sefaretnamesi, Lozan, Hatay, 1968 De Gaulle ve modern gençlik diplomasisi.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('phonetics')">
+          <div class="card-icon">🗣️</div>
+          <h3>Fonetik, Sesbilim & Faux Amis</h3>
+          <p>Burun ünlüleri (/ɑ̃/, /ɛ̃/, /ɔ̃/), boğaz R'si, ulamalar ve Türkçe-Fransızca yalancı eşdeğer kelimeler.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('etiquette')">
+          <div class="card-icon">🤝</div>
+          <h3>Sosyolojik Görgü & Adab-ı Muaşeret</h3>
+          <p>La Bise öpüşme kodları, masa kuralları, Vouvoiement nezaketi, randevu disiplini ve Türk-Fransız karşılaştırması.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
         <div class="atlas-card" onclick="openAtlasModal('poetry')">
           <div class="card-icon">🖋️</div>
           <h3>Büyük Fransız Şiiri Antolojisi</h3>
@@ -174,7 +201,30 @@
       </div>
     </section>
 
-    <!-- TAB 2: QUOTES EXPLORER -->
+    <!-- TAB 2: DIPLOMATIC TIMELINE -->
+    <section id="tab-timeline" class="tab-content">
+      <div class="section-header">
+        <h2>⏳ 500 Yıllık Türkiye - Fransa Diplomatik & Kültürel Zaman Tüneli</h2>
+        <p>1536 Kanuni-François ittifakından 2026 GSB Gençlik Değişimi Programı'na yarım binyıllık ortak tarih</p>
+      </div>
+
+      <div class="timeline-controls">
+        <input type="text" id="timelineSearch" placeholder="Olay, antlaşma veya şahsiyet ara (örn. Lozan, Çelebi Mehmed, De Gaulle, Galatasaray)..." class="search-input">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterTimeline('all')">Tüm Tarih (1536-2026)</button>
+          <button class="chip" onclick="filterTimeline('era1')">Klasik Dönem & Kapitülasyonlar (1536-1789)</button>
+          <button class="chip" onclick="filterTimeline('era2')">İhtilal & Tanzimat Aydınlanması (1789-1923)</button>
+          <button class="chip" onclick="filterTimeline('era3')">Cumhuriyet Diplomasisi (1923-2000)</button>
+          <button class="chip" onclick="filterTimeline('era4')">21. Yüzyıl & 2026 Gençlik Eylem Planı</button>
+        </div>
+      </div>
+
+      <div class="interactive-timeline" id="timelineContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 3: QUOTES EXPLORER -->
     <section id="tab-quotes" class="tab-content">
       <div class="section-header">
         <h2>💬 Alıntılar, Aforizmalar & Entelektüel Düşünce Galerisi</h2>
@@ -356,7 +406,80 @@
       </div>
     </section>
 
-    <!-- TAB 7: PARIS FLANEUR ROUTES -->
+    <!-- TAB 8: PHONETICS & FAUX AMIS -->
+    <section id="tab-phonetics" class="tab-content">
+      <div class="section-header">
+        <h2>🎵 Fransızca Fonetik, Sesbilim & Yalancı Eşdeğerler (Faux Amis)</h2>
+        <p>Burun ünlüleri, boğaz R'si, ulamalar ve Türkçe-Fransızca yanıltıcı kelimelerin interaktif sesli laboratuvarı</p>
+      </div>
+
+      <div class="phonetics-container">
+        <!-- Nasal Vowels Grid -->
+        <div class="phonetic-card-group">
+          <h3>👃 Burun Ünlüleri (Les Voyelles Nasales)</h3>
+          <div class="nasal-grid">
+            <div class="nasal-card">
+              <div class="ipa-symbol">/ɑ̃/</div>
+              <h4>an, am, en, em</h4>
+              <p>France, enfant, temps</p>
+              <button class="btn-audio-mini" onclick="speakText('France, enfant, temps, dans')">🔊 Dinle</button>
+            </div>
+            <div class="nasal-card">
+              <div class="ipa-symbol">/ɛ̃/</div>
+              <h4>in, ain, ein, ym</h4>
+              <p>vin, pain, plein, train</p>
+              <button class="btn-audio-mini" onclick="speakText('vin, pain, plein, train')">🔊 Dinle</button>
+            </div>
+            <div class="nasal-card">
+              <div class="ipa-symbol">/ɔ̃/</div>
+              <h4>on, om</h4>
+              <p>bon, pont, monde, nom</p>
+              <button class="btn-audio-mini" onclick="speakText('bon, pont, monde, nom')">🔊 Dinle</button>
+            </div>
+            <div class="nasal-card">
+              <div class="ipa-symbol">/œ̃/</div>
+              <h4>un, um</h4>
+              <p>un, parfum, lundi</p>
+              <button class="btn-audio-mini" onclick="speakText('un, parfum, lundi')">🔊 Dinle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tricky sounds guide -->
+        <div class="phonetic-rules-grid">
+          <div class="p-rule-box">
+            <h4>👅 "U" (/y/) vs "OU" (/u/) Kritik Ayrımı</h4>
+            <p><strong>U (/y/):</strong> Dudaklar 'O' gibi büzülür, dil 'İ' sesi çıkarır (<em>Tu, rue, culture</em>).</p>
+            <p><strong>OU (/u/):</strong> Türkçedeki standart 'U' sesidir (<em>Vous, tout, rouge</em>).</p>
+            <div class="p-audio-row">
+              <button class="btn-secondary" onclick="speakText('Tu es là')">🔊 "Tu" (Sen)</button>
+              <button class="btn-secondary" onclick="speakText('Tout est là')">🔊 "Tout" (Hepsi)</button>
+            </div>
+          </div>
+
+          <div class="p-rule-box">
+            <h4>🗣️ Fransız "R" Sesi (/ʁ/) & Ulamalar</h4>
+            <p><strong>Boğaz R'si:</strong> Küçük dilin boğaz gerisinde titreşmesiyle çıkar (<em>Paris, république</em>).</p>
+            <p><strong>Liaison (Ulama):</strong> <em>les amis</em> -> /le.za.mi/, <em>vous avez</em> -> /vu.za.ve/.</p>
+            <div class="p-audio-row">
+              <button class="btn-secondary" onclick="speakText('Les amis de Paris')">🔊 "Les amis"</button>
+              <button class="btn-secondary" onclick="speakText('Vous avez raison')">🔊 "Vous avez"</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Faux Amis Interactive Explorer -->
+        <div class="faux-amis-section">
+          <h3>⚠️ Türkçe - Fransızca Yalancı Eşdeğerler (Faux Amis)</h3>
+          <p>Yazılışı veya tınısı benzediği halde anlamı tamamen farklı olan kritik terimler:</p>
+          <div class="faux-amis-grid" id="fauxAmisContainer">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 9: PARIS FLANEUR ROUTES -->
     <section id="tab-flaneur" class="tab-content">
       <div class="section-header">
         <h2>🚶 Paris Edebi & Felsefi Flâneur Rotaları</h2>
@@ -368,7 +491,70 @@
       </div>
     </section>
 
-    <!-- TAB 8: WORKSHOPS & DIARY -->
+    <!-- TAB 10: EXCHANGE SURVIVAL & ETIQUETTE KIT -->
+    <section id="tab-survival" class="tab-content">
+      <div class="section-header">
+        <h2>🧳 Gençlik Değişimi Saha Rehberi, Görgü Kuralları & Çanta Kontrol Listesi</h2>
+        <p>Fransa'da sosyal kodlar, nezaket kuralları, şehir içi ulaşım ve interaktif seyahat hazırlık listesi</p>
+      </div>
+
+      <div class="survival-layout">
+        <!-- Interactive Packing Checklist -->
+        <div class="checklist-card">
+          <div class="cl-header">
+            <h3>🎒 İnteraktif Seyahat & Değişim Kontrol Listesi</h3>
+            <span class="cl-progress" id="clProgress">0% Tamamlandı</span>
+          </div>
+          <div class="cl-bar"><div class="cl-bar-fill" id="clBarFill"></div></div>
+          <div class="cl-items" id="checklistItems">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- Etiquette Do's and Don'ts -->
+        <div class="etiquette-card">
+          <h3>🤝 Sosyolojik Nezaket & Davranış Kodları (Do's & Don'ts)</h3>
+          <div class="etiquette-table">
+            <div class="et-row et-header">
+              <span>Konu / Durum</span>
+              <span>🇫🇷 Fransa'da Beklenen Davranış</span>
+            </div>
+            <div class="et-row">
+              <strong>Selamlaşma & Giriş</strong>
+              <span>Dükkana, kafeye veya salona girerken mutlaka ilk olarak <em>"Bonjour Madame/Monsieur"</em> deyiniz.</span>
+            </div>
+            <div class="et-row">
+              <strong>Hitap (Vouvoiement)</strong>
+              <span>Karşı taraf <em>"On se tutoie ?"</em> diyene kadar yaşıtınız dahi olsa resmiyeti (<em>Vous</em>) koruyunuz.</span>
+            </div>
+            <div class="et-row">
+              <strong>Masa & Ekmek Adabı</strong>
+              <span>Ekmek tabağa değil masa örtüsüne konur; bıçakla kesilmez, elle lokmalara bölünür. Her iki el masada görünür olmalıdır.</span>
+            </div>
+            <div class="et-row">
+              <strong>Su İsteme Kodu</strong>
+              <span>Restoranda ücretsiz sürahi suyu için: <em>"Une carafe d'eau, s'il vous plaît."</em></span>
+            </div>
+            <div class="et-row">
+              <strong>Münazara & Tartışma</strong>
+              <span>Fransız akranınızla tartışırken karşı tez sunmak çatışma değil, düşünceyi derinleştirme nezaketidir.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency & Transport Quick Box -->
+      <div class="quick-info-strip">
+        <div class="qi-item"><strong>📞 Acil Çağrı (Avrupa):</strong> 112</div>
+        <div class="qi-item"><strong>🚑 Sağlık (SAMU):</strong> 15</div>
+        <div class="qi-item"><strong>👮 Polis (Police Secours):</strong> 17</div>
+        <div class="qi-item"><strong>🚒 İtfaiye (Pompiers):</strong> 18</div>
+        <div class="qi-item"><strong>🇹🇷 Paris Başkonsolosluğu:</strong> +33 1 47 18 18 60</div>
+        <div class="qi-item"><strong>🚇 Ulaşım Kartı:</strong> Navigo Easy / Découverte</div>
+      </div>
+    </section>
+
+    <!-- TAB 11: WORKSHOPS & DIARY -->
     <section id="tab-workshops" class="tab-content">
       <div class="section-header">
         <h2>🤝 Çalıştaylar, Saha Seyir Defteri & Ortak Bildiriler</h2>
@@ -438,14 +624,21 @@
       </div>
     </section>
 
-    <!-- TAB 9: QUIZ -->
+    <!-- TAB 12: QUIZ & MINI-GAMES -->
     <section id="tab-quiz" class="tab-content">
       <div class="section-header">
-        <h2>🧠 20 Soruluk Kültürel Diplomasi, Felsefe & Fransa Bilgi Testi</h2>
-        <p>Tarih, edebiyat, anayasa, gastronomi, sinema ve ikili ilişkiler bilginizi test edin; uzmanlık rozeti kazanın!</p>
+        <h2>🧠 Bilgi Testi & İnteraktif Mini Oyunlar</h2>
+        <p>20 Soruluk Kültürel Diplomasi Testi ve Hızlı Kelime Eşleştirme Oyunu ile bilginizi sınayın</p>
       </div>
 
-      <div class="quiz-box">
+      <!-- Mode Selector -->
+      <div class="quiz-mode-selector">
+        <button class="mode-btn active" id="btnModeQuiz" onclick="switchGameMode('quiz')">📝 20 Soruluk Bilgi Testi</button>
+        <button class="mode-btn" id="btnModeMatch" onclick="switchGameMode('match')">⚡ Hızlı Kelime Eşleştirme Oyunu</button>
+      </div>
+
+      <!-- Mode 1: 20 Question Quiz -->
+      <div class="quiz-box" id="modeQuizContainer">
         <div id="quizContainer">
           <div class="quiz-header">
             <span id="quizProgress" class="quiz-badge-progress">Soru 1 / 20</span>
@@ -464,6 +657,23 @@
         </div>
         <div id="quizResult" class="quiz-result" style="display:none;">
           <!-- Result summary -->
+        </div>
+      </div>
+
+      <!-- Mode 2: Word Match Game -->
+      <div class="match-game-box" id="modeMatchContainer" style="display:none;">
+        <div class="match-header">
+          <div class="match-stat">Süre: <span id="matchTimer">45</span>s</div>
+          <div class="match-stat">Skor: <span id="matchScore">0</span></div>
+          <div class="match-stat">Eşleşen: <span id="matchPairs">0 / 6</span></div>
+          <button class="btn-secondary" onclick="initMatchGame()">🔄 Yeniden Başlat</button>
+        </div>
+        <p class="match-instructions">Fransızca terim ile doğru Türkçe karşılığını eşleştirin:</p>
+        <div class="match-grid" id="matchGrid">
+          <!-- Injected via JS -->
+        </div>
+        <div class="match-win-msg" id="matchWinMsg" style="display:none;">
+          🎉 Tebrikler! Tüm kelimeleri başarıyla eşleştirdiniz!
         </div>
       </div>
     </section>
