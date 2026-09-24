@@ -36,6 +36,7 @@
         <button class="nav-btn" data-tab="survival">🧳 Değişim Rehberi</button>
         <button class="nav-btn" data-tab="budget">💶 Bütçe & Euro Rehberi</button>
         <button class="nav-btn" data-tab="resolution">📜 Bildiri Oluşturucu</button>
+        <button class="nav-btn" data-tab="program">📅 Strazburg Programı (25-30 Eylül)</button>
         <button class="nav-btn" data-tab="workshops">🤝 Saha Seyir Defteri</button>
         <button class="nav-btn" data-tab="quiz">🧠 Bilgi & Mini Oyunlar</button>
       </nav>
@@ -214,6 +215,13 @@
           <div class="card-icon">💶</div>
           <h3>Seyahat & Bütçe Kılavuzu</h3>
           <p>Euro/TL göstergeleri, Navigo kart kullanımı, bahşiş kuralları, priz tipleri ve acil durum protokolleri.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('strasbourg')">
+          <div class="card-icon">🥨</div>
+          <h3>Strazburg & Alsace Başkenti</h3>
+          <p>Avrupa Parlamentosu, AİHM, Maarif France, Petite France, Colmar ve 25-30 Eylül gençlik değişim rotası.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
       </div>
@@ -826,11 +834,81 @@
       </div>
     </section>
 
-    <!-- TAB 16: WORKSHOPS & DIARY -->
+    <!-- TAB 16: OFFICIAL STRASBOURG & ALSACE EXCHANGE PROGRAM -->
+    <section id="tab-program" class="tab-content">
+      <div class="section-header">
+        <div class="hero-badge" style="margin-bottom: 8px;">🇹🇷 🇫🇷 Maarif France & T.C. GSB İş Birliğiyle</div>
+        <h2>📅 Strazburg & Alsace Gençlik Değişimi Programı (25 - 30 Eylül)</h2>
+        <p><em>"Alsace'a Başka Bir Bakış"</em> • Strazburg, Basel, Colmar ve Kehl Güzergâhı Resmî Program ve İnteraktif Günlük Akış Çizelgesi</p>
+      </div>
+
+      <!-- Program Poster & Key Highlights Card -->
+      <div class="program-hero-grid">
+        <div class="program-poster-card">
+          <div class="poster-badge">Resmî Program Çizelgesi</div>
+          <img src="assets/images/strazburg-program-25-30-eylul.jpg" alt="Strazburg 25-30 Eylül Program Çizelgesi" class="program-poster-img" onclick="openPosterModal()" />
+          <p class="poster-caption">🔍 Büyütmek ve tam boyutta incelemek için görsele tıklayınız</p>
+        </div>
+
+        <div class="program-summary-card">
+          <h3>📌 Alsace & Strazburg Değişim Özeti</h3>
+          <div class="prog-stats-grid">
+            <div class="prog-stat-box">
+              <span class="p-num">6 Gün</span>
+              <span class="p-lbl">Saha Programı</span>
+            </div>
+            <div class="prog-stat-box">
+              <span class="p-num">4 Şehir</span>
+              <span class="p-lbl">Strazburg • Colmar • Basel • Kehl</span>
+            </div>
+            <div class="prog-stat-box">
+              <span class="p-num">3 Ülke Sınırı</span>
+              <span class="p-lbl">Fransa • İsviçre • Almanya</span>
+            </div>
+            <div class="prog-stat-box">
+              <span class="p-num">15+</span>
+              <span class="p-lbl">Kurumsal & Kültürel Temas</span>
+            </div>
+          </div>
+
+          <div class="prog-institutions-list">
+            <h4>🏛️ Öne Çıkan Kurumsal & Kültürel Duraklar:</h4>
+            <ul>
+              <li><strong>Avrupa Kurumları:</strong> Avrupa Parlamentosu & Avrupa İnsan Hakları Mahkemesi (AİHM)</li>
+              <li><strong>Diplomatik Temsilcilik:</strong> T.C. Strazburg Başkonsolosluğu Ziyareti</li>
+              <li><strong>Eğitim & Sivil Köprü:</strong> Maarif France Tanıtımı ve Delegasyon Buluşması</li>
+              <li><strong>Tarih & Mimari:</strong> Notre-Dame Katedrali, Petite France, Ponts Couverts, Gutenberg & Kléber</li>
+              <li><strong>Alsace & Colmar:</strong> Petite Venise (Küçük Venedik), Ahşap Mimari & Batorama İll Nehri Turu</li>
+              <li><strong>Sınır Aşan Köprü:</strong> Ren Nehri & Kehl (Almanya) Passerelle des Deux Rives</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day Filter Controls -->
+      <div class="program-filter-controls">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterProgram('all', event)">Tüm Program (25-30 Eylül)</button>
+          <button class="chip" onclick="filterProgram('day1', event)">1. Gün (25 Eyl Cuma): Basel & Varış</button>
+          <button class="chip" onclick="filterProgram('day2', event)">2. Gün (26 Eyl Cmt): Zooloji, Maarif & Katedral</button>
+          <button class="chip" onclick="filterProgram('day3', event)">3. Gün (27 Eyl Paz): Colmar & Alsace</button>
+          <button class="chip" onclick="filterProgram('day4', event)">4. Gün (28 Eyl Pzt): Petite France & Batorama</button>
+          <button class="chip" onclick="filterProgram('day5', event)">5. Gün (29 Eyl Sal): Parlamento, BK & Kehl</button>
+          <button class="chip" onclick="filterProgram('day6', event)">6. Gün (30 Eyl Çar): Dönüş Uçuşu</button>
+        </div>
+      </div>
+
+      <!-- Dynamic Program Timeline Container -->
+      <div class="program-timeline-wrapper" id="programContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 17: WORKSHOPS & DIARY -->
     <section id="tab-workshops" class="tab-content">
       <div class="section-header">
         <h2>🤝 Çalıştaylar, Saha Seyir Defteri & Ortak Bildiriler</h2>
-        <p>Ankara, İstanbul, Paris ve Lyon temasları ile 4 tematik politika masasının çıktıları</p>
+        <p>Ankara, İstanbul, Paris, Lyon ve Strazburg-Alsace temasları ile tematik politika masasının çıktıları</p>
       </div>
 
       <div class="workshops-container">
@@ -852,7 +930,7 @@
             </ul>
           </div>
 
-          <!-- Stage France -->
+          <!-- Stage France Central -->
           <div class="stage-card">
             <div class="stage-header">
               <span class="stage-flag">🇫🇷</span>
@@ -866,6 +944,25 @@
               <li><strong>Gün 2 (Paris):</strong> Fransız Gençlik Bakanlığı, MJC Paris 13 & Station F Girişimcilik Kampüsü.</li>
               <li><strong>Gün 3 (Paris):</strong> UNESCO Genel Merkezi, T.C. Paris Büyükelçiliği & Louvre/Orsay Ziyareti.</li>
               <li><strong>Gün 4 (Lyon):</strong> TGV Yolculuğu, Vieux Lyon İpekçilik Mirası, Grand Lyon & Kapanış Deklarasyonu.</li>
+            </ul>
+          </div>
+
+          <!-- Stage Alsace & Strasbourg (Maarif France) -->
+          <div class="stage-card" style="border-left: 4px solid var(--accent-color, #2563eb);">
+            <div class="stage-header">
+              <span class="stage-flag">🥨</span>
+              <div>
+                <h3>III. Etap: Maarif France & Alsace (Strazburg, Colmar, Kehl)</h3>
+                <p>Avrupa Parlamentosu, AİHM, T.C. Strazburg Başkonsolosluğu, Maarif France & Batorama</p>
+              </div>
+            </div>
+            <ul class="stage-list">
+              <li><strong>25 Eylül (Cuma):</strong> Basel İniş ✈️, Basel Katedrali ve Strazburg Otele Yerleşme.</li>
+              <li><strong>26 Eylül (Cmt):</strong> Zooloji Müzesi, Maarif France Öğle Yemeği, Katedral, Gutenberg & Kléber.</li>
+              <li><strong>27 Eylül (Paz):</strong> Colmar Şehir Gezisi, Petite Venise & Alsace Ahşap Mimarisi.</li>
+              <li><strong>28 Eylül (Pzt):</strong> Petite France, Ponts Couverts, Batorama İll Gemi Turu & Güzel Sanatlar Müzesi.</li>
+              <li><strong>29 Eylül (Sal):</strong> Avrupa Parlamentosu, AİHM, T.C. Strazburg Başkonsolosluğu, Maarif & Kehl.</li>
+              <li><strong>30 Eylül (Çar):</strong> 06:30 Havalimanı Transferi ve Türkiye'ye Dönüş.</li>
             </ul>
           </div>
         </div>
@@ -997,6 +1094,20 @@
       </div>
       <div class="modal-body" id="modalBody">
         <!-- Content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Program Poster Full View -->
+  <div class="modal-overlay" id="posterModal" onclick="closePosterModal(event)">
+    <div class="modal-card modal-image-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closePosterModal()">&times;</button>
+      <div class="modal-header">
+        <span class="modal-badge">Resmî Program Afişi</span>
+        <h3>Strazburg & Alsace Değişim Programı (25 - 30 Eylül)</h3>
+      </div>
+      <div class="modal-body modal-image-body">
+        <img src="assets/images/strazburg-program-25-30-eylul.jpg" alt="Strazburg 25-30 Eylül Tam Boyut Programı" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
       </div>
     </div>
   </div>

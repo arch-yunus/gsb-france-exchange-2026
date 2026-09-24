@@ -1284,6 +1284,26 @@ function handleGlobalSearch(query) {
     }
   });
 
+  // Search 25-30 Eylül Strazburg & Alsace Program Items
+  if (typeof programData !== 'undefined') {
+    programData.forEach(day => {
+      day.slots.forEach(slot => {
+        if (slot.title.toLowerCase().includes(q) ||
+            slot.location.toLowerCase().includes(q) ||
+            slot.desc.toLowerCase().includes(q) ||
+            slot.category.toLowerCase().includes(q) ||
+            day.dayTitle.toLowerCase().includes(q)) {
+          results.push({
+            title: `${slot.icon} ${slot.title} (${slot.time})`,
+            desc: `📍 ${slot.location} — ${day.dateStr}`,
+            badge: "Strazburg Programı",
+            tab: "program"
+          });
+        }
+      });
+    });
+  }
+
   if (results.length === 0) {
     container.innerHTML = '<div class="search-hint">Eşleşen sonuç bulunamadı. Lütfen başka bir arama terimi deneyin.</div>';
     return;
@@ -2404,6 +2424,20 @@ const atlasModalData = {
       <p>Navigo ulaşım kartı, Euro/TL göstergeleri, bahşiş kuralları, priz tipleri ve acil numaralar.</p>
       <p><small>Detaylı dosya: <code>france-atlas/everyday-culture.md</code></small></p>
     `
+  },
+  strasbourg: {
+    badge: "Alsace & Diplomasi",
+    title: "Strazburg & Alsace Kültür ve Diplomasi Rehberi",
+    content: `
+      <p>Avrupa'nın başkenti Strazburg, Avrupa Parlamentosu, AİHM, Maarif France, Notre-Dame Katedrali, Petite France ve Colmar mirası.</p>
+      <ul>
+        <li><strong>Avrupa Kurumları:</strong> Avrupa Parlamentosu ve Avrupa İnsan Hakları Mahkemesi (AİHM).</li>
+        <li><strong>T.C. Temsilcilikleri:</strong> T.C. Strazburg Başkonsolosluğu ve Maarif France merkezi.</li>
+        <li><strong>Alsace Dokusu:</strong> Notre-Dame Katedrali, Colmar Petite Venise ve Ren Nehri sınır köprüsü Kehl.</li>
+      </ul>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('program');" style="margin-top: 8px;">📅 25-30 Eylül Resmî Programını İncele →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/strasbourg-alsace-guide.md</code></small></p>
+    `
   }
 };
 
@@ -2751,7 +2785,425 @@ function handleMatchCardClick(index) {
 }
 
 // ==========================================================================
-// 23. INITIALIZATION ON DOM LOAD
+// 23. MAARIF FRANCE & GSB STRAZBURG - ALSACE DEĞİŞİM PROGRAMI MOTORU (25-30 EYLÜL)
+// ==========================================================================
+const programData = [
+  // 1. Gün: 25 Eylül Cuma
+  {
+    dayKey: 'day1',
+    dayTitle: '1. Gün: 25 Eylül Cuma — Basel Varış & Strazburg İntikali',
+    dateStr: '25 Eylül 2026, Cuma',
+    city: 'Basel (İsviçre) / Strazburg (Fransa)',
+    slots: [
+      {
+        time: '12:00',
+        title: 'Türkiye\'den Uçuş Hareketi',
+        icon: '✈️',
+        category: 'Uçuş & Lojistik',
+        location: 'İstanbul Havalimanı ➔ EuroAirport Basel',
+        desc: 'Gençlik heyetinin toplanması, pasaport/biniş işlemleri ve İsviçre-Fransa sınırındaki EuroAirport Basel-Mulhouse havalimanına uçuş.'
+      },
+      {
+        time: '17:30 – 18:30',
+        title: 'Havalimanına İniş ve Basel\'e Hareket',
+        icon: '🛬',
+        category: 'Karşılama & İntikal',
+        location: 'EuroAirport Basel-Mulhouse-Freiburg',
+        desc: 'Üç uluslu (İsviçre-Fransa-Almanya) EuroAirport\'a iniş, heyetin karşılanması ve Basel şehir merkezine transfer.'
+      },
+      {
+        time: '19:30 – 20:30',
+        title: 'Basel Katedrali ve Çevresi Gezisi',
+        icon: '🏛️',
+        category: 'Kültür & Mimarlık',
+        location: 'Basler Münster & Ren Nehri Terası (Pfalz)',
+        desc: 'Romanesk-gotik kırmızı kumtaşı katedrali, Erasmus\'un anıtı ve Ren Nehri kıyısında ilk oryantasyon yürüyüşü.'
+      },
+      {
+        time: '21:30 – 22:30',
+        title: 'Otele Hareket — Strazburg',
+        icon: '🚌',
+        category: 'Transfer',
+        location: 'Basel ➔ Strazburg (Alsace)',
+        desc: 'Özel heyet otobüsüyle Fransa sınırını geçerek konaklama kenti olan Alsace başkenti Strazburg\'a hareket.'
+      },
+      {
+        time: '23:00 – 23:30',
+        title: 'Otele Yerleşme & Dinlenme',
+        icon: '🛏️',
+        category: 'Konaklama',
+        location: 'Strazburg Oteli',
+        desc: 'Oda dağıtımı, bagaj yerleşimi ve ertesi günün programı öncesi heyet istirahati.'
+      }
+    ]
+  },
+  // 2. Gün: 26 Eylül Cumartesi
+  {
+    dayKey: 'day2',
+    dayTitle: '2. Gün: 26 Eylül Cumartesi — Zooloji Müzesi, Maarif France & Katedral',
+    dateStr: '26 Eylül 2026, Cumartesi',
+    city: 'Strazburg',
+    slots: [
+      {
+        time: '08:00 – 09:00',
+        title: 'Kahvaltı',
+        icon: '☕',
+        category: 'Beslenme',
+        location: 'Otel Restoranı',
+        desc: 'Güne zinde başlangıç, kahvaltı ve delegasyon günlük brifingi.'
+      },
+      {
+        time: '09:00 – 10:00',
+        title: 'Müzeye Hareket',
+        icon: '🚌',
+        category: 'Lojistik',
+        location: 'Strazburg Şehir İçi Ulaşım',
+        desc: 'Strazburg Üniversitesi kampüs aksı üzerinden Zooloji Müzesi\'ne intikal.'
+      },
+      {
+        time: '10:00 – 13:00',
+        title: 'Zooloji Müzesi (Musée Zoologique)',
+        icon: '🐘',
+        category: 'Müze & Biyoçeşitlilik',
+        location: 'Musée Zoologique de Strasbourg',
+        desc: 'Alsace doğa tarihi, fauna koleksiyonları ve küresel iklim krizine dair bilimsel inceleme.'
+      },
+      {
+        time: '13:00 – 14:30',
+        title: 'Maarif\'te Öğle Yemeği & Heyet Buluşması',
+        icon: '🍽️',
+        category: 'Kurumsal & Gastronomi',
+        location: 'Maarif France Strazburg Merkezi',
+        desc: 'Türkiye Maarif Vakfı Fransa temsilcileri ve Türk-Fransız gençleri eşliğinde öğle yemeği ve kültürel kaynaşma.'
+      },
+      {
+        time: '15:00 – 18:30',
+        title: 'Tarihi Şehir Gezisi: Katedral, Gutenberg, Kléber & Bâteliers',
+        icon: '⛪',
+        category: 'Tarih & Kentsel Miras',
+        location: 'Cathédrale Notre-Dame, Place Gutenberg, Place Kléber, Quai des Bâteliers',
+        desc: '142 metrelik pembe kumtaşı Notre-Dame Katedrali, matbaa devriminin mimarı Gutenberg Meydanı, Kléber Meydanı ve sandalcılar rıhtımı yürüyüşü.'
+      },
+      {
+        time: '18:30 – 19:30',
+        title: 'Otele Dönüş',
+        icon: '🏠',
+        category: 'Lojistik',
+        location: 'Strazburg Oteli',
+        desc: 'Günün yoğun şehir gezisi sonrası dinlenme ve toparlanma.'
+      },
+      {
+        time: '19:30 – 21:00',
+        title: 'Akşam Yemeği & Değerlendirme',
+        icon: '🍽️',
+        category: 'Beslenme',
+        location: 'Strazburg Restoranı',
+        desc: 'Alsace lezzetleri eşliğinde akşam yemeği ve günün saha gözlemlerinin müzakeresi.'
+      }
+    ]
+  },
+  // 3. Gün: 27 Eylül Pazar
+  {
+    dayKey: 'day3',
+    dayTitle: '3. Gün: 27 Eylül Pazar — Masalsı Colmar & Alsace Kültürel Mirası',
+    dateStr: '27 Eylül 2026, Pazar',
+    city: 'Colmar (Alsace)',
+    slots: [
+      {
+        time: '08:00 – 09:00',
+        title: 'Kahvaltı',
+        icon: '☕',
+        category: 'Beslenme',
+        location: 'Otel Restoranı',
+        desc: 'Colmar saha günü öncesi delegasyon kahvaltısı.'
+      },
+      {
+        time: '09:30 – 13:00',
+        title: 'Colmar Şehir Gezisi: Petite Venise & Tarihi Merkez',
+        icon: '🎨',
+        category: 'Alsace Mimarisi',
+        location: 'Colmar Tarihi Merkezi, Petite Venise, Maison Pfister, Maison des Têtes',
+        desc: 'Lauch Nehri kanalları üzerinde "Küçük Venedik" bölgesi, 16. yüzyıl yarı ahşap (colombage) evleri ve Rönesans şaheseri Pfister Evi incelemesi.'
+      },
+      {
+        time: '13:00 – 14:30',
+        title: 'Colmar\'da Öğle Yemeği',
+        icon: '🍽️',
+        category: 'Gastronomi',
+        location: 'Colmar Restoranı / Marché Couvert',
+        desc: 'Tarihi pazar yeri civarında geleneksel Alsace mutfağı tadımı (Flammekueche / Tarte Flambée).'
+      },
+      {
+        time: '14:30 – 19:00',
+        title: 'Colmar Kültürel Atölyesi, Heykel Mirası & Serbest Keşif',
+        icon: '📸',
+        category: 'Sanat & Flânerie',
+        location: 'Unterlinden Çevresi & Auguste Bartholdi Rotası',
+        desc: 'Özgürlük Heykeli mimarı Auguste Bartholdi mirası, Saint-Martin Kilisesi ve gençlik fotoğraf atölyesi.'
+      },
+      {
+        time: '19:00 – 20:30',
+        title: 'Otele Dönüş Yolculuğu',
+        icon: '🏠',
+        category: 'Transfer',
+        location: 'Colmar ➔ Strazburg',
+        desc: 'Alsace bağ rotası manzaraları eşliğinde Strazburg\'a dönüş intikali.'
+      },
+      {
+        time: '20:30 – 22:00',
+        title: 'Akşam Yemeği & Alsace Kültür Masası',
+        icon: '🍽️',
+        category: 'Beslenme & Fikir Masası',
+        location: 'Strazburg Restoranı',
+        desc: 'Akşam yemeği ve iki ülke gençlerinin bölgesel kalkınma ve kültürel miras üzerine serbest fikir münazarası.'
+      }
+    ]
+  },
+  // 4. Gün: 28 Eylül Pazartesi
+  {
+    dayKey: 'day4',
+    dayTitle: '4. Gün: 28 Eylül Pazartesi — Petite France, Batorama & Güzel Sanatlar',
+    dateStr: '28 Eylül 2026, Pazartesi',
+    city: 'Strazburg',
+    slots: [
+      {
+        time: '08:00 – 09:00',
+        title: 'Kahvaltı',
+        icon: '☕',
+        category: 'Beslenme',
+        location: 'Otel Restoranı',
+        desc: 'Güne hazırlık kahvaltısı.'
+      },
+      {
+        time: '09:30 – 13:00',
+        title: 'Petite France & Ponts Couverts ve Çevresi',
+        icon: '🏰',
+        category: 'Tarihi Doku & Su Yolları',
+        location: 'Petite France, Ponts Couverts (Kapalı Köprüler), Barrage Vauban',
+        desc: 'İll Nehri üzerindeki tarihi tabakhaneler, 13. yüzyıl savunma kuleleri ve Vauban Barajı terasından panoramik şehir manzarası.'
+      },
+      {
+        time: '13:00 – 14:30',
+        title: 'Otel\'de Öğle Yemeği ve Dinlenme',
+        icon: '🍽️',
+        category: 'Beslenme & İstirahat',
+        location: 'Strazburg Oteli',
+        desc: 'Öğle yemeği ve öğleden sonraki yoğun program öncesi dinlenme.'
+      },
+      {
+        time: '15:00 – 16:00',
+        title: 'Batorama Panoramik Gemi Turu',
+        icon: '🚢',
+        category: 'Nehir Turu & Şehir Perspektifi',
+        location: 'İll Nehri Kanalları (Embarcadère Batorama)',
+        desc: 'Cam tavanlı nehir tekneleriyle su üzerinden Grande-Île, kilit mekanizmaları (écluses) ve Avrupa Kurumları aksının rehberli keşfi.'
+      },
+      {
+        time: '16:00 – 17:00',
+        title: 'Serbest Zaman & Fotoğraf Çalışması',
+        icon: '📷',
+        category: 'Serbest Keşif',
+        location: 'Place du Château & Katedral Çevresi',
+        desc: 'Delegeler için bireysel saha gözlemleri, kitapçı ve hediyelik eşya incelemesi.'
+      },
+      {
+        time: '17:00 – 18:30',
+        title: 'Musée des Beaux-Arts (Güzel Sanatlar Müzesi)',
+        icon: '🏛️',
+        category: 'Sanat & Tarih',
+        location: 'Palais Rohan (Musée des Beaux-Arts)',
+        desc: 'Rohan Sarayı içerisindeki Rönesans, Barok ve Klasik dönem başyapıtları (Giotto, Raphael, Botticelli, Rubens) koleksiyonu ziyareti.'
+      },
+      {
+        time: '18:30 – 19:30',
+        title: 'Otele Dönüş',
+        icon: '🏠',
+        category: 'Lojistik',
+        location: 'Strazburg Oteli',
+        desc: 'Otele dönüş ve akşam hazırlığı.'
+      },
+      {
+        time: '19:30 – 21:00',
+        title: 'Akşam Yemeği',
+        icon: '🍽️',
+        category: 'Beslenme',
+        location: 'Strazburg',
+        desc: 'Akşam yemeği ve yarınki diplomatik ziyaretler için protokol bilgilendirmesi.'
+      }
+    ]
+  },
+  // 5. Gün: 29 Eylül Salı
+  {
+    dayKey: 'day5',
+    dayTitle: '5. Gün: 29 Eylül Salı — Avrupa Parlamentosu, AİHM, Başkonsolosluk, Maarif & Kehl',
+    dateStr: '29 Eylül 2026, Salı',
+    city: 'Strazburg (Fransa) / Kehl (Almanya)',
+    slots: [
+      {
+        time: '08:00 – 09:00',
+        title: 'Kahvaltı',
+        icon: '☕',
+        category: 'Beslenme',
+        location: 'Otel Restoranı',
+        desc: 'Diplomasi günü öncesi resmi kıyafetlerle delegasyon kahvaltısı.'
+      },
+      {
+        time: '09:00 – 09:30',
+        title: 'Parlamento Bölgesine Gidiş',
+        icon: '🚌',
+        category: 'Lojistik',
+        location: 'Quartier Européen Transferi',
+        desc: 'Avrupa Kurumları bölgesine intikal.'
+      },
+      {
+        time: '09:30 – 11:30',
+        title: 'Avrupa Parlamentosu & İnsan Hakları Mahkemesi Ziyareti',
+        icon: '🇪🇺',
+        category: 'Uluslararası Hukuk & Diplomasi',
+        location: 'Parlement Européen (Louise Weiss) & Cour Européenne des Droits de l\'Homme (AİHM)',
+        desc: '705 sandalyeli Avrupa Parlamentosu Genel Kurul Salonu (Hémicycle) brifingi ve Richard Rogers mimarisi AİHM binası incelemesi.'
+      },
+      {
+        time: '11:30 – 12:30',
+        title: 'Strazburg Başkonsolosluğu\'na Gidiş',
+        icon: '🚌',
+        category: 'Lojistik',
+        location: 'T.C. Strazburg Başkonsolosluğu Aksı',
+        desc: 'Konsolosluk yerleşkesine heyet intikali.'
+      },
+      {
+        time: '12:30 – 13:30',
+        title: 'T.C. Strazburg Başkonsolosluğu Ziyareti & Diplomatik Kabul',
+        icon: '🇹🇷',
+        category: 'Kamu Diplomasisi',
+        location: 'T.C. Strazburg Başkonsolosluğu',
+        desc: 'T.C. Strazburg Başkonsolosu tarafından kabul, Fransa\'daki Türk toplumu ve gençlik diplomasisi üzerine resmi temas.'
+      },
+      {
+        time: '13:30 – 15:30',
+        title: 'Maarif\'te Öğle Yemeği & Maarif Fransa Kurumsal Tanıtımı',
+        icon: '🎓',
+        category: 'Eğitim & Maarif France',
+        location: 'Türkiye Maarif Vakfı Fransa Merkezi',
+        desc: 'Öğle yemeği eşliğinde Maarif Vakfı Fransa koordinatörlüğü faaliyetlerinin, eğitim ve gençlik vizyonunun kapsamlı sunumu.'
+      },
+      {
+        time: '16:00 – 18:30',
+        title: 'Kehl Şehir Gezisi & İki Kıyı Köprüsü (Passerelle des Deux Rives)',
+        icon: '🌉',
+        category: 'Sınır Aşan Barış Köprüsü',
+        location: 'Kehl (Almanya) & Ren Nehri Sınır Parkı',
+        desc: 'Strazburg ile Almanya\'nın Kehl kentini birleştiren yaya köprüsü üzerinden Ren geçişi, sınırsız Avrupa ve gençlik hareketliliği deneyimi.'
+      },
+      {
+        time: '18:30 – 19:30',
+        title: 'Otele Dönüş',
+        icon: '🏠',
+        category: 'Lojistik',
+        location: 'Strazburg Oteli',
+        desc: 'Dönüş öncesi bavul hazırlığı ve dinlenme.'
+      },
+      {
+        time: '19:30 – 21:00',
+        title: 'Kapanış Akşam Yemeği & Sertifika Takdimi',
+        icon: '🏆',
+        category: 'Kapanış Protokolü',
+        location: 'Strazburg',
+        desc: 'Program kapanış oturumu, katılım belgelerinin takdimi, teşekkür konuşmaları ve veda yemeği.'
+      }
+    ]
+  },
+  // 6. Gün: 30 Eylül Çarşamba
+  {
+    dayKey: 'day6',
+    dayTitle: '6. Gün: 30 Eylül Çarşamba — Havalimanına Hareket & Türkiye\'ye Dönüş',
+    dateStr: '30 Eylül 2026, Çarşamba',
+    city: 'Strazburg ➔ Basel EuroAirport ➔ Türkiye',
+    slots: [
+      {
+        time: '06:30',
+        title: '06.30 Havalimanına Hareket',
+        icon: '✈️',
+        category: 'Transfer & Uçuş',
+        location: 'Strazburg Oteli ➔ EuroAirport Basel-Mulhouse',
+        desc: 'Sabah erken saatte otelden check-out, transfer otobüsüyle EuroAirport Havalimanı\'na intikal, gümrük ve pasaport işlemleri.'
+      },
+      {
+        time: '10:30 – 14:30',
+        title: 'Dönüş Uçuşu ve Türkiye\'ye Varış',
+        icon: '🛬',
+        category: 'Dönüş',
+        location: 'EuroAirport ✈️ Türkiye',
+        desc: 'Gençlik heyetinin Türkiye\'ye varışı ve 6 günlük Strazburg & Alsace Gençlik Değişimi Programı\'nın başarıyla noktalanması.'
+      }
+    ]
+  }
+];
+
+function renderProgram(filterDay = 'all') {
+  const container = document.getElementById('programContainer');
+  if (!container) return;
+
+  const filteredDays = filterDay === 'all' 
+    ? programData 
+    : programData.filter(d => d.dayKey === filterDay);
+
+  container.innerHTML = filteredDays.map(day => `
+    <div class="program-day-card" id="pday-${day.dayKey}">
+      <div class="pday-header">
+        <div class="pday-title-wrap">
+          <span class="pday-badge">${day.dateStr}</span>
+          <h3>${day.dayTitle}</h3>
+        </div>
+        <span class="pday-city">📍 ${day.city}</span>
+      </div>
+
+      <div class="pday-slots-list">
+        ${day.slots.map(slot => `
+          <div class="pslot-item">
+            <div class="pslot-time-col">
+              <span class="pslot-time">${slot.time}</span>
+              <span class="pslot-icon">${slot.icon}</span>
+            </div>
+            <div class="pslot-content-col">
+              <div class="pslot-top-row">
+                <h4 class="pslot-title">${slot.title}</h4>
+                <span class="pslot-category-tag">${slot.category}</span>
+              </div>
+              <div class="pslot-loc">
+                <span>📍 <strong>Konum:</strong> ${slot.location}</span>
+                <button class="btn-voice-mini" onclick="speakText('${slot.location.replace(/'/g, "\\'")}')" title="Fransızca / Yer İsmi Telaffuzu">🔊</button>
+              </div>
+              <p class="pslot-desc">${slot.desc}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProgram(day, event) {
+  document.querySelectorAll('#tab-program .filter-chips .chip').forEach(c => c.classList.remove('active'));
+  if (event && event.target) {
+    event.target.classList.add('active');
+  }
+  renderProgram(day);
+  playTone(520, 'sine', 0.05);
+}
+
+function openPosterModal() {
+  document.getElementById('posterModal')?.classList.add('active');
+  playTone(450, 'sine', 0.08);
+}
+
+function closePosterModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('posterModal')?.classList.remove('active');
+}
+
+// ==========================================================================
+// 24. INITIALIZATION ON DOM LOAD
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -2770,6 +3222,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTimeline(timelineData);
   renderFauxAmis();
   initChecklist();
+  renderProgram('all');
 
   // Check initial hash routing
   if (window.location.hash) {

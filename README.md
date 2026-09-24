@@ -587,11 +587,32 @@ M.Ö. 52   ──> Alesia Kuşatması: Jül Sezar & Vercingétorix (Galya'nın R
 </div>
 
 | Aşama | Tarih / Konum | Odak Alanı & Temel Faaliyetler | Durum |
-| :--- | :--- | :--- | :---: |
+| :--- | :--- | :--- | :--- |
 | **I. Hazırlık** | Ankara / Çevrim içi | Heyet seçimi, diplomatik brifingler, dil ve kültür atölyeleri | 🟢 Tamamlandı |
 | **II. Türkiye Etabı** | Ankara & İstanbul | Anıtkabir, GSB Bakanlığı, Altındağ GM, Galatasaray Lisesi, Ortak Çalıştaylar | 🟢 Tamamlandı |
 | **III. Fransa Etabı** | Paris & Lyon | Fransız Bakanlığı, MJC Ağı, Station F, UNESCO, Vieux Lyon İpekçilik İncelemesi | 🟢 Tamamlandı |
-| **IV. Çıktı & Yayın** | Açık Kaynak / Web | Kapsamlı Kültür Atlası, Ortak Bildiri, İki Dilli Web Portalı ve Eylem Planı | 🟢 Yayında |
+| **IV. Alsace & Strazburg (Maarif France)** | 25-30 Eylül 2026 / Strazburg, Colmar, Kehl | Avrupa Parlamentosu, AİHM, T.C. Strazburg Başkonsolosluğu, Maarif France, Zooloji Müzesi, Batorama Turu & Petite France | 🟢 Yürütülüyor |
+| **V. Çıktı & Yayın** | Açık Kaynak / Web | Kapsamlı Kültür Atlası, Ortak Bildiri, İki Dilli Web Portalı ve Eylem Planı | 🟢 Yayında |
+
+---
+
+### 🥨 Maarif France & GSB Strazburg - Alsace Programı (25 - 30 Eylül 2026)
+> *"Alsace'a Başka Bir Bakış"*
+
+<div align="center">
+  <img src="assets/images/strazburg-program-25-30-eylul.jpg" alt="Strazburg 25-30 Eylül Program Çizelgesi" width="85%" style="border-radius: 12px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);" />
+</div>
+
+| Gün | Tarih & Şehir | Ana Faaliyetler & Ziyaret Noktaları | Seyir Raporu |
+| :---: | :--- | :--- | :---: |
+| **1** | **25 Eylül Cuma**<br>*(Basel ➔ Strazburg)* | ✈️ Uçuş, EuroAirport Basel İniş, Basel Katedrali (*Basler Münster*), Strazburg'a Hareket ve Otele Yerleşme | [1. Gün Raporu](diary/stage-alsace-strasbourg/day-01-basel-arrival-strasbourg.md) |
+| **2** | **26 Eylül Cumartesi**<br>*(Strazburg)* | Zooloji Müzesi (*Musée Zoologique*), Maarif France Öğle Yemeği, Notre-Dame Katedrali, Place Gutenberg, Place Kléber, Quai des Bâteliers | [2. Gün Raporu](diary/stage-alsace-strasbourg/day-02-zoology-maarif-strasbourg-cathedral.md) |
+| **3** | **27 Eylül Pazar**<br>*(Colmar & Alsace)* | Colmar Şehir Gezisi, *Petite Venise* (Küçük Venedik), Ahşap Mimari (*Colombage*), Colmar Öğle Yemeği, Bartholdi Mirası & Kültür Masası | [3. Gün Raporu](diary/stage-alsace-strasbourg/day-03-colmar-alsace-heritage.md) |
+| **4** | **28 Eylül Pazartesi**<br>*(Strazburg)* | *Petite France*, *Ponts Couverts* (Kapalı Köprüler), Vauban Barajı, Batorama İll Nehri Panoramik Gemi Turu, *Musée des Beaux-Arts* (Palais Rohan) | [4. Gün Raporu](diary/stage-alsace-strasbourg/day-04-petite-france-batorama-beaux-arts.md) |
+| **5** | **29 Eylül Salı**<br>*(Strazburg & Kehl)* | Avrupa Parlamentosu & AİHM Ziyareti, T.C. Strazburg Başkonsolosluğu Kabulü, Maarif France Kurumsal Tanıtımı, Kehl (Almanya) Sınır Köprüsü | [5. Gün Raporu](diary/stage-alsace-strasbourg/day-05-eu-parliament-echr-consulate-maarif-kehl.md) |
+| **6** | **30 Eylül Çarşamba**<br>*(Strazburg ➔ Basel)* | 06:30 Havalimanına Hareket ✈️ ve Türkiye'ye Dönüş | [6. Gün Raporu](diary/stage-alsace-strasbourg/day-06-departure-return.md) |
+
+---
 
 ### 🎯 2026–2027 Ortak Eylem Maddeleri:
 1. **ACT-01:** Türkiye-Fransa Yıllık Gençlik Forumu (Ankara & Paris).
@@ -606,8 +627,9 @@ M.Ö. 52   ──> Alesia Kuşatması: Jül Sezar & Vercingétorix (Galya'nın R
 
 ```text
 gsb-france-exchange-2026/
-├── assets/                                # 🖼️ Görsel Varlıklar ve 8 Tematik Banner
+├── assets/                                # 🖼️ Görsel Varlıklar, Program Afişi ve Bannerlar
 │   └── images/
+│       ├── strazburg-program-25-30-eylul.jpg # 📅 Resmî 25-30 Eylül Strazburg Program Çizelgesi
 │       ├── banner-hero-diplomacy.jpg      # 🇹🇷 🇫🇷 Gençlik Diplomasisi & İstanbul-Paris Köprüsü
 │       ├── banner-literature-philosophy.jpg# 📚 Edebiyat, Felsefe ve Saint-Germain Masası
 │       ├── banner-paris-flaneur.jpg       # 🚶 Paris Flânerie, Seine Rıhtımları & Bouquinistes
@@ -622,7 +644,20 @@ gsb-france-exchange-2026/
 ├── style.css                              # 🎨 Modern Portal Arayüz Stilleri (Glassmorphism, Dual Theme & Print)
 ├── app.js                                 # ⚡ Dinamik Arama, Rol Yapma, Fiil Çekimi, Bildiri Stüdyosu, Sesli Telaffuz & Quiz Motoru
 │
-├── france-atlas/                          # 📚 20 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+├── diary/                                 # 📔 Saha Seyir Defterleri ve Ziyaret Kayıtları
+│   ├── stage-alsace-strasbourg/           # 🥨 III. Etap: Maarif France & Strazburg (25-30 Eylül 2026)
+│   │   ├── README.md                      # 📅 Alsace Programı Genel Bakış ve Günlük Tablo
+│   │   ├── day-01-basel-arrival-strasbourg.md
+│   │   ├── day-02-zoology-maarif-strasbourg-cathedral.md
+│   │   ├── day-03-colmar-alsace-heritage.md
+│   │   ├── day-04-petite-france-batorama-beaux-arts.md
+│   │   ├── day-05-eu-parliament-echr-consulate-maarif-kehl.md
+│   │   └── day-06-departure-return.md
+│   ├── stage-turkey/                      # 🇹🇷 I. Etap: Türkiye (Ankara & İstanbul)
+│   └── stage-france/                      # 🇫🇷 II. Etap: Fransa (Paris & Lyon)
+│
+├── france-atlas/                          # 📚 21 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+│   ├── strasbourg-alsace-guide.md         # 🥨 Strazburg & Alsace Rehberi (Avrupa Parlamentosu, AİHM, Maarif France)
 │   ├── franco-turkish-biographies.md      # 👥 18 Düşünce ve Diplomasi Önderi (Kanuni, De Gaulle, Descartes, Yahya Kemal, vb.)
 │   ├── french-verbs-grammar-guide.md      # 📖 14 Düzensiz Fiil Çekimi, Diplomatik Gramer ve Nezaket Dili
 │   ├── youth-dialogue-scenarios.md        # 🎭 5 Saha Rol Yapma Senaryosu (Kafe, Bakanlık, Station F, Metro, Eczane)
