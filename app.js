@@ -26,19 +26,29 @@ themeToggleBtn?.addEventListener('click', () => {
   updateThemeIcon(newTheme);
 });
 
-// 2. TAB NAVIGATION
+// 2. TAB NAVIGATION WITH URL HASH ROUTING
+function switchTab(tabKey) {
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tabKey);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.toggle('active', c.id === `tab-${tabKey}`);
+  });
+  window.location.hash = tabKey;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    const tabId = `tab-${btn.dataset.tab}`;
-    const target = document.getElementById(tabId);
-    if (target) {
-      target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    switchTab(btn.dataset.tab);
   });
+});
+
+window.addEventListener('hashchange', () => {
+  const tabKey = window.location.hash.replace('#', '');
+  if (tabKey && document.getElementById(`tab-${tabKey}`)) {
+    switchTab(tabKey);
+  }
 });
 
 // 3. TOAST NOTIFICATION HELPER
@@ -52,7 +62,7 @@ function showToast(message) {
   }, 2500);
 }
 
-// 4. WEB AUDIO SYNTH HELPER (For subtle UI sounds)
+// 4. WEB AUDIO SYNTH HELPER
 function playTone(freq = 440, type = 'sine', duration = 0.1) {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -71,8 +81,21 @@ function playTone(freq = 440, type = 'sine', duration = 0.1) {
   }
 }
 
+// 5. TEXT-TO-SPEECH (TTS) FOR FRENCH
+function speakText(text, lang = 'fr-FR') {
+  if (!('speechSynthesis' in window)) {
+    showToast('Tarayıcınız ses sentezini desteklemiyor.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang;
+  utterance.rate = 0.9;
+  window.speechSynthesis.speak(utterance);
+}
+
 // ==========================================================================
-// 5. QUOTES & APHORISMS DATABASE & ENGINE
+// 6. QUOTES & APHORISMS DATABASE & ENGINE
 // ==========================================================================
 const quotesData = [
   {
@@ -99,30 +122,30 @@ const quotesData = [
   {
     category: "french",
     quoteFr: "Il faut cultiver notre jardin.",
-    quoteTr: "Kendi bahçemizi yetiştirmeliyiz (Çalışmalı ve üretmeliyiz).",
+    quoteTr: "Kendi bahçemizi yetiştirmeliyiz.",
     author: "Voltaire",
-    work: "Candide (1759)"
+    work: "Candide ou l'Optimisme (1759)"
   },
   {
     category: "french",
-    quoteFr: "La beauté sauvera le monde... mais aimer, c'est agir.",
-    quoteTr: "Güzellik dünyayı kurtaracak... fakat sevmek, eylemde bulunmaktır.",
-    author: "Victor Hugo",
-    work: "Les Misérables (1862)"
+    quoteFr: "Aimer, ce n'est pas se regarder l'un l'autre, c'est regarder ensemble dans la même direction.",
+    quoteTr: "Sevmek birbirine bakmak değil, birlikte aynı yöne bakmaktır.",
+    author: "Antoine de Saint-Exupéry",
+    work: "Terre des hommes (1939)"
   },
   {
     category: "french",
-    quoteFr: "L'existence précède l'essence.",
-    quoteTr: "Varoluş özden önce gelir.",
-    author: "Jean-Paul Sartre",
-    work: "L'existentialisme est un humanisme (1946)"
+    quoteFr: "L'albatros est pareil au prince des nuées / Qui hante la tempête et se rit de l'archer.",
+    quoteTr: "Şair de bulutların bu prensine benzer / Fırtınayla dost yaşar, okçulara gülüp geçer.",
+    author: "Charles Baudelaire",
+    work: "Les Fleurs du mal (1857)"
   },
   {
     category: "french",
-    quoteFr: "Au milieu de l'hiver, j'apprenais enfin qu'il y avait en moi un été invincible.",
-    quoteTr: "Kışın ortasında, içimde yenilmez bir yaz olduğunu nihayet öğrendim.",
-    author: "Albert Camus",
-    work: "Retour à Tipasa (1952)"
+    quoteFr: "La beauté sauvera le monde.",
+    quoteTr: "Dünyayı güzellik kurtaracak.",
+    author: "Albert Camus (uyarlama)",
+    work: "L'Été (1954)"
   },
   {
     category: "french",
@@ -132,88 +155,53 @@ const quotesData = [
     work: "Le Deuxième Sexe (1949)"
   },
   {
-    category: "french",
-    quoteFr: "La musique commence là où s'arrête le pouvoir des mots.",
-    quoteTr: "Müzik, kelimelerin gücünün bittiği yerde başlar.",
-    author: "Claude Debussy",
-    work: "Müzik Yazıları"
-  },
-  {
-    category: "french",
-    quoteFr: "Le cœur a ses raisons que la raison ne connaît point.",
-    quoteTr: "Kalbin, aklın hiç bilmediği gerekçeleri vardır.",
-    author: "Blaise Pascal",
-    work: "Pensées (1670)"
-  },
-  {
     category: "turkish",
-    quoteFr: "La culture française a été pour nous la première et la plus large fenêtre ouverte sur l'Occident.",
-    quoteTr: "Fransız kültürü bizim için Batı'ya açılan ilk ve en geniş pencere olmuştur. Tanzimat'tan bu yana edebiyatımız bu etkileşimle yoğrulmuştur.",
+    quoteFr: "Les mots sont la mémoire d'une nation. Apprendre le français, c'est entrer dans le laboratoire de pensée de l'Europe.",
+    quoteTr: "Kelimeler, bir milletin hafızasıdır. Fransızcayı öğrenmek, Avrupa'nın düşünce laboratuvarına girmektir.",
     author: "Cemil Meriç",
-    work: "Mağaradakiler (1978)"
+    work: "Bu Ülke & Kırk Ambar"
   },
   {
     category: "turkish",
-    quoteFr: "J'ai cherché la synthèse de la raison française et de l'âme turque.",
-    quoteTr: "Ben Paris'te Sorbonne sıralarında Fransız aklıyla Türk ruhunun terkibini aradım.",
+    quoteFr: "J'ai appris à Paris ce qu'était la poésie pure et la philosophie de l'histoire.",
+    quoteTr: "Fransa'da şiirin ne olduğunu ve tarihin felsefesini Albert Sorel'in kürsüsünde ve Paris sokaklarında öğrendim.",
     author: "Yahya Kemal Beyatlı",
-    work: "Kendi Gök Kubbemiz"
+    work: "Kendi Gök Kubbemiz & Paris Hatıraları"
   },
   {
     category: "turkish",
-    quoteFr: "Le poète n'est pas un traducteur de la réalité, mais un créateur d'harmonies cachées.",
-    quoteTr: "Şiir, nesre çevrilmesi kabil olmayan bir lisan-ı haldir; sembollerin musikisidir.",
-    author: "Ahmet Haşim",
-    work: "Piyâle Önsözü: Şiir Hakkında Bazı Mülahazalar"
+    quoteFr: "Hak bildiğin yolda yalnız kalacaksın; fakat yürüyeceksin.",
+    quoteTr: "Hak bildiğin yolda yalnız da olsan yürüyeceksin.",
+    author: "Tevfik Fikret",
+    work: "Halûk'un Âmentüsü (1911)"
   },
   {
     category: "turkish",
-    quoteFr: "Paris était pour moi un cours magistral d'art et de mélancolie.",
-    quoteTr: "O mahur beste çalar, Müjgan'la ben ağlaşırız... Paris benim için hem aşkın hem de sürgünün başkentiydi.",
-    author: "Attilâ İlhan",
-    work: "Hangi Batı & Ben Sana Mecburum"
-  },
-  {
-    category: "turkish",
-    quoteFr: "La poésie française a sculpté la modernité de notre langue.",
-    quoteTr: "Baudelaire ve Mallarmé'yi anlamadan Türk şiirinin modernleşme macerasını kavrayamazsınız.",
-    author: "Hilmi Yavuz",
-    work: "Edebiyat ve Sanat Yazıları"
+    quoteFr: "Biz Batı'yı Fransız edebiyatının ve felsefesinin penceresinden seyrederek modernleştik.",
+    quoteTr: "Biz Batı'yı Fransız edebiyatının ve felsefesinin penceresinden seyrederek modernleştik.",
+    author: "Ahmet Hamdi Tanpınar",
+    work: "19. Asır Türk Edebiyatı Tarihi"
   },
   {
     category: "world",
-    quoteFr: "Si vous avez la chance d'avoir vécu à Paris lorsque vous étiez jeune, alors Paris reste avec vous pour le reste de votre vie, car Paris est une fête.",
-    quoteTr: "Eğer gençliğinde Paris'te yaşama şansına erişmişsen, nereye gidersen git o seninle kalır; çünkü Paris taşınabilir bir şölendir.",
+    quoteFr: "Si vous avez la chance d'avoir vécu à Paris quand vous étiez jeune, alors Paris est une fête qui vous accompagne toute votre vie.",
+    quoteTr: "Gençliğinizde Paris'te yaşama şansına erişmişseniz, Paris hayatınızın geri kalanında gittiğiniz her yere sizinle gelen taşınabilir bir şölendir.",
     author: "Ernest Hemingway",
     work: "A Moveable Feast (1964)"
   },
   {
-    category: "world",
-    quoteFr: "Ajoutez deux lettres à Paris : c'est le paradis.",
-    quoteTr: "Paris'e iki harf ekleyin: cennet (paradis) olur.",
-    author: "Jules Renard",
-    work: "Journal (1925)"
-  },
-  {
-    category: "world",
-    quoteFr: "Respirer Paris, cela conserve l'âme.",
-    quoteTr: "Paris'in havasını solumak, ruhu diri tutar.",
-    author: "Victor Hugo",
-    work: "Les Misérables"
+    category: "diplomacy",
+    quoteFr: "La diplomatie est l'art de faire durer les carreaux tant qu'on n'a pas trouvé de quoi les remplacer.",
+    quoteTr: "Diplomasi, barış ve diyalog zeminini ne pahasına olursa olsun ayakta tutma sanatıdır.",
+    author: "Charles-Maurice de Talleyrand",
+    work: "Diplomatik Aforizmalar"
   },
   {
     category: "diplomacy",
-    quoteFr: "Liberté, Égalité, Fraternité.",
-    quoteTr: "Özgürlük, Eşitlik, Kardeşlik.",
-    author: "Fransız Cumhuriyeti Şiarı",
-    work: "1789 Devrimi & Anayasa"
-  },
-  {
-    category: "diplomacy",
-    quoteFr: "La jeunesse n'est pas une période de la vie, elle est un état d'esprit.",
-    quoteTr: "Gençlik hayatın bir dönemi değil, bir zihin durumudur; cesaret ve geleceğe inançtır.",
-    author: "Gençlik Diplomasisi İlkesi",
-    work: "GSB 2026 Vizyon Belgesi"
+    quoteFr: "La jeunesse est le printemps de l'humanité et le pont le plus solide entre les peuples.",
+    quoteTr: "Gençlik, insanlığın ilkbaharı ve halklar arasındaki en sarsılmaz barış köprüsüdür.",
+    author: "GSB & Fransız Gençlik Bildirisi",
+    work: "2026 Ortak Eylem Deklarasyonu"
   }
 ];
 
@@ -222,84 +210,1132 @@ function renderQuotes(list) {
   if (!container) return;
   container.innerHTML = list.map((q, idx) => `
     <div class="quote-card">
-      <span class="quote-badge">${getQuoteCategoryLabel(q.category)}</span>
-      <p class="quote-text">"${q.quoteFr}"</p>
-      <p class="quote-translation">${q.quoteTr}</p>
-      <div class="quote-footer">
-        <div>
-          <span class="quote-author">${q.author}</span>
-          <span class="quote-work">${q.work}</span>
-        </div>
-        <button class="btn-copy" onclick="copyQuote('${q.quoteFr.replace(/'/g, "\\'")}', '${q.author}')">Kopyala 📋</button>
+      <span class="quote-tag">${getQuoteCategoryLabel(q.category)}</span>
+      <div class="quote-fr">
+        "${q.quoteFr}"
+        <button class="btn-voice-mini" onclick="speakText('${q.quoteFr.replace(/'/g, "\\'")}')" title="Seslendir">🔊</button>
       </div>
+      <div class="quote-tr">"${q.quoteTr}"</div>
+      <div class="quote-author">— ${q.author}</div>
+      <div class="quote-work">${q.work}</div>
+      <button class="btn-quote-copy" onclick="copyQuote('${q.quoteFr.replace(/'/g, "\\'")}', '${q.author}')">📋 Alıntıyı Kopyala</button>
     </div>
   `).join('');
 }
 
 function getQuoteCategoryLabel(cat) {
   switch (cat) {
-    case 'french': return '🇫🇷 Fransız Felsefesi';
+    case 'french': return '🇫🇷 Fransız Düşüncesi';
     case 'turkish': return '🇹🇷 Türk Aydınları';
-    case 'world': return '🌍 Dünya Edebiyatı & Paris';
-    case 'diplomacy': return '🤝 Diplomasi & Özgürlük';
-    default: return 'Alıntı';
+    case 'world': return '🌍 Dünya Yazarları';
+    case 'diplomacy': return '🌐 Diplomasi';
+    default: return 'Genel';
   }
 }
 
 function copyQuote(text, author) {
-  const formatted = `"${text}" — ${author}`;
-  navigator.clipboard.writeText(formatted).then(() => {
-    playTone(600, 'sine', 0.1);
-    showToast(`Alıntı kopyalandı: ${author} ✨`);
-  });
+  navigator.clipboard.writeText(`"${text}" — ${author}`);
+  showToast('Alıntı panoya kopyalandı! ✨');
+  playTone(520, 'sine', 0.1);
 }
 
 function filterQuotes(category) {
-  document.querySelectorAll('#tab-quotes .filter-chips .chip').forEach(c => c.classList.remove('active'));
-  event.target.classList.add('active');
-  const term = document.getElementById('quoteSearch')?.value.toLowerCase() || '';
-  let filtered = quotesData;
-  if (category !== 'all') {
-    filtered = filtered.filter(q => q.category === category);
-  }
-  if (term) {
-    filtered = filtered.filter(q =>
-      q.quoteFr.toLowerCase().includes(term) ||
-      q.quoteTr.toLowerCase().includes(term) ||
-      q.author.toLowerCase().includes(term)
-    );
-  }
+  document.querySelectorAll('#tab-quotes .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const searchVal = document.getElementById('quoteSearch')?.value.toLowerCase() || '';
+
+  const filtered = quotesData.filter(q => {
+    const matchCat = category === 'all' || q.category === category;
+    const matchSearch = q.author.toLowerCase().includes(searchVal) ||
+                        q.quoteFr.toLowerCase().includes(searchVal) ||
+                        q.quoteTr.toLowerCase().includes(searchVal) ||
+                        q.work.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
   renderQuotes(filtered);
 }
 
 document.getElementById('quoteSearch')?.addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase();
-  const activeChip = document.querySelector('#tab-quotes .filter-chips .chip.active');
-  const cat = activeChip ? activeChip.getAttribute('onclick').replace("filterQuotes('", "").replace("')", "") : 'all';
-  let filtered = quotesData;
-  if (cat !== 'all') {
-    filtered = filtered.filter(q => q.category === cat);
-  }
-  if (term) {
-    filtered = filtered.filter(q =>
-      q.quoteFr.toLowerCase().includes(term) ||
-      q.quoteTr.toLowerCase().includes(term) ||
-      q.author.toLowerCase().includes(term)
-    );
-  }
+  const searchVal = e.target.value.toLowerCase();
+  const filtered = quotesData.filter(q =>
+    q.author.toLowerCase().includes(searchVal) ||
+    q.quoteFr.toLowerCase().includes(searchVal) ||
+    q.quoteTr.toLowerCase().includes(searchVal) ||
+    q.work.toLowerCase().includes(searchVal)
+  );
   renderQuotes(filtered);
 });
 
 // ==========================================================================
-// 6. BILINGUAL POETRY READER & SPEECH SYNTHESIS
+// 7. FIGURES & BIOGRAPHIES DATABASE & ENGINE
+// ==========================================================================
+const figuresData = [
+  {
+    id: "kanuni",
+    category: "leaders",
+    name: "Kanuni Sultan Süleyman",
+    role: "10. Osmanlı Padişahı (1494–1566)",
+    era: "16. Yüzyıl (Klasik Diplomasi)",
+    avatar: "👑",
+    desc: "1526'da esir Fransa Kralı I. François'ya yazdığı tarihi fermanla yardıma koşmuş, 1536'da ilk Osmanlı-Fransız Ahitnamesi'ni (Kapitülasyonlar) imzalamıştır.",
+    impact: "500 yıllık Türk-Fransız diplomatik ittifakının kurucu mimarıdır.",
+    quoteFr: "Moi qui suis le sultan des sultans... toi qui es François, roi du pays de France.",
+    quoteTr: "Ben ki sultanlar sultanı... Sen ki Françe vilayetinin kralı Françesko'sun."
+  },
+  {
+    id: "francois",
+    category: "leaders",
+    name: "I. François",
+    role: "Fransa Kralı (1494–1547)",
+    era: "16. Yüzyıl (Rönesans & Diplomasi)",
+    avatar: "⚜️",
+    desc: "Collège de France'ı kurarak Doğu dilleri ve Türkçe kürsüsünü açtırmış, Osmanlı ile Akdeniz'de stratejik iş birliğini başlatmıştır.",
+    impact: "Fransız Rönesansı'nın hamisi ve Doğubilim çalışmalarının öncüsüdür.",
+    quoteFr: "Tout est perdu, fors l'honneur.",
+    quoteTr: "Onurumuz dışında her şey kaybedildi."
+  },
+  {
+    id: "celebi",
+    category: "turkish",
+    name: "Yirmisekiz Çelebi Mehmed",
+    role: "Osmanlı Elçisi & Devlet Adamı (1670–1732)",
+    era: "18. Yüzyıl (Lâle Devri Aydınlanması)",
+    avatar: "📜",
+    desc: "1720-1721 Paris sefaretinde Fransız matbaasını, rasathanesini ve bahçe mimarisini inceleyip Fransa Sefaretnamesi'ni kaleme almıştır.",
+    impact: "Matbaanın ve modern kütüphaneciliğin Osmanlı'ya girişine zemin hazırlamıştır.",
+    quoteFr: "Une ambassade historique entre Istanbul et Paris.",
+    quoteTr: "Fransa'nın fen ve sanatlarını temaşa eyleyip memlekete getirdik."
+  },
+  {
+    id: "degaulle",
+    category: "leaders",
+    name: "General Charles de Gaulle",
+    role: "Fransa Cumhurbaşkanı (1890–1970)",
+    era: "20. Yüzyıl (5. Cumhuriyet)",
+    avatar: "🎖️",
+    desc: "1968'de Türkiye'ye resmî ziyarette bulunmuş, Anıtkabir'i ziyaret etmiş ve Galatasaray Lisesi'nin 100. yıl kutlamalarına katılmıştır.",
+    impact: "Bağımsız Türk dış politikasına ve Atatürk ilkelerine derin saygı duymuştur.",
+    quoteFr: "La France et la Turquie sont deux grandes nations indépendantes.",
+    quoteTr: "Fransa ve Türkiye, bağımsızlık tutkusunu paylaşan iki kadim millettir."
+  },
+  {
+    id: "descartes",
+    category: "french",
+    name: "René Descartes",
+    role: "Modern Felsefenin Babası (1596–1650)",
+    era: "17. Yüzyıl (Rasyonalizm)",
+    avatar: "📐",
+    desc: "Kartezyen felsefe ve analitik geometrinin kurucusu; aklın rehberliğini metodik şüphe ile temellendirmiştir.",
+    impact: "Tanzimat ve Cumhuriyet Türk aydınlarının akılcılık anlayışını şekillendirmiştir.",
+    quoteFr: "Je pense, donc je suis.",
+    quoteTr: "Düşünüyorum, öyleyse varım."
+  },
+  {
+    id: "voltaire",
+    category: "french",
+    name: "Voltaire",
+    role: "Aydınlanma Filozofu (1694–1778)",
+    era: "18. Yüzyıl (Aydınlanma Çağı)",
+    avatar: "🕯️",
+    desc: "Hoşgörü, ifade özgürlüğü ve rasyonalizmin yılmaz savunucusu; engizisyona ve dogmatizme karşı mücadele etmiştir.",
+    impact: "Tanzimat aydınlarının (Şinasi, Namık Kemal) adalet ve hürriyet fikirlerini beslemiştir.",
+    quoteFr: "Il faut cultiver notre jardin.",
+    quoteTr: "Kendi bahçemizi yetiştirmeliyiz."
+  },
+  {
+    id: "rousseau",
+    category: "french",
+    name: "Jean-Jacques Rousseau",
+    role: "Toplum Sözleşmesi Filozofu (1712–1778)",
+    era: "18. Yüzyıl (Aydınlanma)",
+    avatar: "🌿",
+    desc: "Halk egemenliği ve genel irade kavramlarını geliştirmiştir. İnsan hakları ve modern demokrasi teorisinin kurucusudur.",
+    impact: "Mustafa Kemal Atatürk'ün TBMM egemenlik anlayışında en çok etkilendiği filozoftur.",
+    quoteFr: "L'homme est né libre, et partout il est dans les fers.",
+    quoteTr: "İnsan özgür doğar, oysa her yerde zincire vurulmuştur."
+  },
+  {
+    id: "sinasi",
+    category: "turkish",
+    name: "İbrahim Şinasi",
+    role: "Tanzimat Edebiyatının Kurucusu (1826–1871)",
+    era: "19. Yüzyıl (Tanzimat)",
+    avatar: "📰",
+    desc: "Paris'te öğrenim görmüş; Fransız şiirini Türkçeye tercüme etmiş, ilk özel gazeteyi ve ilk Türkçe tiyatro oyununu yazmıştır.",
+    impact: "Türk basınının ve Batılı edebi türlerin öncüsüdür.",
+    quoteFr: "Le père du renouveau littéraire ottoman.",
+    quoteTr: "Milletin aklı gazete ile aydınlanır."
+  },
+  {
+    id: "namikkemal",
+    category: "turkish",
+    name: "Namık Kemal",
+    role: "Vatan ve Hürriyet Şairi (1840–1888)",
+    era: "19. Yüzyıl (Jön Türkler)",
+    avatar: "🚩",
+    desc: "Paris'te Victor Hugo ve Rousseau'yu incelemiş; hürriyet ve vatan kavramlarını modern manada Türk edebiyatına kazandırmıştır.",
+    impact: "Genç Osmanlıların hürriyet ve meşrutiyet ateşini yakmıştır.",
+    quoteFr: "Ne gam pür-ateş-i hevl olsa da gavga-yı hürriyet.",
+    quoteTr: "Hürriyet kavgası ne kadar ateşli ve korkunç olsa da gam çekmeyiz."
+  },
+  {
+    id: "ahmetriza",
+    category: "turkish",
+    name: "Ahmet Rıza Bey",
+    role: "Jön Türk Lideri & Meclis Başkanı (1858–1930)",
+    era: "19-20. Yüzyıl (Pozitivizm & Meşrutiyet)",
+    avatar: "🎓",
+    desc: "Paris'te Auguste Comte pozitivizmini benimsemiş; Meşveret gazetesini yayımlayarak 1908 devriminin fikri zeminini Fransa'da hazırlamıştır.",
+    impact: "Pozitivist bilimi ve parlamenter sistemi savunan Türk siyaset adamıdır.",
+    quoteFr: "Ordre et Progrès (İntizam ve Terakki).",
+    quoteTr: "Nizam ve terakki aydınlanmanın esasıdır."
+  },
+  {
+    id: "fikret",
+    category: "turkish",
+    name: "Tevfik Fikret",
+    role: "Servet-i Fünûn Şairi & Eğitimci (1867–1915)",
+    era: "19-20. Yüzyıl (Parnasizm & Hümanizm)",
+    avatar: "🖋️",
+    desc: "Galatasaray Lisesi müdürlüğü yapmış; Fransız parnasyen şairlerinden esinlenerek Türk şiirine yepyeni bir ahenk ve hümanist derinlik getirmiştir.",
+    impact: "Yeni nesillere vicdan hürriyeti ve fikri hürriyet meşalesini aşılamıştır.",
+    quoteFr: "Fikri hür, irfanı hür, vicdanı hür bir şair.",
+    quoteTr: "Kimseden ümmîd-i feyz etmem, dilenmem perr-ü-bâl."
+  },
+  {
+    id: "yahyakemal",
+    category: "turkish",
+    name: "Yahya Kemal Beyatlı",
+    role: "Şair, Mütefekkir & Diplomat (1884–1958)",
+    era: "20. Yüzyıl (Neoklasizm)",
+    avatar: "🏛️",
+    desc: "Paris'te Sorbonne'da tarih ve sembolizm eğitimi almış; Fransız saf şiirini Türk divan ve halk estetiğiyle harmanlamıştır.",
+    impact: "Modern Türk edebiyatının anıt şairi ve kültür diplomasisinin büyük ismidir.",
+    quoteFr: "Ne harabiyim ne harabatiyim / Kökü mazide olan atiyim.",
+    quoteTr: "Kökü mazide olan atiyiz."
+  },
+  {
+    id: "cemilmeric",
+    category: "turkish",
+    name: "Cemil Meriç",
+    role: "Düşünür, Sosyolog & Çevirmen (1916–1987)",
+    era: "20. Yüzyıl (Doğu-Batı Sentezi)",
+    avatar: "📚",
+    desc: "Fransızcadan Balzac, Hugo, Saint-Simon ve Proudhon'u çevirmiş; Batı düşüncesini Fransız metinleri üzerinden tahlil etmiştir.",
+    impact: "Türk entelektüel hayatına kavramlar ve derin tercümeler kazandırmıştır.",
+    quoteFr: "La culture, c'est le dialogue des âmes.",
+    quoteTr: "Kelimeler bir milletin hafızasıdır; tercüme iki dünya arasındaki köprüdür."
+  },
+  {
+    id: "victorhugo",
+    category: "french",
+    name: "Victor Hugo",
+    role: "Fransız Edebiyatının Dev İsmi (1802–1885)",
+    era: "19. Yüzyıl (Romantizm & Özgürlük)",
+    avatar: "📖",
+    desc: "Sefiller ve Notre-Dame'ın yazarı; sosyal adaletsizliğe karşı halkın ve yoksulların sesi olmuştur.",
+    impact: "Dünya edebiyatında hümanizmin ve vicdanın simgesidir.",
+    quoteFr: "Rien n'est plus puissant qu'une idée dont le temps est venu.",
+    quoteTr: "Zamanı gelmiş bir fikirden daha güçlü hiçbir şey yoktur."
+  },
+  {
+    id: "baudelaire",
+    category: "french",
+    name: "Charles Baudelaire",
+    role: "Modern Şiirin & Flâneur'ün Kurucusu (1821–1867)",
+    era: "19. Yüzyıl (Sembolizm)",
+    avatar: "🥀",
+    desc: "Kötülük Çiçekleri (Les Fleurs du mal) ile modern metropol insanının yalnızlığını ve estetiğini dizelere dökmüştür.",
+    impact: "Ahmet Haşim'den Cahit Sıtkı'ya Türk şairlerini derinden etkilemiştir.",
+    quoteFr: "Le ciel est un couvercle noir où brûlent les étoiles.",
+    quoteTr: "Şair fırtınalarla dost yaşayan albatros kuşudur."
+  },
+  {
+    id: "pierreloti",
+    category: "french",
+    name: "Pierre Loti",
+    role: "Yazar & Türk Dostu Deniz Subayı (1850–1923)",
+    era: "19-20. Yüzyıl (Oryantalizm & Dostluk)",
+    avatar: "⚓",
+    desc: "İstanbul'a duyduğu hayranlıkla Aziyadé romanını yazmış; Milli Mücadele döneminde Türk davasını Fransa'da savunmuştur.",
+    impact: "Türk-Fransız halkları arasındaki gönül köprüsünün simgesidir.",
+    quoteFr: "Istanbul, la ville de mes rêves et de mon cœur.",
+    quoteTr: "İstanbul ruhumun ve kalbimin ebedi sığınağıdır."
+  },
+  {
+    id: "beauvoir",
+    category: "french",
+    name: "Simone de Beauvoir",
+    role: "Varoluşçu Filozof & Yazar (1908–1986)",
+    era: "20. Yüzyıl (Varoluşçuluk & Feminizm)",
+    avatar: "⚖️",
+    desc: "İkinci Cinsiyet eseriyle modern kadın hakları teorisini kurmuş; Jean-Paul Sartre ile birlikte varoluşçu felsefeyi savunmuştur.",
+    impact: "Evrensel eşitlik ve özgürleşme mücadelesinin öncüsüdür.",
+    quoteFr: "On ne naît pas femme : on le devient.",
+    quoteTr: "Kadın doğulmaz, kadın olunur."
+  },
+  {
+    id: "camus",
+    category: "french",
+    name: "Albert Camus",
+    role: "Nobel Edebiyat Ödüllü Yazar (1913–1960)",
+    era: "20. Yüzyıl (Absürdizm)",
+    avatar: "☀️",
+    desc: "Yabancı, Veba ve Sisifos Söyleni yazarı; absürde karşı insanın ahlaki dayanışması ve başkaldırısını savunmuştur.",
+    impact: "Akdeniz kültürünün ve varoluşçu etiğin büyük ustasıdır.",
+    quoteFr: "Au milieu de l'hiver, j'apprenais enfin qu'il y avait en moi un été invincible.",
+    quoteTr: "Kışın tam ortasında, içimde yenilmez bir yaz olduğunu öğrendim."
+  }
+];
+
+function renderFigures(list) {
+  const container = document.getElementById('figuresContainer');
+  if (!container) return;
+  container.innerHTML = list.map(f => `
+    <div class="figure-card">
+      <div class="fig-header">
+        <div class="fig-avatar">${f.avatar}</div>
+        <div class="fig-meta">
+          <h3>${f.name}</h3>
+          <p>${f.role}</p>
+        </div>
+      </div>
+      <span class="fig-era">${f.era}</span>
+      <p class="fig-desc">${f.desc}</p>
+      <div class="fig-impact"><strong>Önemi:</strong> ${f.impact}</div>
+      <div class="fig-quote">
+        <span>"${f.quoteFr}"</span>
+        <button class="btn-voice-mini" onclick="speakText('${f.quoteFr.replace(/'/g, "\\'")}')" title="Seslendir">🔊</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterFigures(category) {
+  document.querySelectorAll('#tab-figures .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const searchVal = document.getElementById('figureSearch')?.value.toLowerCase() || '';
+
+  const filtered = figuresData.filter(f => {
+    const matchCat = category === 'all' || f.category === category;
+    const matchSearch = f.name.toLowerCase().includes(searchVal) ||
+                        f.role.toLowerCase().includes(searchVal) ||
+                        f.desc.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
+  renderFigures(filtered);
+}
+
+document.getElementById('figureSearch')?.addEventListener('input', (e) => {
+  const searchVal = e.target.value.toLowerCase();
+  const filtered = figuresData.filter(f =>
+    f.name.toLowerCase().includes(searchVal) ||
+    f.role.toLowerCase().includes(searchVal) ||
+    f.desc.toLowerCase().includes(searchVal)
+  );
+  renderFigures(filtered);
+});
+
+// ==========================================================================
+// 8. VERBS & CONJUGATION ENGINE
+// ==========================================================================
+const verbsData = {
+  etre: {
+    infinitive: "ÊTRE",
+    meaningTr: "Olmak (Yardımcı Fiil)",
+    present: [
+      { p: "je", f: "suis" }, { p: "tu", f: "es" }, { p: "il / elle", f: "est" },
+      { p: "nous", f: "sommes" }, { p: "vous", f: "êtes" }, { p: "ils / elles", f: "sont" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai été" }, { p: "tu", f: "as été" }, { p: "il / elle", f: "a été" },
+      { p: "nous", f: "avons été" }, { p: "vous", f: "avez été" }, { p: "ils / elles", f: "ont été" }
+    ],
+    imparfait: [
+      { p: "j'", f: "étais" }, { p: "tu", f: "étais" }, { p: "il / elle", f: "était" },
+      { p: "nous", f: "étions" }, { p: "vous", f: "étiez" }, { p: "ils / elles", f: "étaient" }
+    ],
+    futurSimple: [
+      { p: "je", f: "serai" }, { p: "tu", f: "seras" }, { p: "il / elle", f: "sera" },
+      { p: "nous", f: "serons" }, { p: "vous", f: "serez" }, { p: "ils / elles", f: "seront" }
+    ],
+    conditionnel: [
+      { p: "je", f: "serais" }, { p: "tu", f: "serais" }, { p: "il / elle", f: "serait" },
+      { p: "nous", f: "serions" }, { p: "vous", f: "seriez" }, { p: "ils / elles", f: "seraient" }
+    ],
+    subjonctif: [
+      { p: "que je", f: "sois" }, { p: "que tu", f: "sois" }, { p: "qu'il / elle", f: "soit" },
+      { p: "que nous", f: "soyons" }, { p: "que vous", f: "soyez" }, { p: "qu'ils / elles", f: "soient" }
+    ]
+  },
+  avoir: {
+    infinitive: "AVOIR",
+    meaningTr: "Sahip Olmak (Yardımcı Fiil)",
+    present: [
+      { p: "j'", f: "ai" }, { p: "tu", f: "as" }, { p: "il / elle", f: "a" },
+      { p: "nous", f: "avons" }, { p: "vous", f: "avez" }, { p: "ils / elles", f: "ont" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai eu" }, { p: "tu", f: "as eu" }, { p: "il / elle", f: "a eu" },
+      { p: "nous", f: "avons eu" }, { p: "vous", f: "avez eu" }, { p: "ils / elles", f: "ont eu" }
+    ],
+    imparfait: [
+      { p: "j'", f: "avais" }, { p: "tu", f: "avais" }, { p: "il / elle", f: "avait" },
+      { p: "nous", f: "avions" }, { p: "vous", f: "aviez" }, { p: "ils / elles", f: "avaient" }
+    ],
+    futurSimple: [
+      { p: "j'", f: "aurai" }, { p: "tu", f: "auras" }, { p: "il / elle", f: "aura" },
+      { p: "nous", f: "aurons" }, { p: "vous", f: "aurez" }, { p: "ils / elles", f: "auront" }
+    ],
+    conditionnel: [
+      { p: "j'", f: "aurais" }, { p: "tu", f: "aurais" }, { p: "il / elle", f: "aurait" },
+      { p: "nous", f: "aurions" }, { p: "vous", f: "auriez" }, { p: "ils / elles", f: "auraient" }
+    ],
+    subjonctif: [
+      { p: "que j'", f: "aie" }, { p: "que tu", f: "aies" }, { p: "qu'il / elle", f: "ait" },
+      { p: "que nous", f: "ayons" }, { p: "que vous", f: "ayez" }, { p: "qu'ils / elles", f: "aient" }
+    ]
+  },
+  aller: {
+    infinitive: "ALLER",
+    meaningTr: "Gitmek",
+    present: [
+      { p: "je", f: "vais" }, { p: "tu", f: "vas" }, { p: "il / elle", f: "va" },
+      { p: "nous", f: "allons" }, { p: "vous", f: "allez" }, { p: "ils / elles", f: "vont" }
+    ],
+    passeCompose: [
+      { p: "je", f: "suis allé(e)" }, { p: "tu", f: "es allé(e)" }, { p: "il / elle", f: "est allé(e)" },
+      { p: "nous", f: "sommes allés" }, { p: "vous", f: "êtes allés" }, { p: "ils / elles", f: "sont allés" }
+    ],
+    imparfait: [
+      { p: "j'", f: "allais" }, { p: "tu", f: "allais" }, { p: "il / elle", f: "allait" },
+      { p: "nous", f: "allions" }, { p: "vous", f: "alliez" }, { p: "ils / elles", f: "allaient" }
+    ],
+    futurSimple: [
+      { p: "j'", f: "irai" }, { p: "tu", f: "iras" }, { p: "il / elle", f: "ira" },
+      { p: "nous", f: "irons" }, { p: "vous", f: "irez" }, { p: "ils / elles", f: "iront" }
+    ],
+    conditionnel: [
+      { p: "j'", f: "irais" }, { p: "tu", f: "irais" }, { p: "il / elle", f: "irait" },
+      { p: "nous", f: "irions" }, { p: "vous", f: "iriez" }, { p: "ils / elles", f: "iraient" }
+    ],
+    subjonctif: [
+      { p: "que j'", f: "aille" }, { p: "que tu", f: "ailles" }, { p: "qu'il / elle", f: "aille" },
+      { p: "que nous", f: "allions" }, { p: "que vous", f: "alliez" }, { p: "qu'ils / elles", f: "aillent" }
+    ]
+  },
+  pouvoir: {
+    infinitive: "POUVOIR",
+    meaningTr: "-ebilmek / Gücü Yetmek",
+    present: [
+      { p: "je", f: "peux (puis)" }, { p: "tu", f: "peux" }, { p: "il / elle", f: "peut" },
+      { p: "nous", f: "pouvons" }, { p: "vous", f: "pouvez" }, { p: "ils / elles", f: "peuvent" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai pu" }, { p: "tu", f: "as pu" }, { p: "il / elle", f: "a pu" },
+      { p: "nous", f: "avons pu" }, { p: "vous", f: "avez pu" }, { p: "ils / elles", f: "ont pu" }
+    ],
+    imparfait: [
+      { p: "je", f: "pouvais" }, { p: "tu", f: "pouvais" }, { p: "il / elle", f: "pouvait" },
+      { p: "nous", f: "pouvions" }, { p: "vous", f: "pouviez" }, { p: "ils / elles", f: "pouvaient" }
+    ],
+    futurSimple: [
+      { p: "je", f: "pourrai" }, { p: "tu", f: "pourras" }, { p: "il / elle", f: "pourra" },
+      { p: "nous", f: "pourrons" }, { p: "vous", f: "pourrez" }, { p: "ils / elles", f: "pourront" }
+    ],
+    conditionnel: [
+      { p: "je", f: "pourrais" }, { p: "tu", f: "pourrais" }, { p: "il / elle", f: "pourrait" },
+      { p: "nous", f: "pourrions" }, { p: "vous", f: "pourriez" }, { p: "ils / elles", f: "pourraient" }
+    ],
+    subjonctif: [
+      { p: "que je", f: "puisse" }, { p: "que tu", f: "puisses" }, { p: "qu'il / elle", f: "puisse" },
+      { p: "que nous", f: "puissions" }, { p: "que vous", f: "puissiez" }, { p: "qu'ils / elles", f: "puissent" }
+    ]
+  },
+  vouloir: {
+    infinitive: "VOULOIR",
+    meaningTr: "İstemek / Rica Etmek",
+    present: [
+      { p: "je", f: "veux" }, { p: "tu", f: "veux" }, { p: "il / elle", f: "veut" },
+      { p: "nous", f: "voulons" }, { p: "vous", f: "voulez" }, { p: "ils / elles", f: "veulent" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai voulu" }, { p: "tu", f: "as voulu" }, { p: "il / elle", f: "a voulu" },
+      { p: "nous", f: "avons voulu" }, { p: "vous", f: "avez voulu" }, { p: "ils / elles", f: "ont voulu" }
+    ],
+    imparfait: [
+      { p: "je", f: "voulais" }, { p: "tu", f: "voulais" }, { p: "il / elle", f: "voulait" },
+      { p: "nous", f: "voulions" }, { p: "vous", f: "vouliez" }, { p: "ils / elles", f: "voulaient" }
+    ],
+    futurSimple: [
+      { p: "je", f: "voudrai" }, { p: "tu", f: "voudras" }, { p: "il / elle", f: "voudra" },
+      { p: "nous", f: "voudrons" }, { p: "vous", f: "voudrez" }, { p: "ils / elles", f: "voudront" }
+    ],
+    conditionnel: [
+      { p: "je", f: "voudrais (Rica)" }, { p: "tu", f: "voudrais" }, { p: "il / elle", f: "voudrait" },
+      { p: "nous", f: "voudrions" }, { p: "vous", f: "voudriez" }, { p: "ils / elles", f: "voudraient" }
+    ],
+    subjonctif: [
+      { p: "que je", f: "veuille" }, { p: "que tu", f: "veuilles" }, { p: "qu'il / elle", f: "veuille" },
+      { p: "que nous", f: "voulions" }, { p: "que vous", f: "vouliez" }, { p: "qu'ils / elles", f: "veuillent" }
+    ]
+  },
+  faire: {
+    infinitive: "FAIRE",
+    meaningTr: "Yapmak / Etmek",
+    present: [
+      { p: "je", f: "fais" }, { p: "tu", f: "fais" }, { p: "il / elle", f: "fait" },
+      { p: "nous", f: "faisons" }, { p: "vous", f: "faites" }, { p: "ils / elles", f: "font" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai fait" }, { p: "tu", f: "as fait" }, { p: "il / elle", f: "a fait" },
+      { p: "nous", f: "avons fait" }, { p: "vous", f: "avez fait" }, { p: "ils / elles", f: "ont fait" }
+    ],
+    imparfait: [
+      { p: "je", f: "faisais" }, { p: "tu", f: "faisais" }, { p: "il / elle", f: "faisait" },
+      { p: "nous", f: "faisions" }, { p: "vous", f: "faisiez" }, { p: "ils / elles", f: "faisaient" }
+    ],
+    futurSimple: [
+      { p: "je", f: "ferai" }, { p: "tu", f: "feras" }, { p: "il / elle", f: "fera" },
+      { p: "nous", f: "ferons" }, { p: "vous", f: "ferez" }, { p: "ils / elles", f: "feront" }
+    ],
+    conditionnel: [
+      { p: "je", f: "ferais" }, { p: "tu", f: "ferais" }, { p: "il / elle", f: "ferait" },
+      { p: "nous", f: "ferions" }, { p: "vous", f: "feriez" }, { p: "ils / elles", f: "feraient" }
+    ],
+    subjonctif: [
+      { p: "que je", f: "fasse" }, { p: "que tu", f: "fasses" }, { p: "qu'il / elle", f: "fasse" },
+      { p: "que nous", f: "fassions" }, { p: "que vous", f: "fassiez" }, { p: "qu'ils / elles", f: "fassent" }
+    ]
+  },
+  negocier: {
+    infinitive: "NÉGOCIER",
+    meaningTr: "Müzakere Etmek (Diplomasi)",
+    present: [
+      { p: "je", f: "négocie" }, { p: "tu", f: "négocies" }, { p: "il / elle", f: "négocie" },
+      { p: "nous", f: "négocions" }, { p: "vous", f: "négociez" }, { p: "ils / elles", f: "négocient" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai négocié" }, { p: "tu", f: "as négocié" }, { p: "il / elle", f: "a négocié" },
+      { p: "nous", f: "avons négocié" }, { p: "vous", f: "avez négocié" }, { p: "ils / elles", f: "ont négocié" }
+    ],
+    imparfait: [
+      { p: "je", f: "négociais" }, { p: "tu", f: "négociais" }, { p: "il / elle", f: "négociait" },
+      { p: "nous", f: "négociions" }, { p: "vous", f: "négociiez" }, { p: "ils / elles", f: "négociaient" }
+    ],
+    futurSimple: [
+      { p: "je", f: "négocierai" }, { p: "tu", f: "négocieras" }, { p: "il / elle", f: "négociera" },
+      { p: "nous", f: "négocierons" }, { p: "vous", f: "négocierez" }, { p: "ils / elles", f: "négocieront" }
+    ],
+    conditionnel: [
+      { p: "je", f: "négocierais" }, { p: "tu", f: "négocierais" }, { p: "il / elle", f: "négocierait" },
+      { p: "nous", f: "négocierions" }, { p: "vous", f: "négocieriez" }, { p: "ils / elles", f: "négocieraient" }
+    ],
+    subjonctif: [
+      { p: "que je", f: "négocie" }, { p: "que tu", f: "négocies" }, { p: "qu'il / elle", f: "négocie" },
+      { p: "que nous", f: "négociions" }, { p: "que vous", f: "négociiez" }, { p: "qu'ils / elles", f: "négocient" }
+    ]
+  },
+  echanger: {
+    infinitive: "ÉCHANGER",
+    meaningTr: "Fikir/Deneyim Paylaşmak, Değişmek",
+    present: [
+      { p: "j'", f: "échange" }, { p: "tu", f: "échanges" }, { p: "il / elle", f: "échange" },
+      { p: "nous", f: "échangeons" }, { p: "vous", f: "échangez" }, { p: "ils / elles", f: "échangent" }
+    ],
+    passeCompose: [
+      { p: "j'", f: "ai échangé" }, { p: "tu", f: "as échangé" }, { p: "il / elle", f: "a皇changé" },
+      { p: "nous", f: "avons échangé" }, { p: "vous", f: "avez échangé" }, { p: "ils / elles", f: "ont échangé" }
+    ],
+    imparfait: [
+      { p: "j'", f: "échangeais" }, { p: "tu", f: "échangeais" }, { p: "il / elle", f: "échangeait" },
+      { p: "nous", f: "échangions" }, { p: "vous", f: "échangiez" }, { p: "ils / elles", f: "échangeaient" }
+    ],
+    futurSimple: [
+      { p: "j'", f: "échangerai" }, { p: "tu", f: "échangeras" }, { p: "il / elle", f: "échangera" },
+      { p: "nous", f: "échangerons" }, { p: "vous", f: "échangerez" }, { p: "ils / elles", f: "échangeront" }
+    ],
+    conditionnel: [
+      { p: "j'", f: "échangerais" }, { p: "tu", f: "échangerais" }, { p: "il / elle", f: "échangerait" },
+      { p: "nous", f: "échangerions" }, { p: "vous", f: "échangeriez" }, { p: "ils / elles", f: "échangeraient" }
+    ],
+    subjonctif: [
+      { p: "que j'", f: "échange" }, { p: "que tu", f: "échanges" }, { p: "qu'il / elle", f: "échange" },
+      { p: "que nous", f: "échangions" }, { p: "que vous", f: "échangiez" }, { p: "qu'ils / elles", f: "échangent" }
+    ]
+  }
+};
+
+let currentVerbTenseFilter = 'all';
+
+function initVerbSelector() {
+  const select = document.getElementById('verbSelect');
+  if (!select) return;
+  select.innerHTML = Object.keys(verbsData).map(k => `
+    <option value="${k}">${verbsData[k].infinitive} — ${verbsData[k].meaningTr}</option>
+  `).join('');
+  renderVerbConjugation('etre');
+}
+
+function setVerbTense(tense) {
+  currentVerbTenseFilter = tense;
+  document.querySelectorAll('.verb-tense-chips .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const verbKey = document.getElementById('verbSelect')?.value || 'etre';
+  renderVerbConjugation(verbKey);
+}
+
+function renderVerbConjugation(verbKey) {
+  const v = verbsData[verbKey];
+  const container = document.getElementById('verbConjugationContainer');
+  if (!v || !container) return;
+
+  const tenses = [
+    { key: 'present', label: 'Présent (Şimdiki / Geniş Zaman)' },
+    { key: 'passeCompose', label: 'Passé Composé (Geçmiş Zaman)' },
+    { key: 'imparfait', label: 'Imparfait (Geçmişte Süreklilik)' },
+    { key: 'futurSimple', label: 'Futur Simple (Gelecek Zaman)' },
+    { key: 'conditionnel', label: 'Conditionnel Présent (Nezaket / Koşul)' },
+    { key: 'subjonctif', label: 'Subjonctif Présent (İstek / Gereklilik)' }
+  ];
+
+  const filteredTenses = currentVerbTenseFilter === 'all'
+    ? tenses
+    : tenses.filter(t => t.key === currentVerbTenseFilter);
+
+  container.innerHTML = filteredTenses.map(t => `
+    <div class="verb-tense-card">
+      <h4>
+        <span>${t.label}</span>
+        <button class="btn-voice-mini" onclick="speakConjugation('${verbKey}', '${t.key}')" title="Tüm Çekimi Dinle">🔊</button>
+      </h4>
+      <div class="verb-rows">
+        ${(v[t.key] || []).map(row => `
+          <div class="verb-row" onclick="speakText('${row.p} ${row.f}')">
+            <span class="verb-pronoun">${row.p}</span>
+            <span class="verb-form">${row.f}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function speakConjugation(verbKey, tenseKey) {
+  const v = verbsData[verbKey];
+  if (!v || !v[tenseKey]) return;
+  const fullText = v[tenseKey].map(r => `${r.p} ${r.f}`).join(', ');
+  speakText(fullText);
+}
+
+// ==========================================================================
+// 9. DIALOGUE & ROLEPLAY SIMULATOR ENGINE
+// ==========================================================================
+const dialogueScenarios = {
+  bistro: {
+    title: "1. Paris Bistrosu & Kafe Kültürü",
+    desc: "Saint-Germain'de bir kafede doğru nezaketle sipariş verme ve hesap ödeme pratiği.",
+    tip: "💡 <strong>Kültürel İpucu:</strong> Garsona asla 'Garçon!' diye seslenmeyiniz. Göz teması kurup 'Monsieur / Madame, s'il vous plaît' demek yeterlidir.",
+    steps: [
+      {
+        botSpeaker: "Garçon (Serveur)",
+        botFr: "Bonjour ! Vous êtes combien ? Vous désirez vous installer en terrasse ou à l'intérieur ?",
+        botTr: "Merhaba! Kaç kişisiniz? Terasa mı yoksa içeriye mi oturmak istersiniz?",
+        choices: [
+          {
+            textFr: "Bonjour ! Nous sommes deux. On aimerait s'installer en terrasse, s'il vous plaît.",
+            textTr: "Merhaba! İki kişiyiz. Terasta oturmak istiyoruz lütfen.",
+            score: 20,
+            feedback: "Mükemmel! Zarif bir selamlaşma ve net oturma tercihi.",
+            nextStep: 1
+          },
+          {
+            textFr: "Donne-moi une table dehors.",
+            textTr: "Bana dışarıda bir masa ver.",
+            score: -10,
+            feedback: "Çok kaba! 'Donne-moi' yerine 'Je voudrais' veya 'On aimerait' kalıbı kullanılmalıdır.",
+            nextStep: 1
+          }
+        ]
+      },
+      {
+        botSpeaker: "Garçon (Serveur)",
+        botFr: "Très bien, suivez-moi. Voici la carte. Qu'est-ce qui vous ferait plaisir ?",
+        botTr: "Çok iyi, beni takip edin. İşte menü. Ne arzu edersiniz?",
+        choices: [
+          {
+            textFr: "Je voudrais un café allongé et un croissant, et une carafe d'eau, s'il vous plaît.",
+            textTr: "Bir filtre kahve (allongé), bir kruvasan ve bir sürahi su rica ediyorum lütfen.",
+            score: 20,
+            feedback: "Harika! 'Carafe d'eau' diyerek ücretsiz musluk suyu isteme kodunu doğru kullandınız.",
+            nextStep: 2
+          },
+          {
+            textFr: "Je veux un thé et de l'eau minérale chère.",
+            textTr: "Bir çay ve pahalı maden suyu istiyorum.",
+            score: 5,
+            feedback: "'Je veux' doğrudan emir kipidir, yerine 'Je voudrais' tercih ediniz.",
+            nextStep: 2
+          }
+        ]
+      },
+      {
+        botSpeaker: "Garçon (Serveur)",
+        botFr: "C'est noté ! *(Servis yapılır)* Tout se passe bien pour vous ?",
+        botTr: "Kaydettim! *(Servis getirilir)* Her şey yolunda mı?",
+        choices: [
+          {
+            textFr: "C'est délicieux, merci ! L'addition s'il vous plaît, je peux payer par carte ?",
+            textTr: "Çok lezzetli, teşekkürler! Hesap lütfen, kartla ödeyebilir miyim?",
+            score: 20,
+            feedback: "Kusursuz! Teşekkür, hesap isteme ve ödeme yöntemi bir arada.",
+            nextStep: 'finish'
+          }
+        ]
+      }
+    ]
+  },
+  official: {
+    title: "2. Fransız Gençlik Bakanlığı Resmî Karşılama",
+    desc: "Paris'te bakanlık yetkililerine Türk gençlik delegasyonunu resmiyetle tanıtma.",
+    tip: "💡 <strong>Kültürel İpucu:</strong> Diplomatik görüşmelerde 'Vouvoiement' (sizli-bizli hitap) ve unvan kullanımı esastır.",
+    steps: [
+      {
+        botSpeaker: "Représentant Officiel (Bakanlık Yetkilisi)",
+        botFr: "Bienvenue à Paris, chers délégués de Türkiye ! C'est un grand honneur de vous accueillir.",
+        botTr: "Paris'e hoş geldiniz saygıdeğer Türkiye delegeleri! Sizi ağırlamaktan büyük onur duyuyoruz.",
+        choices: [
+          {
+            textFr: "Merci infiniment Monsieur le Directeur. Au nom de la délégation de Türkiye, nous sommes ravis d'être parmi vous.",
+            textTr: "Çok teşekkür ederiz Sayın Direktör. Türkiye delegasyonu adına aranızda bulunmaktan kıvanç duyuyoruz.",
+            score: 20,
+            feedback: "Tam diplomatik protokol yanıtı!",
+            nextStep: 1
+          },
+          {
+            textFr: "Salut ! Merci pour l'invitation, Paris est cool.",
+            textTr: "Selam! Davet için sağ ol, Paris havalı.",
+            score: -10,
+            feedback: "Resmî ortamda 'Salut' ve 'Cool' gibi gayriresmî kelimeler kullanılmaz.",
+            nextStep: 1
+          }
+        ]
+      },
+      {
+        botSpeaker: "Représentant Officiel",
+        botFr: "Quelles sont les priorités majeures que votre délégation souhaite aborder lors de cette session ?",
+        botTr: "Delegasyonunuzun bu oturumda ele almak istediği öncelikli konular nelerdir?",
+        choices: [
+          {
+            textFr: "Nous souhaitons concentrer nos travaux sur la transition écologique, l'IA éthique et la mobilité des jeunes.",
+            textTr: "Çalışmalarımızı yeşil dönüşüm, etik yapay zekâ ve gençlik hareketliliği üzerine odaklamak istiyoruz.",
+            score: 20,
+            feedback: "Çok net ve çalıştay hedeflerine uygun politika vurgusu.",
+            nextStep: 'finish'
+          }
+        ]
+      }
+    ]
+  },
+  stationf: {
+    title: "3. Station F Girişimcilik Fikir Sunumu (Pitch)",
+    desc: "Paris 13'te dünyanın en büyük startup kampüsünde iki dilli eko-inovasyon projesini sunma.",
+    tip: "💡 <strong>Kültürel İpucu:</strong> Sunumda net veri ve Avrupa Yeşil Mutabakatı (Green Deal) ile uyum vurgulanmalıdır.",
+    steps: [
+      {
+        botSpeaker: "Mentor / Investisseur",
+        botFr: "Bonjour ! Vous avez 2 minutes pour nous présenter votre projet bilatéral.",
+        botTr: "Merhaba! İkili projenizi bize tanıtmak için 2 dakikanız var.",
+        choices: [
+          {
+            textFr: "Bonjour. Notre projet 'Pont Vert 2026' connecte les éco-entrepreneurs d'Ankara et de Paris pour réduire le gaspillage alimentaire.",
+            textTr: "Merhaba. 'Yeşil Köprü 2026' projemiz, gıda israfını azaltmak için Ankara ve Paris'teki eko-girişimcileri birleştiriyor.",
+            score: 25,
+            feedback: "Harika asansör konuşması (elevator pitch)!",
+            nextStep: 'finish'
+          }
+        ]
+      }
+    ]
+  },
+  metro: {
+    title: "4. Paris Metrosu & Ulaşım Sorusu",
+    desc: "Châtelet istasyonunda doğru hatta aktarma yapma ve Navigo kart sorma.",
+    tip: "💡 <strong>Kültürel İpucu:</strong> Yürüyen merdivenlerde daima sağda durunuz; sol taraf acelesi olanlar içindir.",
+    steps: [
+      {
+        botSpeaker: "Passant (Yoldan Geçen)",
+        botFr: "Bonjour, vous cherchez votre chemin ?",
+        botTr: "Merhaba, yolunuzu mu arıyorsunuz?",
+        choices: [
+          {
+            textFr: "Pardon Monsieur, pour aller à la Tour Eiffel, quelle ligne dois-je prendre ?",
+            textTr: "Affedersiniz Beyefendi, Eyfel Kulesi'ne gitmek için hangi metro hattına binmeliyim?",
+            score: 20,
+            feedback: "Nezaketli ve net yol tarifi sorusu!",
+            nextStep: 'finish'
+          }
+        ]
+      }
+    ]
+  },
+  pharmacy: {
+    title: "5. Eczane & Acil Sağlık İhtiyacı",
+    desc: "Paris'te bir eczanede soğuk algınlığı semptomlarını anlatma ve ilaç temini.",
+    tip: "💡 <strong>Kültürel İpucu:</strong> Fransa'da acil tıbbi yardım için SAMU (15) veya Avrupa acil hattı (112) aranır.",
+    steps: [
+      {
+        botSpeaker: "Pharmacien (Eczacı)",
+        botFr: "Bonjour Madame/Monsieur, que puis-je faire pour vous ?",
+        botTr: "Merhaba, sizin için ne yapabilirim?",
+        choices: [
+          {
+            textFr: "Bonjour, j'ai mal à la gorge et un peu de fièvre depuis ce matin. Avez-vous du paracétamol ?",
+            textTr: "Merhaba, bu sabahtan beri boğazım ağrıyor ve biraz ateşim var. Parasetamol var mı?",
+            score: 20,
+            feedback: "Semptomları ve talep edilen ilacı doğru tarif ettiniz.",
+            nextStep: 'finish'
+          }
+        ]
+      }
+    ]
+  }
+};
+
+let currentDialogueKey = 'bistro';
+let currentDialogueStep = 0;
+let dialogueScore = 100;
+
+function loadDialogueScenario(key) {
+  currentDialogueKey = key;
+  currentDialogueStep = 0;
+  dialogueScore = 100;
+
+  document.querySelectorAll('.dialogue-selector-bar .dia-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick')?.includes(`'${key}'`));
+  });
+
+  const sc = dialogueScenarios[key];
+  if (!sc) return;
+
+  document.getElementById('diaScenarioTitle').innerText = sc.title;
+  document.getElementById('diaScenarioDesc').innerText = sc.desc;
+  document.getElementById('diaEtiquetteTip').innerHTML = sc.tip;
+  document.getElementById('diaScore').innerText = `${dialogueScore} / 100`;
+
+  renderDialogueCurrentStep();
+}
+
+function renderDialogueCurrentStep() {
+  const sc = dialogueScenarios[currentDialogueKey];
+  const chatBox = document.getElementById('diaChatBox');
+  const actionsBox = document.getElementById('diaActionsBox');
+  if (!sc || !chatBox || !actionsBox) return;
+
+  const step = sc.steps[currentDialogueStep];
+  if (!step) return;
+
+  // Render Bot Message
+  chatBox.innerHTML = `
+    <div class="dia-msg dia-msg-bot">
+      <span class="dia-speaker">${step.botSpeaker}</span>
+      <div class="dia-bubble">
+        <div class="dia-bubble-fr">
+          ${step.botFr}
+          <button class="dia-audio-inline" onclick="speakText('${step.botFr.replace(/'/g, "\\'")}')" title="Dinle">🔊</button>
+        </div>
+        <div class="dia-bubble-tr">${step.botTr}</div>
+      </div>
+    </div>
+  `;
+
+  // Render Choice Buttons
+  actionsBox.innerHTML = step.choices.map((c, idx) => `
+    <button class="dia-choice-btn" onclick="handleDialogueChoice(${idx})">
+      <strong>🇫🇷 ${c.textFr}</strong><br>
+      <small>🇹🇷 ${c.textTr}</small>
+    </button>
+  `).join('');
+}
+
+function handleDialogueChoice(choiceIndex) {
+  const sc = dialogueScenarios[currentDialogueKey];
+  const step = sc.steps[currentDialogueStep];
+  const choice = step.choices[choiceIndex];
+  if (!choice) return;
+
+  dialogueScore = Math.max(0, Math.min(100, dialogueScore + choice.score));
+  document.getElementById('diaScore').innerText = `${dialogueScore} / 100`;
+
+  // Play audio
+  speakText(choice.textFr);
+  if (choice.score >= 15) playTone(600, 'triangle', 0.15);
+  else playTone(280, 'square', 0.2);
+
+  showToast(choice.feedback);
+
+  const chatBox = document.getElementById('diaChatBox');
+  chatBox.innerHTML += `
+    <div class="dia-msg dia-msg-user">
+      <span class="dia-speaker">Delegasyon Üyesi (Siz)</span>
+      <div class="dia-bubble">
+        <div class="dia-bubble-fr">${choice.textFr}</div>
+        <div class="dia-bubble-tr">${choice.textTr}</div>
+      </div>
+    </div>
+  `;
+
+  if (choice.nextStep === 'finish' || !sc.steps[choice.nextStep]) {
+    document.getElementById('diaActionsBox').innerHTML = `
+      <div style="padding:1rem; text-align:center; background:rgba(16,185,129,0.15); border-radius:12px; color:#10b981; font-weight:700;">
+        🎉 Senaryo başarıyla tamamlandı! Skorunuz: ${dialogueScore} Puan
+        <button class="btn-primary" style="margin-top:0.75rem; display:block; margin-left:auto; margin-right:auto;" onclick="loadDialogueScenario('${currentDialogueKey}')">Tekrar Dene ↻</button>
+      </div>
+    `;
+  } else {
+    currentDialogueStep = choice.nextStep;
+    setTimeout(() => {
+      renderDialogueCurrentStep();
+    }, 1200);
+  }
+}
+
+// ==========================================================================
+// 10. BILATERAL YOUTH RESOLUTION STUDIO ENGINE
+// ==========================================================================
+function updateResolutionPreview() {
+  const clauses = [
+    { id: 'res_1_1', textFr: "1.1 Déploiement des modèles de 'Ville du quart d'heure' axés sur les Maisons de Jeunes.", textTr: "1.1 15 Dakikalık Şehir modellerinin gençlik merkezleri odaklı yaygınlaştırılması." },
+    { id: 'res_1_2', textFr: "1.2 Création du Réseau Jeunesse Zéro Gaspillage Alimentaire intégrant la Loi Garot.", textTr: "1.2 Sıfır Gıda İsrafı Gençlik Ağı ve Loi Garot mevzuat entegrasyonu." },
+    { id: 'res_1_3', textFr: "1.3 Organisation annuelle des Camps de Reboisement 'Forêt Mémorielle Franco-Turque'.", textTr: "1.3 Ortak 'Türk-Fransız Gençlik Hatıra Ormanı' ağaçlandırma kamplarının düzenlenmesi." },
+    { id: 'res_2_1', textFr: "2.1 Lancement du Pont Technologique Jeunesse entre Station F et les technoparcs de Türkiye.", textTr: "2.1 Station F ile Türk teknoparkları arasında Genç Teknoloji Köprüsü inkübasyon programı." },
+    { id: 'res_2_2', textFr: "2.2 Hackathons conjoints sur l'IA open-source et la préservation du patrimoine culturel.", textTr: "2.2 Açık kaynak yapay zekâ ve kültürel mirası koruma ortak hackathonları." },
+    { id: 'res_3_1', textFr: "3.1 Simplification des procédures de mobilité et de stages pour les délégations de jeunes.", textTr: "3.1 Gençlik delegasyonları ve stajlar için hareketlilik süreçlerinin kolaylaştırılması." },
+    { id: 'res_3_2', textFr: "3.2 Jumelage institutionnel entre le réseau des MJC et les Centres de Jeunesse du GSB.", textTr: "3.2 MJC Ağı ile GSB Gençlik Merkezleri arasında 'Kardeş Gençlik Evi' protokolü." },
+    { id: 'res_4_1', textFr: "4.1 Reconnaissance mutuelle des crédits d'engagement entre le Service Civique et le GSB.", textTr: "4.1 Fransız Service Civique ile Türk Ulusal Gönüllülük Sistemi arasında kredi denkliği." },
+    { id: 'res_4_2', textFr: "4.2 Exercices conjoints de réponse aux crises humanitaires et secours d'urgence jeunesse.", textTr: "4.2 Afet müdahalesi ve insani yardımlaşma gençlik tatbikatları." }
+  ];
+
+  const selected = clauses.filter(c => document.getElementById(c.id)?.checked);
+
+  const doc = `==============================================================================
+DÉCLARATION COMMUNE DE LA JEUNESSE FRANCO-TURQUE 2026-2030
+TÜRKİYE - FRANSA ORTAK GENÇLİK DEKLARASYONU (2026-2030)
+==============================================================================
+Date / Tarih: Septembre 2026 / Eylül 2026
+Lieu / Yer: Paris & Ankara
+Délégations / Heyetler:
+- T.C. Gençlik ve Spor Bakanlığı Delegasyonu
+- Ministère des Sports, de la Jeunesse et de la Vie Associative de France
+
+PRÉAMBULE / GİRİŞ VE VİZYON:
+Forts de 500 ans de relations diplomatiques et culturelles ininterrompues (1536-2026),
+les délégations de jeunes de France et de Türkiye réaffirment leur engagement indéfectible
+pour un avenir durable, solidaire et innovant.
+
+500 yıllık kesintisiz dostluk ve diplomasi birikiminden güç alan iki ülke gençliği,
+yeşil dönüşüm, dijital egemenlik ve sivil katılım alanlarında ortak eylemi taahhüt eder.
+
+ARTICLES ADOPTÉS / KABUL EDİLEN EYLEM MADDELERİ:
+${selected.map(s => `\n* 🇫🇷 ${s.textFr}\n  🇹🇷 ${s.textTr}`).join('\n')}
+
+SIGNATAIRES / İMZA SAHİPLERİ:
+Pour la Jeunesse de Türkiye: T.C. GSB Delegasyonu
+Pour la Jeunesse de France: Délégation de la Jeunesse Française
+`;
+
+  const previewEl = document.getElementById('resDocumentContent');
+  if (previewEl) previewEl.innerText = doc;
+}
+
+function copyResolutionText() {
+  const content = document.getElementById('resDocumentContent')?.innerText;
+  if (!content) return;
+  navigator.clipboard.writeText(content);
+  showToast('Resmî deklarasyon panoya kopyalandı! 📋');
+  playTone(580, 'sine', 0.12);
+}
+
+function downloadResolutionMarkdown() {
+  const content = document.getElementById('resDocumentContent')?.innerText;
+  if (!content) return;
+  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'GSB-France-2026-Bilateral-Youth-Resolution.md';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Bildiri Markdown dosyası indirildi! 💾');
+}
+
+// ==========================================================================
+// 11. GLOBAL OMNI-SEARCH SPOTLIGHT ENGINE (Ctrl + K)
+// ==========================================================================
+function openSearchModal() {
+  const modal = document.getElementById('searchModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  const input = document.getElementById('globalSearchInput');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  handleGlobalSearch('');
+}
+
+function closeSearchModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('searchModal')?.classList.remove('active');
+}
+
+function openShortcutsModal() {
+  document.getElementById('shortcutsModal')?.classList.add('active');
+}
+
+function closeShortcutsModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('shortcutsModal')?.classList.remove('active');
+}
+
+function handleGlobalSearch(query) {
+  const q = query.trim().toLowerCase();
+  const container = document.getElementById('globalSearchResults');
+  if (!container) return;
+
+  if (!q) {
+    container.innerHTML = '<div class="search-hint">Kelime, şahsiyet, şehir, peynir veya diplomatik kavram yazarak anında bulun...</div>';
+    return;
+  }
+
+  const results = [];
+
+  // Search Figures
+  figuresData.forEach(f => {
+    if (f.name.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q) || f.role.toLowerCase().includes(q)) {
+      results.push({
+        title: `${f.avatar} ${f.name}`,
+        desc: `${f.role} — ${f.era}`,
+        badge: "Fikir Önderi",
+        tab: "figures"
+      });
+    }
+  });
+
+  // Search Quotes
+  quotesData.forEach(item => {
+    if (item.author.toLowerCase().includes(q) || item.quoteFr.toLowerCase().includes(q) || item.quoteTr.toLowerCase().includes(q)) {
+      results.push({
+        title: item.author,
+        desc: `"${item.quoteFr}" (${item.quoteTr})`,
+        badge: "Alıntı",
+        tab: "quotes"
+      });
+    }
+  });
+
+  // Search Timeline
+  timelineData.forEach(t => {
+    if (t.year.includes(q) || t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q)) {
+      results.push({
+        title: `${t.year} — ${t.title}`,
+        desc: t.desc,
+        badge: "Diplomasi Tarihi",
+        tab: "timeline"
+      });
+    }
+  });
+
+  // Search Regions
+  regionsData.forEach(r => {
+    if (r.name.toLowerCase().includes(q) || r.capital.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q)) {
+      results.push({
+        title: `${r.name} (Merkez: ${r.capital})`,
+        desc: r.desc,
+        badge: "Bölge Atlası",
+        tab: "regions"
+      });
+    }
+  });
+
+  // Search Vocabulary
+  vocabData.forEach(v => {
+    if (v.fr.toLowerCase().includes(q) || v.tr.toLowerCase().includes(q)) {
+      results.push({
+        title: `${v.fr} — ${v.tr}`,
+        desc: `IPA: ${v.ipa}`,
+        badge: "Sözlük",
+        tab: "vocabulary"
+      });
+    }
+  });
+
+  // Search Atlas Dossiers
+  Object.keys(atlasModalData).forEach(k => {
+    const d = atlasModalData[k];
+    if (d.title.toLowerCase().includes(q) || d.badge.toLowerCase().includes(q)) {
+      results.push({
+        title: `🏛️ ${d.title}`,
+        desc: d.badge,
+        badge: "Atlas Dosyası",
+        tab: "atlas",
+        modalKey: k
+      });
+    }
+  });
+
+  if (results.length === 0) {
+    container.innerHTML = '<div class="search-hint">Eşleşen sonuç bulunamadı. Lütfen başka bir arama terimi deneyin.</div>';
+    return;
+  }
+
+  container.innerHTML = results.slice(0, 10).map((res, idx) => `
+    <div class="search-result-item" onclick="jumpToSearchResult('${res.tab}', '${res.modalKey || ''}')">
+      <div class="search-res-info">
+        <span class="search-res-title">${res.title}</span>
+        <span class="search-res-desc">${res.desc}</span>
+      </div>
+      <span class="search-res-badge">${res.badge}</span>
+    </div>
+  `).join('');
+}
+
+function jumpToSearchResult(tabKey, modalKey) {
+  closeSearchModal();
+  switchTab(tabKey);
+  if (modalKey) {
+    setTimeout(() => {
+      openAtlasModal(modalKey);
+    }, 200);
+  }
+}
+
+// Global Keyboard Shortcuts
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    openSearchModal();
+  } else if (e.key === '?' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+    openShortcutsModal();
+  } else if (e.key === 'Escape') {
+    closeSearchModal();
+    closeShortcutsModal();
+    closeAtlasModal();
+  }
+});
+
+// ==========================================================================
+// 12. POEMS DATABASE & ENGINE
 // ==========================================================================
 const poemsDatabase = {
   albatros: {
     titleFr: "L'Albatros",
     authorFr: "Charles Baudelaire, Les Fleurs du mal (1857)",
     titleTr: "Albatros",
-    authorTr: "Çeviri: Ahmet Muhip Dıranas / Orhan Veli Kanık geleneği",
-    bodyFr: `Souvent, pour s'amuser, les hommes d'équipage
+    authorTr: "Çeviri: Ahmet Muhip Dıranas / Orhan Veli Ekolü",
+    bodyFr: `
+Souvent, pour s'amuser, les hommes d'équipage
 Prennent des albatros, vastes oiseaux des mers,
 Qui suivent, indolents compagnons de voyage,
 Le navire glissant sur les gouffres amers.
@@ -317,33 +1353,37 @@ L'autre mime, en boitant, l'infirme qui volait !
 Le Poète est semblable au prince des nuées
 Qui hante la tempête et se rit de l'archer ;
 Exilé sur le sol au milieu des huées,
-Ses ailes de géant l'empêchent de marcher.`,
-    bodyTr: `Eğlenmek için sık sık gemi tayfaları
-Yakalar albatrosları, o koca deniz kuşlarını;
-Onlar ki acı uçurumlar üstünde süzülen gemiyi
-Ağır ve kayıtsız yol arkadaşları gibi izlerler.
+Ses ailes de géant l'empêchent de marcher.
+    `,
+    bodyTr: `
+Kimi zaman eğlenmek için gemiciler
+Yakalar albatrosları, o engin deniz kuşlarını;
+Uyuşuk yol arkadaşları gibi onlar
+Süzülen geminin ardından takip eder derin suları.
 
-Güverteye bırakır bırakmaz onları tayfalar,
-Bu göklerin kralları, mahcup ve acemi,
-Büyük beyaz kanatlarını acınası şekilde
-Kürekler gibi yanlarında sürüklemeye başlar.
+Tahtaların üstüne bırakıldıkları an,
+Bu göklerin kralları, acemi ve mahcup,
+Bırakırlar o koca beyaz kanatlarını
+Bir çift kürek gibi yanlarında çaresiz sürüyüp.
 
-Bu kanatlı yolcu, nasıl da hantal ve zavallı!
-Az önce ne kadar güzeldi, şimdi ne komik ve çirkin!
-Kimi lülesiyle gagasına dokunup kızdırır onu,
-Kimi topallayarak taklit eder uçan bu sakatı!
+Bu kanatlı yolcu ne kadar hantal ve pısırık!
+Az önce ne kadar güzeldi, şimdi ne kadar çirkin ve komik!
+Kimi piposunun ucuyla gagasına vurur,
+Kimi taklit eder topallayarak o uçan sakatı!
 
-Şair de tıpkı bu bulutlar prensine benzer:
-Fırtınalarda dolaşır, okçulara meydan okur;
-Fakat yuhalamalar arasında yeryüzüne sürgün edilince,
-O dev kanatları yürümesine engel olur.`
+Şair de bulutların bu prensine benzer işte,
+Fırtınayla dost yaşar, okçulara gülüp geçer;
+Fakat yeryüzüne sürülüp yuhalandığı vakit,
+Yürümesine engel olur o devasa kanatları.
+    `
   },
   voyelles: {
     titleFr: "Voyelles",
     authorFr: "Arthur Rimbaud, Poésies (1871)",
-    titleTr: "Sesliler",
-    authorTr: "Sembolizmin ve Ses-Renk Eşduyumunun (Synesthésie) Zirvesi",
-    bodyFr: `A noir, E blanc, I rouge, U vert, O bleu : voyelles,
+    titleTr: "Sesliler (Seslerin Renkleri)",
+    authorTr: "Çeviri & Sembolizm Çözümlemesi",
+    bodyFr: `
+A noir, E blanc, I rouge, U vert, O bleu : voyelles,
 Je dirai quelque jour vos naissances latentes :
 A, noir corset velu des mouches éclatantes
 Qui bombinent autour des puanteurs cruelles,
@@ -359,31 +1399,35 @@ Que l'alchimie imprime aux grands fronts studieux ;
 
 O, suprême Clairon plein des strideurs étranges,
 Silences traversés des Mondes et des Anges :
-— O l'Oméga, rayon violet de Ses Yeux !`,
-    bodyTr: `A kara, E ak, I al, U yeşil, O mavi: ey sesliler,
-Gizli doğumlarınızı anlatacağım bir gün:
+— O l'Oméga, rayon violet de Ses Yeux !
+    `,
+    bodyTr: `
+A kara, E ak, I al, U yeşil, O mavi: sesliler,
+Bir gün anlatacağım gizil doğumlarınızı:
 A, o amansız kokular çevresinde vızıldayan
 Işıl ışıl sineklerin kara tüylü korsesi,
 
-Gölge koyları; E, çadırların ve buharların saflığı,
-Gururlu buzulların mızrakları, beyaz krallar, çiçek ürpertileri;
-I, erguvanlar, tükürülmüş kan, güzel dudakların gülüşü
-Öfkede ya da tövbekar sarhoşluklarda;
+Gölge koyları; E, çadırların ve buğuların saflığı,
+Gururlu buzulların mızrakları, beyaz krallar;
+I, erguvanlar, tükürülen kan, güzel dudakların gülüşü
+Öfkede ya da tövbekâr sarhoşluklarda;
 
-U, döngüler, yeşil denizlerin ilahi titreşimleri,
-Hayvanlarla dolu otlakların huzuru, simyanın
-Büyük ve çalışkan alınlara kazıdığı kırışıkların barışı;
+U, döngüler, yeşil denizlerin tanrısal titreşimi,
+Hayvanlarla bezeli otlakların huzuru,
+Simyanın derin bilgin alınlara kazıdığı kırışıkların barışı;
 
 O, tuhaf çığlıklarla dolu yüce Borazan,
-Dünyaların ve Meleklerin içinden geçtiği sessizlikler:
-— O, Omega, O'nun Gözlerinin mor ışını!`
+Dünyaların ve Meleklerin yardığı sessizlikler:
+— O, Omega, O'nun Gözlerinin mor ışını!
+    `
   },
   chanson: {
     titleFr: "Chanson d'automne",
     authorFr: "Paul Verlaine, Poèmes saturniens (1866)",
     titleTr: "Sonbahar Şarkısı",
-    authorTr: "Müzikalite ve 1944 Normandiya Çıkarması Şifresi",
-    bodyFr: `Les sanglots longs
+    authorTr: "Çeviri: Melih Cevdet Anday",
+    bodyFr: `
+Les sanglots longs
 Des violons
 De l'automne
 Blessent mon cœur
@@ -402,17 +1446,19 @@ Au vent mauvais
 Qui m'emporte
 Deçà, delà,
 Pareil à la
-Feuille morte.`,
-    bodyTr: `Sonbahar
+Feuille morte.
+    `,
+    bodyTr: `
+Sonbahar
 Kemanlarının
 Uzun hıçkırıkları
 Yaralar kalbimi
-Tekdüze bir
-Baygınlıkla.
+Monoton bir
+Gevşeklikle.
 
-Boğulur gibi
-Ve sapsarı, vakit
-Gelip çatınca,
+Nefesim tıkanır,
+Sararır yüzüm
+Saat çaldığında;
 Hatırlarım
 Eski günleri
 Ve ağlarım.
@@ -420,16 +1466,18 @@ Ve ağlarım.
 Ve çeker giderim
 Beni oradan oraya
 Sürükleyen
-O uğursuz rüzgarda,
-Tıpkı savrulan
-Kuru bir yaprak gibi.`
+Uğursuz rüzgârda,
+Tıpkı bir
+Kuru yaprak gibi.
+    `
   },
   mirabeau: {
     titleFr: "Le Pont Mirabeau",
     authorFr: "Guillaume Apollinaire, Alcools (1913)",
     titleTr: "Mirabeau Köprüsü",
-    authorTr: "Zamanın ve Aşkın Akışı Üzerine Şiirsel Melodi",
-    bodyFr: `Sous le pont Mirabeau coule la Seine
+    authorTr: "Çeviri & Notlar",
+    bodyFr: `
+Sous le pont Mirabeau coule la Seine
 Et nos amours
 Faut-il qu'il m'en souvienne
 La joie venait toujours après la peine
@@ -443,29 +1491,33 @@ Le pont de nos bras passe
 Des éternels regards l'onde si lasse
 
 Vienne la nuit sonne l'heure
-Les jours s'en vont je demeure`,
-    bodyTr: `Mirabeau köprüsünün altından akar Seine
-Ve bizim aşklarımız
-Hatırlamam şart mı bilmem
-Acıların ardından gelirdi sevinç her dem
+Les jours s'en vont je demeure
+    `,
+    bodyTr: `
+Mirabeau Köprüsü'nün altından akar Seine
+Ve aşklarımız
+Hatırlamak mı gerek şimdi
+Acının ardından gelirdi daima neşe
 
-Gece insin, vursun saatler
-Günler akıp gider, ben kalırım
+Gece gelsin, saat çalsın
+Günler geçer, ben kalırım
 
-El ele tutuşup yüz yüze duralım
-Kollarımızın köprüsü
-Altından akıp geçerken
-Sonsuz bakışların o yorgun dalgası
+Ellerimiz ellerimizde, yüz yüze duralım
+Kollarımızın köprüsünün
+Altından akıp giderken
+Sonsuz bakışların yorgun dalgası
 
-Gece insin, vursun saatler
-Günler akıp gider, ben kalırım`
+Gece gelsin, saat çalsın
+Günler geçer, ben kalırım
+    `
   },
   liberte: {
     titleFr: "Liberté",
     authorFr: "Paul Éluard, Poésie et Vérité (1942)",
     titleTr: "Hürriyet",
-    authorTr: "İkinci Dünya Savaşı Direniş Hareketi Başyapıtı",
-    bodyFr: `Sur mes cahiers d'écolier
+    authorTr: "Çeviri: Melih Cevdet Anday / Orhan Veli",
+    bodyFr: `
+Sur mes cahiers d'écolier
 Sur mon pupitre et les arbres
 Sur le sable sur la neige
 J'écris ton nom
@@ -480,196 +1532,194 @@ Je recommence ma vie
 Je suis né pour te connaître
 Pour te nommer
 
-Liberté.`,
-    bodyTr: `Okul defterlerimin üstüne
-Sırama ve ağaçlara
-Kumlara, karların üstüne
+Liberté.
+    `,
+    bodyTr: `
+Okul defterlerimin üstüne
+Sıramın ve ağaçların üstüne
+Kuma ve karın üstüne
 Yazarım senin adını
 
-Okunmuş bütün sayfalara
-Bembeyaz bomboş sayfalara
-Taşa, kana, kâğıda veya küle
+Okunmuş tüm sayfaların üstüne
+Tüm bembeyaz sayfaların üstüne
+Taşa, kana, kâğıda ya da küle
 Yazarım senin adını
 
-Ve tek bir kelimenin gücüyle
+Ve bir tek kelimenin kudretiyle
 Yeniden başlarım hayatıma
 Seni tanımak için doğdum ben
-Seni haykırmak için:
+Seni adlandırmak için
 
-Hürriyet.`
+Hürriyet.
+    `
   },
   feuilles: {
     titleFr: "Les Feuilles mortes",
     authorFr: "Jacques Prévert, Paroles (1946)",
     titleTr: "Dökülen Yapraklar",
-    authorTr: "Édith Piaf ve Yves Montand Tarafından Ölümsüzleştirilen Şiir",
-    bodyFr: `C'est une chanson qui nous ressemble.
-Toi, tu m'aimais et je t'aimais,
-Et nous vivions tous deux ensemble,
-Toi qui m'aimais, moi qui t'aimais.
+    authorTr: "Çeviri: Sabahattin Eyüboğlu Ekolü",
+    bodyFr: `
+Oh ! je voudrais tant que tu te souviennes
+Des jours heureux où nous étions amis.
+En ce temps-là la vie était plus belle,
+Et le soleil plus brûlant qu'aujourd'hui.
 
-Mais la vie sépare ceux qui s'aiment,
-Tout doucement, sans faire de bruit.
-Et la mer efface sur le sable
-Les pas des amants désunis.
-
+Les feuilles mortes se ramassent à la pelle.
+Tu vois, je n'ai pas oublié...
 Les feuilles mortes se ramassent à la pelle,
 Les souvenirs et les regrets aussi.
+
 Et le vent du nord les emporte
-Dans la nuit froide de l'oubli.`,
-    bodyTr: `Bize benzeyen bir şarkıdır bu.
-Sen beni severdin, ben seni severdim,
-Ve ikimiz bir arada yaşardık,
-Sen beni seven, ben seni seven.
+Dans la nuit froide de l'oubli.
+Tu vois, je n'ai pas oublié
+La chanson que tu me chantais.
+    `,
+    bodyTr: `
+Ah! Ne çok isterdim hatırlamanı
+Dost olduğumuz o mutlu günleri.
+O vakitler hayat çok daha güzeldi,
+Ve güneş bugünkünden daha sıcaktı.
 
-Fakat hayat ayırır sevenleri,
-Pek usulca, hiç gürültü yapmadan.
-Ve deniz siler kumsaldan
-Ayrılan sevgililerin ayak izlerini.
+Dökülen yapraklar kürek kürek toplanıyor.
+Görüyorsun işte, unutmadım...
+Dökülen yapraklar kürek kürek toplanıyor,
+Hatıralar ve pişmanlıklar da öyle.
 
-Dökülen yapraklar kürek kürek toplanır,
-Tıpkı hatıralar ve pişmanlıklar gibi.
-Ve kuzey rüzgarı alır götürür onları
-Unutuşun soğuk gecesine.`
+Ve kuzey rüzgârı alıp götürüyor hepsini
+Unutuşun o soğuk gecesine.
+Görüyorsun ya, unutmadım
+Bana söylediğin o şarkıyı.
+    `
   }
 };
 
 function loadPoem(key) {
-  const p = poemsDatabase[key];
-  if (!p) return;
-  document.getElementById('poemTitleFr').innerText = p.titleFr;
-  document.getElementById('poemAuthorFr').innerHTML = p.authorFr;
-  document.getElementById('poemBodyFr').innerText = p.bodyFr;
+  const poem = poemsDatabase[key];
+  if (!poem) return;
 
-  document.getElementById('poemTitleTr').innerText = p.titleTr;
-  document.getElementById('poemAuthorTr').innerText = p.authorTr;
-  document.getElementById('poemBodyTr').innerText = p.bodyTr;
+  document.getElementById('poemTitleFr').innerText = poem.titleFr;
+  document.getElementById('poemAuthorFr').innerText = poem.authorFr;
+  document.getElementById('poemBodyFr').innerText = poem.bodyFr.trim();
+
+  document.getElementById('poemTitleTr').innerText = poem.titleTr;
+  document.getElementById('poemAuthorTr').innerText = poem.authorTr;
+  document.getElementById('poemBodyTr').innerText = poem.bodyTr.trim();
 }
 
 function speakPoemFrench() {
   const poemKey = document.getElementById('poemSelect')?.value || 'albatros';
   const poem = poemsDatabase[poemKey];
   if (!poem) return;
-
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(poem.bodyFr);
-    utterance.lang = 'fr-FR';
-    utterance.rate = 0.9;
-    window.speechSynthesis.speak(utterance);
-    showToast(`Fransızca şiir seslendiriliyor: ${poem.titleFr} 🔊`);
-  } else {
-    showToast("Tarayıcınız ses sentezini desteklemiyor.");
-  }
+  speakText(poem.bodyFr);
 }
 
-// ==========================================
-// 7. REGIONS DATA & RENDERING
-// ==========================================
+// ==========================================================================
+// 13. REGIONS ATLAS DATABASE & ENGINE
+// ==========================================================================
 const regionsData = [
   {
     name: "Île-de-France",
     capital: "Paris",
-    category: "kuzey",
-    pop: "12.4 Milyon",
-    desc: "Fransa'nın siyasi, ekonomik ve entelektüel kalbi. Küresel diplomasi, Louvre Müzesi, Sorbonne Üniversitesi, Station F ve La Défense.",
-    highlights: "Paris, Versailles, Saint-Denis | GSYİH'nin %31'i"
+    zone: "kuzey",
+    pop: "12.3 Milyon",
+    desc: "Fransa'nın siyasi, entelektüel ve ekonomik kalbi. Station F, Sorbonne, UNESCO ve Fransız Gençlik Bakanlığı buradadır.",
+    specialties: "Brie de Meaux, Kültürel Miras, Mistral AI, Haute Couture"
   },
   {
     name: "Auvergne-Rhône-Alpes",
     capital: "Lyon",
-    category: "dogu",
+    zone: "dogu",
     pop: "8.1 Milyon",
-    desc: "İkinci büyük ekonomik bölge. Fransız gastronomisinin başkenti Lyon, Mont Blanc (4808 m), mikroelektronik devi Grenoble ve nükleer enerji santralleri.",
-    highlights: "Lyon, Grenoble, Annecy | İpek Mirası & Alpler"
+    desc: "Gastronominin dünya başkenti (Paul Bocuse), biyoteknoloji, Alpler ve nükleer enerji Ar-Ge merkezi.",
+    specialties: "Saint-Nectaire, Bleu d'Auvergne, İpekçilik, TGV Hatları"
   },
   {
-    name: "Provence-Alpes-Côte d'Azur (PACA)",
-    capital: "Marseille",
-    category: "guney",
+    name: "Provence-Alpes-Côte d'Azur",
+    capital: "Marseille / Nice",
+    zone: "guney",
     pop: "5.1 Milyon",
-    desc: "Akdeniz havzası, Fransa'nın en büyük ticaret limanı Marseille, Fransız Rivierası (Nice, Cannes) ve antik Greko-Romen kalıntıları.",
-    highlights: "Marseille, Nice, Aix-en-Provence | Akdeniz Limanı"
-  },
-  {
-    name: "Occitanie",
-    capital: "Toulouse",
-    category: "guney",
-    pop: "6.0 Milyon",
-    desc: "Avrupa'nın havacılık ve uzay üssü (Airbus, CNES). Tarihi Oksitan kültürü, Orta Çağ kalesi Carcassonne ve üniversite şehri Montpellier.",
-    highlights: "Toulouse, Montpellier, Nîmes | Airbus & CNES"
+    desc: "Akdeniz ticaret kapısı, Marsilya limanı, lavanta tarlaları ve Cannes Film Festivali.",
+    specialties: "Banon peyniri, Bouillabaisse, Zeytinyağı, Havacılık"
   },
   {
     name: "Nouvelle-Aquitaine",
     capital: "Bordeaux",
-    category: "bati",
+    zone: "bati",
     pop: "6.0 Milyon",
-    desc: "Yüzölçümü bakımından en büyük bölge. Dünya şarap başkenti Bordeaux, Atlantik kıyıları, Dassault havacılık kümelenmesi ve Bask kültürü.",
-    highlights: "Bordeaux, Poitiers, Limoges | Atlantik Kıyısı"
+    desc: "Fransa'nın en geniş yüzölçümlü bölgesi. Dünya şarapçılık başkenti, havacılık ve ormancılık.",
+    specialties: "Ossau-Iraty, Canelé, Bordeaux Bağları, Lazer Sanayisi"
+  },
+  {
+    name: "Occitanie",
+    capital: "Toulouse",
+    zone: "guney",
+    pop: "6.0 Milyon",
+    desc: "Avrupa'nın havacılık ve uzay üssü (Airbus merkezi), Pirene dağları ve zengin Akdeniz kültürü.",
+    specialties: "Roquefort (AOP), Cassoulet, Airbus A350, Uzay Ajansı"
   },
   {
     name: "Grand Est",
     capital: "Strasbourg",
-    category: "dogu",
+    zone: "dogu",
     pop: "5.5 Milyon",
-    desc: "Avrupa Parlamentosu ve AİHM'e ev sahipliği yapan Strasbourg. Fransız-Alman tarihsel barışının sembolü ve Şampanya bağları (Reims).",
-    highlights: "Strasbourg, Reims, Metz | Avrupa Kurumları"
+    desc: "Avrupa Parlamentosu ve Avrupa İnsan Hakları Mahkemesi'ne (AİHM) ev sahipliği yapan Avrupa başkenti.",
+    specialties: "Munster peyniri, Şampanya (Champagne), Alsace Mimarisi"
   },
   {
     name: "Hauts-de-France",
     capital: "Lille",
-    category: "kuzey",
+    zone: "kuzey",
     pop: "6.0 Milyon",
-    desc: "İngiltere'ye açılan Manş Tüneli kapısı. Tarihi maden ve sanayi mirasının elektrikli araç batarya vadisine (Battery Valley) dönüşümü.",
-    highlights: "Lille, Amiens, Dunkerque | Sanayi Dönüşümü"
-  },
-  {
-    name: "Normandie",
-    capital: "Rouen",
-    category: "kuzey",
-    pop: "3.3 Milyon",
-    desc: "1944 D-Day Müttefik Çıkarma Sahilleri, Empresyonizmin doğum yeri (Monet), Mont-Saint-Michel manastır adası ve Le Havre limanı.",
-    highlights: "Rouen, Caen, Le Havre | D-Day & Empresyonizm"
+    desc: "Kuzey Avrupa lojistik merkezi, elektrikli araç batarya vadisi ve zengin madencilik mirası.",
+    specialties: "Maroilles peyniri, Batarya Fabrikaları, Dunkerque Limanı"
   },
   {
     name: "Bretagne",
     capital: "Rennes",
-    category: "bati",
+    zone: "bati",
     pop: "3.4 Milyon",
-    desc: "Güçlü Kelt kültürel kimliği ve Breton dili. Fransız Atlantik Donanma Üssü (Brest), deniz fenerleri ve siber güvenlik merkezi.",
-    highlights: "Rennes, Brest, Saint-Malo | Kelt Mirası"
+    desc: "Kelt mirası, Atlantik okyanus kıyıları, siber güvenlik kümelenmesi ve denizcilik kültürü.",
+    specialties: "Krep ve Galette, Deniz Ürünleri, Yelken Sporları"
   },
   {
-    name: "Pays de la Loire",
-    capital: "Nantes",
-    category: "bati",
-    pop: "3.8 Milyon",
-    desc: "Dünyanın en büyük yolcu gemilerinin inşa edildiği tersaneler (Saint-Nazaire), Jules Verne'in doğum yeri Nantes ve dinamik teknoloji sektörü.",
-    highlights: "Nantes, Angers, Le Mans | Gemi İnşası & Otomotiv"
+    name: "Normandie",
+    capital: "Rouen",
+    zone: "bati",
+    pop: "3.3 Milyon",
+    desc: "Mont-Saint-Michel, 1944 Çıkarması sahilleri, zengin süt ürünleri ve empresyonist ressamların beşiği.",
+    specialties: "Camembert de Normandie, Livarot, Elma Suyu (Cidre)"
   },
   {
     name: "Bourgogne-Franche-Comté",
     capital: "Dijon",
-    category: "dogu",
+    zone: "dogu",
     pop: "2.8 Milyon",
-    desc: "Burgonya dükleri tarihi, dünya çapında gastronomi ve şaraplar, Besançon ince mekanik ve saatçilik sanayisi, TGV montaj fabrikaları.",
-    highlights: "Dijon, Besançon, Belfort | TGV Fabrikaları & Gastronomi"
+    desc: "Tarihi dükalık mirası, saatçilik mikro-mekaniği, dünya mirası bağ terroirları ve Comté peyniri.",
+    specialties: "Comté (Fransa'nın 1 numarası), Dijon Hardalı, Bağlar"
+  },
+  {
+    name: "Pays de la Loire",
+    capital: "Nantes",
+    zone: "bati",
+    pop: "3.8 Milyon",
+    desc: "Loire Nehri deltası, gemi inşa sanayisi (Saint-Nazaire) ve dijital yaratıcı endüstriler.",
+    specialties: "Curé Nantais, Muscadet, Yeşil Şehirler"
   },
   {
     name: "Centre-Val de Loire",
     capital: "Orléans",
-    category: "kuzey",
+    zone: "kuzey",
     pop: "2.6 Milyon",
-    desc: "Krallar Vadisi: UNESCO Dünya Mirası Loire Şatoları (Chambord, Chenonceau), tarım ve dünya kozmetik vadisi (Cosmetic Valley).",
-    highlights: "Orléans, Tours, Chartres | Loire Şatoları"
+    desc: "UNESCO mirası Loire Şatoları (Chambord, Chenonceau), tarım ve nükleer enerji merkezleri.",
+    specialties: "Sainte-Maure de Touraine (Keçi), Şatolar, Kozmetik Vadisi"
   },
   {
-    name: "Corse (Korsika)",
+    name: "Corse (Korsika Adası)",
     capital: "Ajaccio",
-    category: "guney",
-    pop: "350.000",
-    desc: "Akdeniz'in dağlık adası, Napoléon Bonaparte'ın doğum yeri, kendine özgü Korsika dili ve zengin biyo-çeşitlilik.",
-    highlights: "Ajaccio, Bastia | Akdeniz Mirası"
+    zone: "guney",
+    pop: "350 Bin",
+    desc: "Napoléon Bonaparte'ın doğum yeri, Akdeniz biyolojik çeşitliliği ve özgün dağ kültürü.",
+    specialties: "Brocciu peyniri, Şarküteri, Doğal Parklar"
   }
 ];
 
@@ -678,98 +1728,117 @@ function renderRegions(list) {
   if (!container) return;
   container.innerHTML = list.map(r => `
     <div class="region-card">
-      <div class="region-header">
+      <div class="reg-header">
         <h3>${r.name}</h3>
-        <span class="region-badge">${r.capital}</span>
+        <span class="reg-pop">👥 ${r.pop}</span>
       </div>
-      <div class="region-meta">
-        <span>👥 ${r.pop}</span>
-        <span>📍 ${r.highlights.split('|')[1] || ''}</span>
-      </div>
-      <p class="region-desc">${r.desc}</p>
-      <div class="region-highlights">
-        <strong>Önemli Merkezler:</strong> ${r.highlights.split('|')[0]}
+      <div class="reg-capital">🏛️ <strong>Merkez:</strong> ${r.capital}</div>
+      <p class="reg-desc">${r.desc}</p>
+      <div class="reg-specialties">
+        <strong>Öne Çıkanlar:</strong> ${r.specialties}
       </div>
     </div>
   `).join('');
 }
 
 function filterRegions(category) {
-  document.querySelectorAll('#tab-regions .filter-chips .chip').forEach(c => c.classList.remove('active'));
-  event.target.classList.add('active');
-  const term = document.getElementById('regionSearch')?.value.toLowerCase() || '';
-  let filtered = regionsData;
-  if (category !== 'all') {
-    filtered = filtered.filter(r => r.category === category);
-  }
-  if (term) {
-    filtered = filtered.filter(r => r.name.toLowerCase().includes(term) || r.capital.toLowerCase().includes(term) || r.desc.toLowerCase().includes(term));
-  }
+  document.querySelectorAll('#tab-regions .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const searchVal = document.getElementById('regionSearch')?.value.toLowerCase() || '';
+
+  const filtered = regionsData.filter(r => {
+    const matchCat = category === 'all' || r.zone === category;
+    const matchSearch = r.name.toLowerCase().includes(searchVal) ||
+                        r.capital.toLowerCase().includes(searchVal) ||
+                        r.desc.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
   renderRegions(filtered);
 }
 
 document.getElementById('regionSearch')?.addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase();
-  const activeChip = document.querySelector('#tab-regions .filter-chips .chip.active');
-  const cat = activeChip ? activeChip.innerText : 'Tümü (13 Bölge)';
-  let filtered = regionsData;
-  if (term) {
-    filtered = filtered.filter(r => r.name.toLowerCase().includes(term) || r.capital.toLowerCase().includes(term) || r.desc.toLowerCase().includes(term));
-  }
+  const searchVal = e.target.value.toLowerCase();
+  const filtered = regionsData.filter(r =>
+    r.name.toLowerCase().includes(searchVal) ||
+    r.capital.toLowerCase().includes(searchVal) ||
+    r.desc.toLowerCase().includes(searchVal)
+  );
   renderRegions(filtered);
 });
 
 // ==========================================================================
-// 8. GASTRONOMY & CHEESE DATABASE
+// 14. CHEESES & TERROIR DATABASE & ENGINE
 // ==========================================================================
 const cheeseData = [
   {
-    name: "Comté AOP",
+    name: "Comté",
     region: "Bourgogne-Franche-Comté (Jura)",
     milk: "inek",
-    age: "12-36 Ay Olgunlaşma",
-    desc: "Fransa'nın en çok tüketilen AOP peyniri. Fındık, tereyağı ve kuru meyve aromalarıyla zengin bir lezzet profili.",
-    pairing: "Jura Vin Jaune veya hafif meyvemsi beyaz şaraplar."
+    desc: "Fransa'nın en çok tüketilen ve üretilen 1 numaralı AOP peyniri. 4 ila 24 ay arası dinlendirilir, fındıksı aromaya sahiptir.",
+    pairing: "Ceviz, kuru incir, Jura şarapları"
   },
   {
-    name: "Roquefort AOP",
+    name: "Roquefort",
     region: "Occitanie (Aveyron)",
     milk: "koyun",
-    age: "Combalou Doğal Mağaralarında 3 Ay",
-    desc: "'Peynirlerin Kralı'. Penicillium roqueforti küfüyle mayalanan, keskin, kremamsı ve tuzlu mavi peynir.",
-    pairing: "Sauternes tatlı şarabı veya cevizli ekmek."
+    desc: "Dünyanın en ünlü mavi küflü peyniri. Combalou doğal mağaralarında Penicillium roqueforti küfüyle olgunlaşır.",
+    pairing: "Bal, çavdar ekmeği, ceviz"
   },
   {
-    name: "Camembert de Normandie AOP",
+    name: "Camembert de Normandie",
     region: "Normandie",
     milk: "inek",
-    age: "Ahşap Kutuda 4 Hafta",
-    desc: "Marie Harel tarafından 1791'de yaratılan, beyaz kadifemsi kabuklu, akışkan ve mantar aromalı yumuşak peynir.",
-    pairing: "Normandiya Elma Likörü (Cidre) ve taze çıtır baget."
+    desc: "1791'de Marie Harel tarafından geliştirilen, beyaz çiçeksi kabuklu, kremsi yumuşak ikonik Fransız peyniri.",
+    pairing: "Geleneksel baget, elma suyu (cidre)"
   },
   {
-    name: "Reblochon de Savoie AOP",
+    name: "Brie de Meaux",
+    region: "Île-de-France",
+    milk: "inek",
+    desc: "1814 Viyana Kongresi'nde diplomatlar tarafından 'Peynirlerin Kralı' ilan edilen tarihi saray peyniri.",
+    pairing: "Taze üzüm, baget ekmeği"
+  },
+  {
+    name: "Reblochon de Savoie",
     region: "Auvergne-Rhône-Alpes (Alpler)",
     milk: "inek",
-    age: "Dağ Evlerinde 4-6 Hafta",
-    desc: "Alp çobanlarının ikinci sağım sütünden yapılan kremamsı peynir. Meşhur 'Tartiflette' fırın yemeğinin kalbi.",
-    pairing: "Savoie beyaz şarabı ve fırınlanmış patates."
+    desc: "Geleneksel 'Tartiflette' patates yemeğinin ana malzemesi. Fındık aromalı, yıkanmış kabuklu peynir.",
+    pairing: "Patates, kuru et, Savoie şarabı"
   },
   {
-    name: "Sainte-Maure de Touraine AOP",
+    name: "Sainte-Maure de Touraine",
     region: "Centre-Val de Loire",
     milk: "keci",
-    age: "Kül Kaplı Silindir 10-30 Gün",
-    desc: "Ortasından çavdar samanı geçen, külle kaplı silindirik keçi peyniri. Fındık ve narenciye notaları taşır.",
-    pairing: "Sauvignon Blanc (Sancerre / Pouilly-Fumé)."
+    desc: "Ortasından çavdar çubuğu geçen, odun külüyle kaplanmış silindirik meşhur keçi peyniri.",
+    pairing: "Kızarmış ekmek, bal, Loire beyazı"
   },
   {
-    name: "Brie de Meaux AOP",
-    region: "Île-de-France (Meaux)",
+    name: "Ossau-Iraty",
+    region: "Nouvelle-Aquitaine (Bask & Pirene)",
+    milk: "koyun",
+    desc: "Pirene Dağları'nda serbest otlayan koyun sütünden yapılan 3000 yıllık Bask-Gaskonya mirası.",
+    pairing: "Siyah kiraz reçeli (İtxassou)"
+  },
+  {
+    name: "Maroilles",
+    region: "Hauts-de-France (Kuzey)",
     milk: "inek",
-    age: "4-8 Hafta",
-    desc: "1815 Viyana Kongresi'nde 'Kralların Peyniri' ilan edilen, kremamsı ve tereyağlı tarihi lezzet.",
-    pairing: "Pinot Noir veya Şampanya."
+    desc: "Kuzey Fransa manastır geleneği. Yoğun kokulu ancak damakta yumuşak ve tatlımsı karakterli.",
+    pairing: "Kuzey birası, çıtır baget"
+  },
+  {
+    name: "Bleu d'Auvergne",
+    region: "Auvergne-Rhône-Alpes",
+    milk: "inek",
+    desc: "Volkanik Auvergne dağlarında üretilen, tereyağlı ve dengeli acılığı olan mavi peynir.",
+    pairing: "Armut, ceviz, esmer ekmek"
+  },
+  {
+    name: "Brocciu",
+    region: "Corse (Korsika)",
+    milk: "koyun",
+    desc: "Korsika'nın milli peyniri. Taze peynir altı suyundan yapılan son derece hafif peynir.",
+    pairing: "Omlet, nane, Korsika tatlıları"
   }
 ];
 
@@ -780,15 +1849,12 @@ function renderCheeses(list) {
     <div class="cheese-card">
       <div class="cheese-header">
         <h3>${c.name}</h3>
-        <span class="cheese-badge aop">AOP Sertifikalı</span>
+        <span class="cheese-milk-tag">${getMilkLabel(c.milk)}</span>
       </div>
-      <div class="cheese-meta">
-        <span>📍 ${c.region}</span>
-        <span>🥛 ${getMilkLabel(c.milk)}</span>
-      </div>
+      <div class="cheese-region">📍 ${c.region}</div>
       <p class="cheese-desc">${c.desc}</p>
       <div class="cheese-pairing">
-        <strong>Eşleşme & Sunum:</strong> ${c.pairing}
+        <strong>Eşleşme:</strong> ${c.pairing}
       </div>
     </div>
   `).join('');
@@ -796,120 +1862,118 @@ function renderCheeses(list) {
 
 function getMilkLabel(milk) {
   switch (milk) {
-    case 'inek': return 'Çiğ İnek Sütü';
-    case 'koyun': return 'Çiğ Koyun Sütü';
-    case 'keci': return 'Çiğ Keçi Sütü';
-    default: return 'Süt';
+    case 'inek': return '🐄 İnek Sütü';
+    case 'koyun': return '🐑 Koyun Sütü';
+    case 'keci': return '🐐 Keçi Sütü';
+    default: return milk;
   }
 }
 
 function filterCheeses(milkType) {
-  document.querySelectorAll('#tab-gastronomy .filter-chips .chip').forEach(c => c.classList.remove('active'));
-  event.target.classList.add('active');
-  const term = document.getElementById('cheeseSearch')?.value.toLowerCase() || '';
-  let filtered = cheeseData;
-  if (milkType !== 'all') {
-    filtered = filtered.filter(c => c.milk === milkType);
-  }
-  if (term) {
-    filtered = filtered.filter(c => c.name.toLowerCase().includes(term) || c.region.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term));
-  }
+  document.querySelectorAll('#tab-gastronomy .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const searchVal = document.getElementById('cheeseSearch')?.value.toLowerCase() || '';
+
+  const filtered = cheeseData.filter(c => {
+    const matchMilk = milkType === 'all' || c.milk === milkType;
+    const matchSearch = c.name.toLowerCase().includes(searchVal) ||
+                        c.region.toLowerCase().includes(searchVal) ||
+                        c.desc.toLowerCase().includes(searchVal);
+    return matchMilk && matchSearch;
+  });
   renderCheeses(filtered);
 }
 
 document.getElementById('cheeseSearch')?.addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase();
-  const activeChip = document.querySelector('#tab-gastronomy .filter-chips .chip.active');
-  const milkType = activeChip ? activeChip.getAttribute('onclick').replace("filterCheeses('", "").replace("')", "") : 'all';
-  let filtered = cheeseData;
-  if (milkType !== 'all') {
-    filtered = filtered.filter(c => c.milk === milkType);
-  }
-  if (term) {
-    filtered = filtered.filter(c => c.name.toLowerCase().includes(term) || c.region.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term));
-  }
+  const searchVal = e.target.value.toLowerCase();
+  const filtered = cheeseData.filter(c =>
+    c.name.toLowerCase().includes(searchVal) ||
+    c.region.toLowerCase().includes(searchVal) ||
+    c.desc.toLowerCase().includes(searchVal)
+  );
   renderCheeses(filtered);
 });
 
 // ==========================================================================
-// 9. VOCABULARY & FLASHCARDS
+// 15. VOCABULARY & FLASHCARDS DATABASE & ENGINE
 // ==========================================================================
 const vocabData = [
-  { fr: "La diplomatie publique", pronun: "/la di.plɔ.ma.si py.blik/", tr: "Kamu diplomasisi", cat: "diplomacy", ex: "Renforcer la diplomatie publique par la jeunesse." },
-  { fr: "L'engagement citoyen", pronun: "/lɑ̃.ɡaʒ.mɑ̃ si.twa.jɛ̃/", tr: "Yurttaşlık katılımı / Gönüllülük", cat: "diplomacy", ex: "Favoriser l'engagement citoyen des jeunes." },
-  { fr: "Le développement durable", pronun: "/lə de.vlɔp.mɑ̃ dy.ʁabl/", tr: "Sürdürülebilir kalkınma", cat: "diplomacy", ex: "Les objectifs de développement durable (ODD)." },
-  { fr: "La table ronde", pronun: "/la tabl ʁɔ̃d/", tr: "Yuvarlak masa toplantısı", cat: "diplomacy", ex: "Participer à une table ronde bilatérale." },
-  { fr: "Le compte-rendu", pronun: "/lə kɔ̃t ʁɑ̃.dy/", tr: "Toplantı tutanağı / Rapor", cat: "diplomacy", ex: "Rédiger le compte-rendu de l'atelier." },
-  { fr: "La feuille de route", pronun: "/la fœj də ʁut/", tr: "Yol haritası", cat: "diplomacy", ex: "Adopter la feuille de route 2026-2027." },
-  { fr: "Bonjour / Bonsoir", pronun: "/bɔ̃.ʒuʁ / bɔ̃.swaʁ/", tr: "İyi günler / İyi akşamlar", cat: "daily", ex: "Bonjour Monsieur, comment allez-vous ?" },
-  { fr: "S'il vous plaît", pronun: "/sil vu plɛ/", tr: "Lütfen (Resmi)", cat: "daily", ex: "Un café et l'addition, s'il vous plaît." },
-  { fr: "Je vous en prie", pronun: "/ʒə vu zɑ̃ pʁi/", tr: "Rica ederim", cat: "daily", ex: "Merci beaucoup ! - Je vous en prie." },
-  { fr: "Où se trouve la gare ?", pronun: "/u sə tʁuv la ɡaʁ/", tr: "Gar nerede bulunuyor?", cat: "daily", ex: "Excusez-moi, où se trouve la gare ?" },
-  { fr: "L'art de vivre", pronun: "/laʁ də vivʁ/", tr: "Yaşama sanatı", cat: "daily", ex: "Apprécier l'art de vivre à la française." },
-  { fr: "Le boulot / Le taf", pronun: "/lə bu.lo / lə taf/", tr: "İş, mesai (Argot)", cat: "argot", ex: "Je vais au boulot à 9 heures." },
-  { fr: "Un pote / Une pote", pronun: "/œ̃ pɔt/", tr: "Kanka, yakın arkadaş (Argot)", cat: "argot", ex: "Je voyage avec mes potes de délégation." },
-  { fr: "C'est un truc de ouf !", pronun: "/sɛ tœ̃ tʁyk də uf/", tr: "Çılgınca / İnanılmaz bir şey! (Verlan)", cat: "argot", ex: "Ce musée est un truc de ouf !" },
-  { fr: "La meuf / Le keum", pronun: "/la mœf / lə kœm/", tr: "Kadın / Erkek (Verlan)", cat: "argot", ex: "C'est une meuf super sympa." },
-  { fr: "Cimer / Zarbi", pronun: "/si.mɛʁ / zaʁ.bi/", tr: "Sağol / Tuhaf, acayip (Verlan)", cat: "argot", ex: "Cimer pour le café !" },
-  { fr: "Avoir le coup de foudre", pronun: "/a.vwaʁ lə ku də fudʁ/", tr: "İlk görüşte aşık olmak / Vurulmak", cat: "idioms", ex: "J'ai eu le coup de foudre pour Paris." },
-  { fr: "Poser un lapin", pronun: "/po.ze œ̃ la.pɛ̃/", tr: "Buluşmaya gelmemek, ekmek", cat: "idioms", ex: "Il m'a posé un lapin hier soir." },
-  { fr: "Avoir le cafard", pronun: "/a.vwaʁ lə ka.faʁ/", tr: "Hüznü olmak, içi kararmak", cat: "idioms", ex: "Quand il pleut, j'ai le cafard." },
-  { fr: "C'est la fin des haricots", pronun: "/sɛ la fɛ̃ de a.ʁi.ko/", tr: "Her şey bitti, umut kalmadı", cat: "idioms", ex: "Pas de panique, ce n'est pas la fin des haricots." },
-  { fr: "En premier lieu", pronun: "/ɑ̃ pʁə.mje ljø/", tr: "İlk olarak, her şeyden önce", cat: "connectors", ex: "En premier lieu, examinons les faits." },
-  { fr: "Par conséquent", pronun: "/paʁ kɔ̃.se.kɑ̃/", tr: "Sonuç olarak, binaenaleyh", cat: "connectors", ex: "Par conséquent, nous devons agir ensemble." },
-  { fr: "Néanmoins / Toutefois", pronun: "/ne.ɑ̃.mwɛ̃ / tut.fwa/", tr: "Bununla birlikte, yine de", cat: "connectors", ex: "Néanmoins, des défis subsistent." },
-  { fr: "D'une part... d'autre part", pronun: "/dyn paʁ... dotʁ paʁ/", tr: "Bir yandan... diğer yandan", cat: "connectors", ex: "D'une part la jeunesse, d'autre part l'expérience." },
-  { fr: "En guise de conclusion", pronun: "/ɑ̃ ɡiz də kɔ̃.kly.zjɔ̃/", tr: "Sonuç olarak, özetle", cat: "connectors", ex: "En guise de conclusion, nous remercions la délégation." }
+  { fr: "La diplomatie publique", ipa: "/la di.plɔ.ma.si py.blik/", tr: "Kamu Diplomasisi", cat: "diplomacy", ex: "Renforcer la diplomatie publique par la jeunesse." },
+  { fr: "L'engagement citoyen", ipa: "/lɑ̃.ɡaʒ.mɑ̃ si.twa.jɛ̃/", tr: "Vatandaşlık & Sivil Katılım", cat: "diplomacy", ex: "Promouvoir l'engagement citoyen des jeunes." },
+  { fr: "Le développement durable", ipa: "/lə de.vlɔp.mɑ̃ dy.ʁabl/", tr: "Sürdürülebilir Kalkınma", cat: "diplomacy", ex: "Objectifs de développement durable 2030." },
+  { fr: "La transition écologique", ipa: "/la tʁɑ̃.zi.sjɔ̃ e.kɔ.lɔ.ʒik/", tr: "Yeşil / Ekolojik Dönüşüm", cat: "diplomacy", ex: "Financer la transition écologique urbaine." },
+  { fr: "Le plaidoyer", ipa: "/lə plɛ.dwa.je/", tr: "Savunuculuk (Advocacy)", cat: "diplomacy", ex: "Faire le plaidoyer des droits des jeunes." },
+  { fr: "Le consensus", ipa: "/lə kɔ̃.sɑ̃.sys/", tr: "Uzlaşı / Mutabakat", cat: "diplomacy", ex: "Parvenir à un consensus lors des débats." },
+  { fr: "Une carafe d'eau", ipa: "/yn ka.ʁaf do/", tr: "Bir sürahi musluk suyu (ücretsiz)", cat: "daily", ex: "Une carafe d'eau s'il vous plaît !" },
+  { fr: "L'addition, s'il vous plaît", ipa: "/la.di.sjɔ̃ sil vu plɛ/", tr: "Hesap lütfen", cat: "daily", ex: "Monsieur, l'addition s'il vous plaît." },
+  { fr: "Je vous en prie", ipa: "/ʒə vu.zɑ̃ pʁi/", tr: "Rica ederim (Resmî/Kibar)", cat: "daily", ex: "Merci beaucoup ! — Je vous en prie." },
+  { fr: "Enchanté(e)", ipa: "/ɑ̃.ʃɑ̃.te/", tr: "Tanıştığıma memnun oldum", cat: "daily", ex: "Enchanté de faire votre connaissance." },
+  { fr: "C'est ouf !", ipa: "/sɛ uf/", tr: "İnanılmaz / Çılgınca! (Fou -> Ouf verlan)", cat: "argot", ex: "Ce projet de jeunesse est complètement ouf !" },
+  { fr: "Un pote / Une pote", ipa: "/œ̃ pɔt/", tr: "Kanka / Yakın arkadaş", cat: "argot", ex: "Je voyage avec mes potes de la délégation." },
+  { fr: "Avoir le seum", ipa: "/a.vwaʁ lə sœm/", tr: "Gıcık olmak / Morali bozulmak", cat: "argot", ex: "J'ai trop le seum d'avoir raté le train." },
+  { fr: "Poser un lapin", ipa: "/po.ze œ̃ la.pɛ̃/", tr: "Randevuya gelmemek / Ekip gitmek", cat: "idioms", ex: "Il m'a posé un lapin au café." },
+  { fr: "Avoir le coup de foudre", ipa: "/a.vwaʁ lə ku d(ə) fudʁ/", tr: "İlk görüşte aşık olmak / Çarpılmak", cat: "idioms", ex: "J'ai eu un coup de foudre pour cette ville." },
+  { fr: "C'est la fin des haricots", ipa: "/sɛ la fɛ̃ de za.ʁi.ko/", tr: "Her şey bitti / İş bitti", cat: "idioms", ex: "Pas de panique, ce n'est pas la fin des haricots !" },
+  { fr: "En revanche", ipa: "/ɑ̃ ʁə.vɑ̃ʃ/", tr: "Buna karşılık / Öte yandan", cat: "connectors", ex: "Le défi est grand ; en revanche la volonté existe." },
+  { fr: "Toutefois", ipa: "/tut.fwa/", tr: "Bununla birlikte / Yine de", cat: "connectors", ex: "Toutefois, nous devons rester vigilants." },
+  { fr: "Par conséquent", ipa: "/paʁ kɔ̃.se.kɑ̃/", tr: "Sonuç olarak / Dolayısıyla", cat: "connectors", ex: "Par conséquent, nous adoptons la résolution." },
+  { fr: "Bien que (+ Subjonctif)", ipa: "/bjɛ̃ kə/", tr: "-e rağmen / Olmasına karşın", cat: "connectors", ex: "Bien qu'il soit tard, nous continuons." }
 ];
 
 let currentCardIndex = 0;
+let isFlipped = false;
 
 function updateFlashcard() {
-  const card = vocabData[currentCardIndex];
-  if (!card) return;
-  document.getElementById('fcCategory').innerText = getVocabCategoryLabel(card.cat);
-  document.getElementById('fcFrench').innerText = card.fr;
-  document.getElementById('fcPronun').innerText = card.pronun;
-  document.getElementById('fcTurkish').innerText = card.tr;
-  document.getElementById('fcExample').innerText = `"${card.ex}"`;
+  const item = vocabData[currentCardIndex];
+  if (!item) return;
+
+  document.getElementById('fcCategory').innerText = getVocabCategoryLabel(item.cat);
+  document.getElementById('fcFrench').innerText = item.fr;
+  document.getElementById('fcPronun').innerText = item.ipa;
+  document.getElementById('fcTurkish').innerText = item.tr;
+  document.getElementById('fcExample').innerText = `"${item.ex}"`;
   document.getElementById('fcCounter').innerText = `${currentCardIndex + 1} / ${vocabData.length}`;
-  document.getElementById('flashcard').classList.remove('flipped');
+
+  const card = document.getElementById('flashcard');
+  if (card && isFlipped) {
+    card.classList.remove('flipped');
+    isFlipped = false;
+  }
 }
 
 function flipCard() {
-  playTone(520, 'sine', 0.08);
-  document.getElementById('flashcard').classList.toggle('flipped');
+  const card = document.getElementById('flashcard');
+  if (!card) return;
+  card.classList.toggle('flipped');
+  isFlipped = !isFlipped;
+  playTone(480, 'sine', 0.05);
 }
 
 function nextCard() {
   currentCardIndex = (currentCardIndex + 1) % vocabData.length;
   updateFlashcard();
+  playTone(550, 'triangle', 0.05);
 }
 
 function prevCard() {
   currentCardIndex = (currentCardIndex - 1 + vocabData.length) % vocabData.length;
   updateFlashcard();
+  playTone(400, 'triangle', 0.05);
 }
 
 function speakCurrentFlashcard() {
-  const card = vocabData[currentCardIndex];
-  if (!card) return;
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(card.fr);
-    u.lang = 'fr-FR';
-    window.speechSynthesis.speak(u);
-  }
+  const item = vocabData[currentCardIndex];
+  if (item) speakText(item.fr);
 }
 
 function getVocabCategoryLabel(cat) {
   switch (cat) {
-    case 'diplomacy': return 'Diplomasi';
-    case 'daily': return 'Günlük & Seyahat';
-    case 'argot': return 'Argot & Verlan';
-    case 'idioms': return 'Deyimler';
-    case 'connectors': return 'Münazara Bağlaçları';
-    default: return 'Genel';
+    case 'diplomacy': return '🌐 Gençlik Diplomasisi';
+    case 'daily': return '🥐 Günlük & Seyahat';
+    case 'argot': return '⚡ Argot & Verlan';
+    case 'idioms': return '💡 Deyimler';
+    case 'connectors': return '🔗 Münazara Bağlaçları';
+    default: return cat;
   }
 }
 
@@ -918,333 +1982,218 @@ function renderVocabTable(list) {
   if (!tbody) return;
   tbody.innerHTML = list.map(v => `
     <tr>
-      <td><strong>${v.fr}</strong></td>
-      <td><code>${v.pronun}</code></td>
+      <td>
+        <strong>${v.fr}</strong>
+        <button class="btn-voice-mini" onclick="speakText('${v.fr.replace(/'/g, "\\'")}')" title="Telaffuz">🔊</button>
+      </td>
+      <td><code>${v.ipa}</code></td>
       <td>${v.tr}</td>
-      <td><span class="badge-tag tag-${v.cat}">${getVocabCategoryLabel(v.cat)}</span></td>
+      <td><span class="table-tag">${getVocabCategoryLabel(v.cat)}</span></td>
     </tr>
   `).join('');
 }
 
 function filterVocab() {
-  const term = document.getElementById('vocabSearch')?.value.toLowerCase() || '';
-  const cat = document.getElementById('vocabFilter')?.value || 'all';
-  let filtered = vocabData;
-  if (cat !== 'all') {
-    filtered = filtered.filter(v => v.cat === cat);
-  }
-  if (term) {
-    filtered = filtered.filter(v => v.fr.toLowerCase().includes(term) || v.tr.toLowerCase().includes(term));
-  }
+  const searchVal = document.getElementById('vocabSearch')?.value.toLowerCase() || '';
+  const filterCat = document.getElementById('vocabFilter')?.value || 'all';
+
+  const filtered = vocabData.filter(v => {
+    const matchCat = filterCat === 'all' || v.cat === filterCat;
+    const matchSearch = v.fr.toLowerCase().includes(searchVal) ||
+                        v.tr.toLowerCase().includes(searchVal) ||
+                        v.ipa.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
   renderVocabTable(filtered);
 }
 
 document.getElementById('vocabSearch')?.addEventListener('input', filterVocab);
 document.getElementById('vocabFilter')?.addEventListener('change', filterVocab);
 
-// Keyboard shortcut for flashcards (Space to flip, Arrow keys to navigate)
-window.addEventListener('keydown', (e) => {
-  const vocabTab = document.getElementById('tab-vocabulary');
-  if (vocabTab && vocabTab.classList.contains('active')) {
-    if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
-      e.preventDefault();
-      flipCard();
-    } else if (e.code === 'ArrowRight') {
-      nextCard();
-    } else if (e.code === 'ArrowLeft') {
-      prevCard();
-    }
-  }
-});
-
 // ==========================================================================
-// 10. PARIS FLANEUR ROUTES DATABASE
+// 16. PARIS FLÂNEUR ROUTES
 // ==========================================================================
 const flaneurRoutesData = [
   {
-    title: "1. Saint-Germain & Varoluşçu Kafe Hattı",
-    time: "2.5 Saat (~4.5 km)",
-    theme: "Varoluşçuluk, Caz & Felsefi Münazaralar",
-    stops: [
-      "Café de Flore (Sartre & Beauvoir'ın yazı masaları)",
-      "Les Deux Magots (Hemingway & Camus buluşma noktası)",
-      "Église Saint-Germain-des-Prés (Paris'in en eski kilisesi & Descartes'ın mezarı)",
-      "Jardin du Luxembourg (Rilke ve Gide'in yürüyüş patikaları)"
-    ],
-    secret: "Le Procope: 1686'da açılan ve Voltaire'in günde 40 fincan kahve içtiği, Diderot'nun Ansiklopedi'yi tartıştığı ilk kafe."
+    title: "1. Latin Mahallesi & Felsefe Yolu",
+    area: "5. & 6. Arrondissement",
+    stops: "Panthéon → Sorbonne Üniversitesi → Jardin du Luxembourg → Saint-Germain-des-Prés",
+    desc: "Descartes, Rousseau ve Voltaire'in anıt mezarları, Albert Sorel'in Yahya Kemal'e ders verdiği Sorbonne amfileri ve Sartre-Beauvoir'ın varoluşçu kafeleri (Café de Flore, Les Deux Magots)."
   },
   {
-    title: "2. Quartier Latin & Entelektüel Panteon",
-    time: "2 Saat (~3.8 km)",
-    theme: "Akademi, Aydınlanma & Edebi Sahaf Loncası",
-    stops: [
-      "Sorbonne Üniversitesi (1253'ten bu yana felsefenin kalbi)",
-      "Shakespeare and Company Sahafı (Kayıp Kuşak yazarları)",
-      "Panthéon (Voltaire, Rousseau, Victor Hugo ve Zola'nın ebedi istirahatgâhı)",
-      "Collège de France (Foucault ve Barthes'ın ders amfileri)"
-    ],
-    secret: "Rue Mouffetard: Roma döneminden kalma, Hemingway'in Paris Bir Şölendir'de anlattığı canlı pazar sokağı."
+    title: "2. Seine Kıyısı & Kitapçı Tezgâhları (Bouquinistes)",
+    area: "Pont Neuf → Pont des Arts → Pont Mirabeau",
+    stops: "Île de la Cité → Notre-Dame → Bouquinistes → Louvre Avlusu",
+    desc: "UNESCO somut olmayan mirası 450 yıllık yeşil sahaf kutuları, Apollinaire'in şiirine konu olan Mirabeau Köprüsü ve Baudelaire'in flânerie adımları."
   },
   {
-    title: "3. Seine Bouquinistes & Köprüler Şiiri",
-    time: "3 Saat (~5 km)",
-    theme: "UNESCO Nehir Mirası, Sahaf Kutuları & Empresyonizm",
-    stops: [
-      "Pont Mirabeau (Apollinaire'in akıp giden zamana yazdığı köprü)",
-      "Pont des Arts (Louvre'a bağlanan ahşap sanatçılar köprüsü)",
-      "Seine Bouquinistes (900 yeşil kutuda 300.000 tarihi kitap & gravür)",
-      "Île de la Cité & Notre-Dame Katedrali (Victor Hugo'nun Quasimodo esini)"
-    ],
-    secret: "Pont Neuf: Adı 'Yeni Köprü' olmasına rağmen Paris'in en eski ayakta kalan taş köprüsüdür (1607)."
+    title: "3. Montmartre & Bohem Sanat Tepesi",
+    area: "18. Arrondissement",
+    stops: "Sacré-Cœur → Place du Tertre → Bateau-Lavoir → Le Mur des Je t'aime",
+    desc: "Picasso, Modigliani ve empresyonistlerin atölyeleri, dik merdivenler ve Paris panoraması."
   },
   {
-    title: "4. Montmartre Bohem Sanatçı Tepesi",
-    time: "2.5 Saat (~4 km)",
-    theme: "Bateau-Lavoir, Kübizm & Kabare Kültürü",
-    stops: [
-      "Le Bateau-Lavoir (Picasso'nun Avignonlu Kızlar'ı boyadığı efsanevi atölye)",
-      "Place du Tertre (Açık hava ressamlar meydanı)",
-      "Au Lapin Agile (Tarihi sanatçı kabaresi)",
-      "Sacré-Cœur Bazilikası (Paris'e tepeden bakan beyaz kubbe)"
-    ],
-    secret: "Vigne de Montmartre: Paris'in göbeğinde 12. yüzyıldan beri üzüm hasadı yapılan son tarihi bağ alanı."
+    title: "4. Le Marais, Pasajlar & Aydınlanma",
+    area: "3. & 4. Arrondissement",
+    stops: "Place des Vosges (Victor Hugo'nun Evi) → Passage des Panoramas → Galerie Vivienne",
+    desc: "Walter Benjamin'in 'Pasajlar' felsefesine konu olan 19. yüzyıl cam tavanlı pasajları ve Victor Hugo'nun çalışma masası."
   },
   {
-    title: "5. Marais & Tarihi Pasajlar (*Les Passages Couverts*)",
-    time: "3.5 Saat (~5.5 km)",
-    theme: "Walter Benjamin'in Pasajlar Projesi & 19. Yüzyıl Kent Morfolojisi",
-    stops: [
-      "Passage des Panoramas (1799 tarihli ilk cam tavanlı gaz lambalı pasaj)",
-      "Galerie Vivienne (Mozaik zeminli lüks neoklasik pasaj)",
-      "Place des Vosges (Victor Hugo'nun yaşadığı ve Sefiller'i yazdığı kırmızı tuğlalı meydan)",
-      "Musée Carnavalet (Paris Tarihi Müzesi)"
-    ],
-    secret: "Pasajlar, 19. yüzyılda flâneur'lerin yağmurdan kaçarak vitrinleri izlediği modern alışveriş merkezlerinin atasıdır."
+    title: "5. İnovasyon & Dönüşüm Ekseni: Station F & BnF",
+    area: "13. Arrondissement",
+    stops: "Station F (Halle Freyssinet) → BnF François Mitterrand → Parc de Bercy",
+    desc: "Eski demiryolu deposundan dönüştürülen dünyanın en büyük startup kampüsü ve modern Fransa'nın bilgi mabedi."
   }
 ];
 
 function renderFlaneurRoutes() {
   const container = document.getElementById('flaneurRoutesContainer');
   if (!container) return;
-  container.innerHTML = flaneurRoutesData.map(r => `
-    <div class="flaneur-route-card">
-      <div class="route-header">
-        <h3>${r.title}</h3>
-        <span class="route-time-badge">⏱️ ${r.time}</span>
+  container.innerHTML = flaneurRoutesData.map((r, idx) => `
+    <div class="flaneur-card">
+      <div class="fl-header">
+        <h3>🚶 Rota ${idx + 1}: ${r.title}</h3>
+        <span class="fl-area">${r.area}</span>
       </div>
-      <div class="route-theme">🎭 ${r.theme}</div>
-      <ul class="route-stops-list">
-        ${r.stops.map(s => `<li>${s}</li>`).join('')}
-      </ul>
-      <div class="route-secret">
-        <strong>💡 Flâneur Gizemi:</strong> ${r.secret}
-      </div>
+      <div class="fl-stops"><strong>Güzergah:</strong> ${r.stops}</div>
+      <p class="fl-desc">${r.desc}</p>
     </div>
   `).join('');
 }
 
 // ==========================================================================
-// 11. COMPREHENSIVE 20-QUESTION QUIZ ENGINE
+// 17. 20-QUESTION QUIZ ENGINE
 // ==========================================================================
 const quizQuestions = [
   {
-    cat: "Coğrafya & Semboller",
-    q: "1. Fransa anakarası, 6 köşeli geometrik yapısından ötürü halk arasında hangi isimle anılır?",
-    opts: ["Le Pentagone", "L'Hexagone (Altıgen)", "Le Triangle", "L'Octogone"],
+    category: "Diplomasi Tarihi",
+    question: "Osmanlı İmparatorluğu ile Fransa arasındaki ilk resmî dostluk ve ticaret ahitnamesi (Kapitülasyonlar) hangi yıl imzalanmıştır?",
+    options: ["1453", "1536", "1789", "1923"],
     correct: 1,
-    exp: "Fransa, 3 deniz ve 3 kara sınırına sahip 6 köşeli yapısı sebebiyle 'L'Hexagone' (Altıgen) olarak anılır."
+    explanation: "1536 yılında Kanuni Sultan Süleyman ile I. François arasında ilk resmî dostluk ve ticaret antlaşması imzalanmıştır."
   },
   {
-    cat: "Anayasa & Hukuk",
-    q: "2. Fransa'da kilise ile devlet işlerini kesin olarak ayıran 'Laïcité' yasası hangi yılda kabul edilmiştir?",
-    opts: ["1789", "1848", "1905", "1958"],
+    category: "Edebiyat & Şiir",
+    question: "Charles Baudelaire'in ünlü 'L'Albatros' şiirinde şair hangi varlığa benzetilmiştir?",
+    options: ["Kartal", "Albatros Kuşu", "Gemi Kaptanı", "Fırtına"],
+    correct: 1,
+    explanation: "Baudelaire şairi göklerde özgürce uçan ancak yeryüzünde hantal kalan devasa albatros kuşuna benzetir."
+  },
+  {
+    category: "Felsefe & Düşünce",
+    question: "'Düşünüyorum, öyleyse varım' (Je pense, donc je suis) sözü hangi Fransız düşünüre aittir?",
+    options: ["Jean-Jacques Rousseau", "Voltaire", "René Descartes", "Albert Camus"],
     correct: 2,
-    exp: "9 Aralık 1905 tarihli yasa, Fransız tipi laikliğin kurucu anayasal temelidir."
+    explanation: "Kartezyen rasyonalizmin kurucusu René Descartes, 1637 tarihli 'Yöntem Üzerine Konuşma' eserinde bu ilkeyi ortaya koymuştur."
   },
   {
-    cat: "Edebiyat & Felsefe",
-    q: "3. Marcel Proust'un 'Kayıp Zamanın İzinde' eserinde istemsiz belleği (mémoire involontaire) tetikleyen ünlü yiyecek nedir?",
-    opts: ["Kruvasan", "Madlen Keki (Madeleine)", "Makaron", "Baget Ekmeği"],
-    correct: 1,
-    exp: "Ihlamur çayına batırılan madlen keki (La madeleine de Proust), çocukluk anılarını birdenbire canlandırır."
-  },
-  {
-    cat: "Bilim & Enerji",
-    q: "4. Fransa elektriğinin yaklaşık %70'ini üreten nükleer dönüşüm hamlesi hangi planla başlatılmıştır?",
-    opts: ["Monnet Planı", "Messmer Planı (1973)", "De Gaulle Doktrini", "Yeşil Mutabakat"],
-    correct: 1,
-    exp: "1973 petrol krizinin ardından Başbakan Pierre Messmer tarafından 'Tout-nucléaire' planı başlatılmıştır."
-  },
-  {
-    cat: "Yedinci Sanat (Sinema)",
-    q: "5. 1950'lerin sonunda Godard ve Truffaut öncülüğünde sinema kalıplarını yıkan Fransız akımı hangisidir?",
-    opts: ["Nouvelle Vague (Yeni Dalga)", "Realizm", "Dadaizm", "Ekspresyonizm"],
-    correct: 0,
-    exp: "Nouvelle Vague, stüdyolardan sokağa taşan hafif kameralı auteur sinema akımıdır."
-  },
-  {
-    cat: "Dil & Sosyoloji",
-    q: "6. Fransız argosunda hecelerin yer değiştirmesiyle türetilen dil sistemine ne ad verilir?",
-    opts: ["Argon", "Verlan (L'envers)", "Patois", "Esperanto"],
-    correct: 1,
-    exp: "Verlan (l'envers = tersine), fou->ouf, femme->meuf gibi heceleri ters yüz eden bir sistemdir."
-  },
-  {
-    cat: "Teknoloji & Girişimcilik",
-    q: "7. Dünyanın tek çatı altındaki en büyük girişimcilik ve kuluçka kampüsü Paris'teki hangi merkezdir?",
-    opts: ["Station F", "Silicon Sentier", "Campus Tech", "Inria Lab"],
-    correct: 0,
-    exp: "Station F, 34.000 m² alanında 1000'den fazla startupa ev sahipliği yapan devasa kuluçka merkezidir."
-  },
-  {
-    cat: "Diplomasi Tarihi",
-    q: "8. Osmanlı-Fransız diplomatik ittifakının ilk resmi temeli 1536'da hangi iki lider arasında atılmıştır?",
-    opts: ["Fatih Sultan Mehmet & XI. Louis", "Kanuni Sultan Süleyman & I. François", "Yavuz Sultan Selim & XIV. Louis", "II. Abdülhamid & Napoléon"],
-    correct: 1,
-    exp: "1536 yılında Kanuni Sultan Süleyman ve Fransa Kralı I. François stratejik bir ittifak tesis etmiştir."
-  },
-  {
-    cat: "Gastronomi",
-    q: "9. Fransa'nın gastronomi başkenti ve tarihi ipek dokuma merkezi kabul edilen şehir hangisidir?",
-    opts: ["Bordeaux", "Marseille", "Lyon", "Strasbourg"],
+    category: "Gastronomi & Terroir",
+    question: "Fransa'nın Jura dağlarında üretilen ve en çok tüketilen 1 numaralı AOP tescilli sert peyniri hangisidir?",
+    options: ["Roquefort", "Camembert", "Comté", "Brie de Meaux"],
     correct: 2,
-    exp: "Lyon, 'Bouchon' lokantaları, Paul Bocuse mirası ve tarihi Canuts ipekçileriyle gastronominin başkentidir."
+    explanation: "Comté peyniri Fransa'nın yıllık üretim miktarıyla açık ara 1 numaralı AOP tescilli peyniridir."
   },
   {
-    cat: "Gençlik Politikaları",
-    q: "10. Fransa'da 16-25 yaş arası gençlerin kamu yararına gönüllü çalışmasını sağlayan ulusal programın adı nedir?",
-    opts: ["Erasmus+", "Service Civique", "Corps Européen", "MJC Jeunesse"],
+    category: "Şehir & Flâneur",
+    question: "Paris'te Victor Hugo'nun 16 yıl yaşadığı ve Sefiller'in bir bölümünü yazdığı tarihi meydan hangisidir?",
+    options: ["Place de la Concorde", "Place des Vosges", "Place de la Bastille", "Place Vendôme"],
     correct: 1,
-    exp: "Service Civique, gençlerin 6-12 ay süreyle sivil kurumlarda kamu yararına görev almasını sağlar."
+    explanation: "Place des Vosges 6 numaralı ev günümüzde Maison de Victor Hugo müzesidir."
   },
   {
-    cat: "Şehir & Şiir",
-    q: "11. 'Kötülük Çiçekleri'nde kenti aylak bir gözlemci gibi adımlayan 'Flâneur' kavramını edebiyata kazandıran şair kimdir?",
-    opts: ["Arthur Rimbaud", "Charles Baudelaire", "Paul Verlaine", "Stéphane Mallarmé"],
-    correct: 1,
-    exp: "Charles Baudelaire, modernitenin ve Paris sokaklarının avare gözlemcisini (Flâneur) estetikleştirmiştir."
-  },
-  {
-    cat: "Müzik Mirası",
-    q: "12. 1990'larda Daft Punk, Justice ve Air öncülüğünde doğan Fransız elektronik müzik akımı nasıl adlandırılır?",
-    opts: ["French Touch", "Electro Chanson", "Paris Beat", "Wave Pop"],
+    category: "Sanayi & French Tech",
+    question: "Paris 13. bölgede bulunan ve eski bir tren ambarından dönüştürülen dünyanın en büyük girişimcilik kampüsü hangisidir?",
+    options: ["Station F", "Silicon Sentier", "Bercy Tech", "Sorbonne Lab"],
     correct: 0,
-    exp: "French Touch, disko sample'ları ve synthesizer'larla küresel dans müziğini yeniden tanımlamıştır."
+    explanation: "Halle Freyssinet binasında yer alan Station F, 1000'den fazla startupa ev sahipliği yapar."
   },
   {
-    cat: "Kültür Kurumları",
-    q: "13. Türkiye'de 1868 yılında Sultan Abdülaziz döneminde kurulan Fransızca tedrisatlı köklü eğitim kurumu hangisidir?",
-    opts: ["Robert Kolej", "Galatasaray Mekteb-i Sultanîsi", "Saint Joseph", "Notre Dame de Sion"],
+    category: "Dil & Fonetik",
+    question: "Fransızcadaki 'Actuellement' kelimesinin Türkçe doğru karşılığı nedir? (Faux Ami)",
+    options: ["Aslında / Gerçekte", "Şu anda / Günümüzde", "Aktif olarak", "Geçmişte"],
     correct: 1,
-    exp: "Galatasaray Lisesi (Mekteb-i Sultanî), iki ülke arasındaki en köklü eğitim ve kültür köprüsüdür."
+    explanation: "'Actuellement' şu anda / günümüzde demektir. 'Aslında' için Fransızca 'en réalité' veya 'en fait' kullanılır."
   },
   {
-    cat: "Edebiyat & Felsefe",
-    q: "14. 'Düşünüyorum, öyleyse varım' (Cogito ergo sum) rasyonalizmini ortaya koyan Fransız düşünür kimdir?",
-    opts: ["Montaigne", "René Descartes", "Blaise Pascal", "Denis Diderot"],
+    category: "Türk-Fransız Kültürü",
+    question: "1720 yılında Paris'e elçi olarak gidip meşhur 'Fransa Sefaretnamesi'ni yazan Osmanlı devlet adamı kimdir?",
+    options: ["Evliya Çelebi", "Yirmisekiz Çelebi Mehmed Efendi", "Kâtip Çelebi", "Ahmet Resmi Efendi"],
     correct: 1,
-    exp: "René Descartes, 1637 tarihli 'Yöntem Üzerine Konuşma' eserinde Kartezyen rasyonalizmin temelini atmıştır."
+    explanation: "Yirmisekiz Çelebi Mehmed Efendi'nin 1720-1721 Paris sefareti, Lâle Devri reformlarına ilham vermiştir."
   },
   {
-    cat: "Gastronomi & Terroir",
-    q: "15. Mağaralarda olgunlaştırılan ve 'Peynirlerin Kralı' olarak anılan ünlü Fransız mavi peyniri hangisidir?",
-    opts: ["Camembert", "Comté", "Roquefort", "Brie"],
+    category: "Anayasal Düzen",
+    question: "Fransa'da din ile devlet işlerinin ayrılmasını ve inanç tarafsızlığını düzenleyen tarihi Laiklik Kanunu hangi yılda kabul edilmiştir?",
+    options: ["1789", "1848", "1905", "1958"],
     correct: 2,
-    exp: "Roquefort, Combalou doğal kireçtaşı mağaralarında olgunlaştırılan eşsiz bir AOP koyun peyniridir."
+    explanation: "9 Aralık 1905 tarihli kanun, Fransız Cumhuriyeti'nin Laïcité ilkesinin yasal temelidir."
   },
   {
-    cat: "Havacılık & Sanayi",
-    q: "16. Avrupa'nın ticari havacılık devi Airbus'ın genel merkezi ve nihai montaj hatları hangi Fransız şehrindedir?",
-    opts: ["Nantes", "Lille", "Toulouse", "Nice"],
-    correct: 2,
-    exp: "Toulouse, Airbus ve Fransız Uzay Ajansı'nın (CNES) bulunduğu Avrupa havacılık başkentidir."
-  },
-  {
-    cat: "Tiyatro & Absürd",
-    q: "17. 'Godot'yu Beklerken' ve 'Kel Şarkıcı' ile temsil edilen 20. yüzyıl Paris tiyatro akımı hangisidir?",
-    opts: ["Klasik Trajedi", "Absürd Tiyatro (Théâtre de l'Absurde)", "Bulvar Tiyatrosu", "Epik Tiyatro"],
-    correct: 1,
-    exp: "Samuel Beckett ve Eugène Ionesco, Paris sahnelerinde Absürd Tiyatro'nun başyapıtlarını vermiştir."
-  },
-  {
-    cat: "Diplomatik Gelenek",
-    q: "18. Osmanlı'da Lale Devri ıslahatlarına ilham veren 1720 tarihli Paris Sefâretnâmesi'nin yazarı kimdir?",
-    opts: ["Evliya Çelebi", "Yirmisekiz Mehmed Çelebi", "Katip Çelebi", "Ebûbekir Râtıb Efendi"],
-    correct: 1,
-    exp: "Yirmisekiz Mehmed Çelebi'nin Paris Sefareti, ilk Türk matbaasının kurulmasına ve batılılaşmaya zemin hazırlamıştır."
-  },
-  {
-    cat: "Kültürel Kutlamalar",
-    q: "19. Her yıl 21 Haziran'da Fransa sokaklarında tüm müzisyenlerin ücretsiz çaldığı halk bayramının adı nedir?",
-    opts: ["Fête de la Bastille", "Fête de la Musique", "Nuit Blanche", "Fête des Lumières"],
-    correct: 1,
-    exp: "1982'de başlatılan Fête de la Musique (Müzik Bayramı), bugün 120'den fazla ülkede kutlanmaktadır."
-  },
-  {
-    cat: "Çevre & Şehircilik",
-    q: "20. Paris'in kentsel dönüşümünde her ihtiyaca yürüyerek veya bisikletle 15 dakikada ulaşmayı hedefleyen vizyon nedir?",
-    opts: ["La Ville du quart d'heure (15 Dakikalık Şehir)", "Green Metropolis", "Eco-Paris 2030", "Smart City"],
+    category: "Gençlik & Sosyal Hayat",
+    question: "Fransa'da tabandan örgütlenen, gençlerin kültür, sanat ve spor faaliyetlerini yürüttüğü gençlik merkezleri ağına ne ad verilir?",
+    options: ["MJC (Maison des Jeunes et de la Culture)", "Service Civique", "Crous", "Erasmus House"],
     correct: 0,
-    exp: "Carlos Moreno tarafından geliştirilen '15 Dakikalık Şehir' modeli, sürdürülebilir kent yaşamının öncüsüdür."
+    explanation: "MJC'ler (Maisons des Jeunes et de la Culture) Fransa genelinde gençlik katılımının kalbidir."
   }
 ];
 
 let currentQuizIndex = 0;
-let userScore = 0;
+let quizScore = 0;
 
 function renderQuizQuestion() {
-  const qData = quizQuestions[currentQuizIndex];
-  if (!qData) {
-    showQuizResult();
-    return;
-  }
-  document.getElementById('quizProgress').innerText = `Soru ${currentQuizIndex + 1} / ${quizQuestions.length}`;
-  const progressPercent = ((currentQuizIndex + 1) / quizQuestions.length) * 100;
-  document.getElementById('quizBarFill').style.width = `${progressPercent}%`;
-  document.getElementById('quizScore').innerText = `Skor: ${userScore} Puan`;
-  document.getElementById('quizCatTag').innerText = `Kategori: ${qData.cat}`;
-  document.getElementById('quizQuestion').innerText = qData.q;
+  const q = quizQuestions[currentQuizIndex];
+  if (!q) return;
 
-  const optionsDiv = document.getElementById('quizOptions');
-  optionsDiv.innerHTML = qData.opts.map((opt, idx) => `
-    <button class="quiz-opt-btn" onclick="selectQuizAnswer(${idx})">${opt}</button>
+  document.getElementById('quizProgress').innerText = `Soru ${currentQuizIndex + 1} / ${quizQuestions.length}`;
+  document.getElementById('quizBarFill').style.width = `${((currentQuizIndex + 1) / quizQuestions.length) * 100}%`;
+  document.getElementById('quizCatTag').innerText = `Kategori: ${q.category}`;
+  document.getElementById('quizQuestion').innerText = q.question;
+
+  const optionsContainer = document.getElementById('quizOptions');
+  optionsContainer.innerHTML = q.options.map((opt, idx) => `
+    <button class="quiz-option-btn" onclick="selectQuizAnswer(${idx})">
+      <span class="opt-letter">${String.fromCharCode(65 + idx)}</span>
+      <span class="opt-text">${opt}</span>
+    </button>
   `).join('');
 
-  const feedback = document.getElementById('quizFeedback');
-  feedback.className = 'quiz-feedback';
-  feedback.style.display = 'none';
+  document.getElementById('quizFeedback').style.display = 'none';
   document.getElementById('quizNextBtn').style.display = 'none';
 }
 
 function selectQuizAnswer(selectedIndex) {
-  const qData = quizQuestions[currentQuizIndex];
-  const buttons = document.querySelectorAll('.quiz-opt-btn');
-  buttons.forEach(btn => btn.disabled = true);
+  const q = quizQuestions[currentQuizIndex];
+  const buttons = document.querySelectorAll('.quiz-option-btn');
+  buttons.forEach(b => b.disabled = true);
 
   const feedback = document.getElementById('quizFeedback');
   feedback.style.display = 'block';
 
-  if (selectedIndex === qData.correct) {
-    userScore += 5; // 20 questions * 5 = 100 max points
-    playTone(700, 'triangle', 0.15);
+  if (selectedIndex === q.correct) {
     buttons[selectedIndex].classList.add('correct');
-    feedback.className = 'quiz-feedback show correct-fb';
-    feedback.innerHTML = `<strong>Tebrikler, Doğru! 🎉</strong> ${qData.exp}`;
+    quizScore += 10;
+    document.getElementById('quizScore').innerText = `Skor: ${quizScore} Puan`;
+    feedback.className = 'quiz-feedback correct-box';
+    feedback.innerHTML = `✅ <strong>Tebrikler, Doğru!</strong><br>${q.explanation}`;
+    playTone(660, 'sine', 0.15);
   } else {
-    playTone(220, 'sawtooth', 0.2);
     buttons[selectedIndex].classList.add('wrong');
-    buttons[qData.correct].classList.add('correct');
-    feedback.className = 'quiz-feedback show wrong-fb';
-    feedback.innerHTML = `<strong>Yanlış Cevap. 💡</strong> ${qData.exp}`;
+    buttons[q.correct].classList.add('correct');
+    feedback.className = 'quiz-feedback wrong-box';
+    feedback.innerHTML = `❌ <strong>Yanlış Cevap!</strong> Doğru seçenek: <strong>${q.options[q.correct]}</strong><br>${q.explanation}`;
+    playTone(220, 'square', 0.2);
   }
 
-  document.getElementById('quizScore').innerText = `Skor: ${userScore} Puan`;
   document.getElementById('quizNextBtn').style.display = 'inline-block';
 }
 
 function nextQuizQuestion() {
   currentQuizIndex++;
-  renderQuizQuestion();
+  if (currentQuizIndex < quizQuestions.length) {
+    renderQuizQuestion();
+  } else {
+    showQuizResult();
+  }
 }
 
 function showQuizResult() {
@@ -1252,43 +2201,38 @@ function showQuizResult() {
   const resultDiv = document.getElementById('quizResult');
   resultDiv.style.display = 'block';
 
-  let badge = "";
-  let message = "";
+  let badge = "🥈 Başarılı Delege";
+  let message = "Fransa ve diplomasi konularında güçlü bir temel bilginiz var!";
 
-  if (userScore >= 90) {
-    badge = "🎖️ Grand Diplomate & Membre d'Honneur";
-    message = "Muazzam bir başarı! Fransız tarihi, felsefesi, diplomasisi ve kültürüne tam anlamıyla hâkimsiniz. Gençlik delegasyonunun onur üyesisiniz! 🇫🇷🇹🇷";
-  } else if (userScore >= 70) {
-    badge = "🎨 Flâneur de Paris & Philosophe";
-    message = "Harika skor! İki ülke arasındaki kültürel ve entelektüel bağları çok iyi biliyorsunuz. Tebrikler! 📚";
-  } else if (userScore >= 50) {
-    badge = "🥖 Curieux Voyageur (Meraklı Gezgin)";
-    message = "Güzel bir temel! Atlas dosyalarını ve edebiyat bölümlerini inceleyerek skorunuzu zirveye taşıyabilirsiniz. ✨";
-  } else {
-    badge = "🌱 Découvreur Débutant (Genç Kâşif)";
-    message = "Araştırma atlasındaki zengin belgeleri okuyup testi tekrar çözerek bilginizi hızla geliştirebilirsiniz! 🚀";
+  if (quizScore >= 90) {
+    badge = "🏆 Kültürel Diplomasi Büyükelçisi";
+    message = "Muazzam başarı! Türkiye-Fransa ilişkileri ve Fransız kültüründe tam bir uzmansınız!";
+  } else if (quizScore < 60) {
+    badge = "📚 Araştırmacı Delege";
+    message = "Portaldaki dosyaları ve sözlüğü inceleyerek bilginizi daha da pekiştirebilirsiniz.";
   }
 
   resultDiv.innerHTML = `
-    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🏆</div>
-    <div style="font-size: 1.1rem; font-weight:800; color:var(--accent); text-transform:uppercase; margin-bottom:0.5rem;">${badge}</div>
-    <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Test Tamamlandı!</h3>
-    <p style="font-size: 2.8rem; font-weight:800; color:var(--primary); margin: 1rem 0;">${userScore} / 100 Puan</p>
-    <p style="font-size: 1.05rem; color:var(--text-muted); max-width: 600px; margin: 0 auto 2rem auto;">${message}</p>
+    <div class="result-badge">${badge}</div>
+    <h3>Bilgi Testi Tamamlandı!</h3>
+    <p class="result-score">Toplam Skorunuz: <strong>${quizScore} / ${quizQuestions.length * 10} Puan</strong></p>
+    <p class="result-msg">${message}</p>
     <button class="btn-primary" onclick="restartQuiz()">Testi Yeniden Başlat ↻</button>
   `;
+  playTone(880, 'sine', 0.3);
 }
 
 function restartQuiz() {
   currentQuizIndex = 0;
-  userScore = 0;
+  quizScore = 0;
+  document.getElementById('quizScore').innerText = 'Skor: 0 Puan';
   document.getElementById('quizContainer').style.display = 'block';
   document.getElementById('quizResult').style.display = 'none';
   renderQuizQuestion();
 }
 
 // ==========================================================================
-// 12. ATLAS MODAL CONTENT
+// 18. ATLAS MODAL CONTENT
 // ==========================================================================
 const atlasModalData = {
   history: {
@@ -1322,200 +2266,143 @@ const atlasModalData = {
       <p><small>Detaylı dosya: <code>france-atlas/institutions-state.md</code></small></p>
     `
   },
+  biographies: {
+    badge: "Biyografi Atlası",
+    title: "18 Düşünce ve Diplomasi Önderi",
+    content: `
+      <p>1536'dan günümüze iki ülkenin fikri, siyasi ve sanatsal köprülerini kuran büyük şahsiyetler.</p>
+      <h4>Öne Çıkan İsimler:</h4>
+      <ul>
+        <li><strong>Liderler:</strong> Kanuni Sultan Süleyman, I. François, Charles de Gaulle.</li>
+        <li><strong>Aydınlar & Mütercimler:</strong> Şinasi, Namık Kemal, Yahya Kemal, Cemil Meriç, Ahmet Rıza.</li>
+        <li><strong>Filozoflar:</strong> Descartes, Voltaire, Rousseau, Simone de Beauvoir, Albert Camus.</li>
+        <li><strong>Edebiyatçılar:</strong> Victor Hugo, Charles Baudelaire, Pierre Loti.</li>
+      </ul>
+      <p><small>Detaylı dosya: <code>france-atlas/franco-turkish-biographies.md</code></small></p>
+    `
+  },
   arts: {
     badge: "Sanat & Estetik",
     title: "Edebiyat, Sinema, Flânerie ve Empresyonizm",
     content: `
       <p>Molière'den Marcel Proust'a, Louvre salonlarından Nouvelle Vague sokaklarına Fransız estetik geleneği.</p>
-      <h4>Öne Çıkanlar:</h4>
       <ul>
-        <li><strong>Klasisizm & Realizm:</strong> Molière komedyaları, Balzac'ın <em>İnsanlık Komedyası</em>, Victor Hugo'nun <em>Sefiller</em>'i.</li>
-        <li><strong>Flâneur & Sembolizm:</strong> Charles Baudelaire'in <em>Kötülük Çiçekleri</em> ve kenti seyreden avare gözlemci kavramı.</li>
-        <li><strong>Marcel Proust:</strong> <em>Kayıp Zamanın İzinde</em> ve istemsiz bellek kuramı.</li>
-        <li><strong>Empresyonizm:</strong> Claude Monet ışığı, Manet ve Degas'nın modern kent resimleri.</li>
+        <li><strong>Büyük Roman:</strong> Victor Hugo, Honoré de Balzac, Gustave Flaubert ve Marcel Proust.</li>
+        <li><strong>Görsel Sanatlar:</strong> Empresyonizm (Monet, Renoir) ve Paris Ekolü.</li>
+        <li><strong>Sinema Sanatı:</strong> Lumière Kardeşler'in icadı, Truffaut ve Godard'ın Yeni Dalgası.</li>
       </ul>
       <p><small>Detaylı dosya: <code>france-atlas/arts-literature.md</code></small></p>
     `
   },
   science: {
     badge: "Sanayi & Teknoloji",
-    title: "Nükleer Model, Airbus, TGV ve French Tech",
+    title: "Messmer Planı, Havacılık ve French Tech",
     content: `
-      <p>Temel bilimlerdeki Fields madalyaları ve Nobel geleneğini ileri teknolojiyle birleştiren sanayi modeli.</p>
-      <h4>Önemli Sektörler:</h4>
+      <p>Fransa'nın nükleer enerjiden Airbus havacılığına, TGV yüksek hızlı tren ağından yapay zekâya uzanan teknolojik atılımları.</p>
       <ul>
-        <li><strong>Nükleer Enerji (Messmer Planı):</strong> Elektriğin %70'ini nükleerden sağlayan düşük karbonlu model.</li>
-        <li><strong>Airbus & Ariane:</strong> Toulouse montaj hatları ve Avrupa'nın bağımsız uzay fırlatma araçları.</li>
-        <li><strong>TGV (Alstom):</strong> 574,8 km/s hız rekoruna sahip yüksek hızlı demiryolu şebekesi.</li>
-        <li><strong>Station F & Mistral AI:</strong> Avrupa'nın yapay zekâ ve teknoloji kuluçka üssü Paris.</li>
+        <li><strong>Nükleer Enerji:</strong> Messmer Planı ile elektriğin %70'ini sıfır karbonlu nükleer santrallerden sağlama.</li>
+        <li><strong>Havacılık ve Uzay:</strong> Toulouse merkezli Airbus konsorsiyumu ve Ariane roketleri.</li>
+        <li><strong>Yapay Zekâ ve İnovasyon:</strong> Mistral AI açık kaynak modelleri ve Station F ekosistemi.</li>
       </ul>
       <p><small>Detaylı dosya: <code>france-atlas/science-industry.md</code></small></p>
     `
   },
   culture: {
-    badge: "Sosyoloji & Yaşam",
-    title: "L'art de vivre, UNESCO Gastronomi ve Verlan",
+    badge: "Gündelik Kültür",
+    title: "L'Art de Vivre, Argot, Verlan ve Nezaket",
     content: `
-      <p>Zamanı sohbetle zenginleştiren yaşama sanatı, kafe terasları ve yaşayan sokak dili.</p>
-      <h4>Gündelik Kültür:</h4>
+      <p>Fransız yaşam sanatı, kafe terasları, argo (Argot), hece takas dili (Verlan) ve sosyal etkileşim kuralları.</p>
       <ul>
-        <li><strong>L'art de vivre:</strong> Öğle yemeği ve akşam sofrası ritüelleri, kişisel alana saygı.</li>
-        <li><strong>UNESCO Gastronomi Mirası:</strong> Terroir anlayışı, AOP peynirleri ve geleneksel baget geleneği.</li>
-        <li><strong>Kafe Terası Kültürü:</strong> Sokağa bakan masalarda kitap okuma ve insanları izleme rutini.</li>
-        <li><strong>Argot & Verlan:</strong> Hecelerin yerini değiştiren gençlik dili (meuf, ouf, zarbi, cimer).</li>
+        <li><strong>Kafe Kültürü:</strong> Saatlerce oturulup kitap okunan ve tartışılan kamusal alanlar.</li>
+        <li><strong>Verlan:</strong> Kelimelerin hecelerini ters çevirerek konuşma biçimi (Fou -> Ouf, Femme -> Meuf).</li>
+        <li><strong>Görgü Kodları:</strong> 'Bonjour' demeden söze başlamama ve 'Vous' nezaket kalıbı.</li>
       </ul>
       <p><small>Detaylı dosya: <code>france-atlas/everyday-culture.md</code></small></p>
     `
   },
   diplomacy: {
-    badge: "İkili İlişkiler (500 Yıl)",
-    title: "Türkiye - Fransa Tarihi Bağı ve 2026 Vizyonu",
+    badge: "İkili İlişkiler",
+    title: "500 Yıllık Türkiye - Fransa İlişkileri",
     content: `
-      <p>1536'dan bu yana süregelen ittifaklar, kültürel etkileşimler ve gençlik diplomasisi köprüleri.</p>
-      <h4>İlişkilerin Omurgası:</h4>
+      <p>1536 Kapitülasyon ahitnamesinden Tanzimat aydınlanmasına, Galatasaray Lisesi'nden modern gençlik diplomasisine.</p>
       <ul>
-        <li><strong>Tarihsel İttifak:</strong> Kanuni Sultan Süleyman ve I. François'nın başlattığı diplomatik temaslar.</li>
-        <li><strong>Yirmisekiz Mehmed Çelebi:</strong> 1720 Paris Sefareti ve Lale Devri yenilikleri.</li>
-        <li><strong>Tanzimat & Edebiyat:</strong> Şinasi, Namık Kemal, Tevfik Fikret ve Yahya Kemal'in Paris yılları.</li>
-        <li><strong>Galatasaray Geleneği:</strong> 1868'den bu yana Türkiye'deki köklü Frankofon eğitim köprüsü.</li>
+        <li><strong>İttifakın Doğuşu:</strong> Pavia esareti sonrası Kanuni'nin I. François'ya desteği ve Toulon üssü.</li>
+        <li><strong>Tanzimat ve Galatasaray:</strong> 1868 Mekteb-i Sultani ile Fransızca eğitim geleneği.</li>
+        <li><strong>2026 Gençlik Köprüsü:</strong> Yeşil dönüşüm, inovasyon ve kültürlerarası diyalog eylemleri.</li>
       </ul>
       <p><small>Detaylı dosya: <code>france-atlas/franco-turkish-relations.md</code></small></p>
     `
   },
-  poetry: {
-    badge: "Şiir & Lirizm",
-    title: "Büyük Fransız Şiiri Antolojisi",
-    content: `
-      <p>Baudelaire'in melankolisinden Rimbaud'nun renklerine ve Paul Éluard'ın Direniş marşına Fransız şiiri.</p>
-      <h4>Öne Çıkan Şairler & Şiirler:</h4>
-      <ul>
-        <li><strong>Charles Baudelaire:</strong> <em>L'Albatros</em> ve <em>L'Invitation au voyage</em>.</li>
-        <li><strong>Arthur Rimbaud:</strong> <em>Voyelles</em> ve <em>Le Bateau ivre</em>.</li>
-        <li><strong>Paul Verlaine:</strong> <em>Chanson d'automne</em> ve saf müzikalite.</li>
-        <li><strong>Paul Éluard:</strong> Nazi işgaline karşı gökten atılan <em>Liberté</em> marşı.</li>
-        <li><strong>Jacques Prévert:</strong> <em>Les Feuilles mortes</em> ve sokakların lirik dili.</li>
-      </ul>
-      <p><small>Detaylı dosya: <code>france-atlas/french-poetry-anthology.md</code></small></p>
-    `
-  },
-  gastronomy: {
-    badge: "Gastronomi & Terroir",
-    title: "Fransız Mutfağı, Peynirler ve Bağcılık",
-    content: `
-      <p>UNESCO Somut Olmayan Mirası Fransız Gastronomi Yemeği ve terroir felsefesi.</p>
-      <h4>Mutfak Mirası:</h4>
-      <ul>
-        <li><strong>1200+ Peynir:</strong> Comté AOP, Roquefort, Camembert, Reblochon ve Sainte-Maure.</li>
-        <li><strong>Şarap Bölgeleri:</strong> Bordeaux, Bourgogne (Climats), Champagne ve Rhône.</li>
-        <li><strong>Boulangerie:</strong> Katkısız geleneksel Fransız bageti ve çıtır kruvasanlar.</li>
-        <li><strong>Paul Bocuse & Michelin:</strong> Lyon gastronomi başkenti ve Bocuse d'Or yarışması.</li>
-      </ul>
-      <p><small>Detaylı dosya: <code>france-atlas/gastronomy-terroir-guide.md</code></small></p>
-    `
-  },
-  cinema: {
-    badge: "Sinema & Tiyatro",
-    title: "Yedinci Sanat, Tiyatro ve Absürd",
-    content: `
-      <p>Lumière kardeşlerden Nouvelle Vague auteur sinemasına ve modern festivallere.</p>
-      <h4>Sanat Dalları:</h4>
-      <ul>
-        <li><strong>Sinema (Nouvelle Vague):</strong> Jean-Luc Godard, François Truffaut ve Agnès Varda.</li>
-        <li><strong>Tiyatro:</strong> Comédie-Française ve Samuel Beckett / Eugène Ionesco'nun Absürd Tiyatrosu.</li>
-        <li><strong>Cannes Film Festivali:</strong> Dünya sinemasının en prestijli buluşması (Palme d'Or).</li>
-        <li><strong>Avignon Festivali:</strong> Her yaz Papalar Sarayı'nda dünyanın en büyük tiyatro buluşması.</li>
-      </ul>
-      <p><small>Detaylı dosya: <code>france-atlas/cinema-theatre-music.md</code></small></p>
-    `
-  },
-  music: {
-    badge: "Müzik Mirası",
-    title: "Barok'tan Chanson ve French Touch'a",
-    content: `
-      <p>Versailles operalarından Debussy'nin empresyonizmine ve Daft Punk'a Fransız tınıları.</p>
-      <h4>Müzikal Evreler:</h4>
-      <ul>
-        <li><strong>Barok & Klasik:</strong> Jean-Baptiste Lully, Jean-Philippe Rameau ve Hector Berlioz.</li>
-        <li><strong>Empresyonizm:</strong> Claude Debussy (<em>Clair de lune</em>) ve Maurice Ravel (<em>Boléro</em>).</li>
-        <li><strong>La Chanson Française:</strong> Édith Piaf, Jacques Brel, Georges Brassens ve Charles Aznavour.</li>
-        <li><strong>French Touch:</strong> Daft Punk, Justice, Air ve küresel elektronik dans müziği.</li>
-      </ul>
-      <p><small>Detaylı dosya: <code>france-atlas/music-sound-traditions.md</code></small></p>
-    `
-  },
-  flaneur: {
-    badge: "Şehir Felsefesi",
-    title: "Paris'te Flâneur Olmak ve Edebi Rotalar",
-    content: `
-      <p>Baudelaire ve Walter Benjamin'in aylak kent gözlemcisi (Flâneur) felsefesi.</p>
-      <h4>Edebi Duraklar:</h4>
-      <ul>
-        <li><strong>Saint-Germain-des-Prés:</strong> Café de Flore, Les Deux Magots ve Sartre-Beauvoir masaları.</li>
-        <li><strong>Quartier Latin & Panthéon:</strong> Sorbonne, Shakespeare & Company ve Fransız aydınları panteonu.</li>
-        <li><strong>Montmartre:</strong> Picasso'nun Bateau-Lavoir atölyesi ve bohem sanatçı kabareleri.</li>
-        <li><strong>Seine Bouquinistes:</strong> 16. yüzyıldan bu yana nehir kenarındaki tarihi yeşil sahaf kutuları.</li>
-      </ul>
-      <p><small>Detaylı dosya: <code>france-atlas/paris-flaneur-guide.md</code></small></p>
-    `
-  },
-  actionplan: {
-    badge: "Ortak Politika Belgesi",
-    title: "2026-2027 İkili Gençlik Eylem Planı",
-    content: `
-      <p>Türkiye ve Fransa gençlik heyetlerinin ortaklaşa hazırladığı 5 maddelik stratejik yol haritası.</p>
-      <h4>Eylem Planı Maddeleri:</h4>
-      <ul>
-        <li><strong>Kardeş Gençlik Merkezleri:</strong> Türkiye'deki GSB Gençlik Merkezleri ile Fransa'daki MJC'ler arasında eşleştirme.</li>
-        <li><strong>İklim ve Yeşil İnovasyon Hackathonları:</strong> Sürdürülebilir kentler için genç yazılımcı ve tasarımcı buluşmaları.</li>
-        <li><strong>Çift Dilli Gençlik Medyası:</strong> Türk ve Fransız gençlerin hazırlayacağı kültürel podcast ve video serileri.</li>
-        <li><strong>Karşılıklı Gönüllülük Stajları:</strong> GSB Genç Gönüllüler ile Fransa Service Civique arasında kontenjan değişimi.</li>
-      </ul>
-      <p><small>Detaylı dosya: <code>presentations/youth-action-plan-2026.md</code></small></p>
-    `
-  },
   chronology: {
-    badge: "Diplomasi & Tarih",
-    title: "500 Yıllık Türkiye - Fransa Diplomatik Kronolojisi",
+    badge: "Diplomasi Kronolojisi",
+    title: "1536-2026 Zaman Çizelgesi",
     content: `
-      <p>1536'dan 2026'ya yarım binyıllık diplomatik, edebi ve gençlik eksenli ortak tarih.</p>
-      <h4>Önemli Kilometre Taşları:</h4>
-      <ul>
-        <li><strong>1536 Kapitülasyonları:</strong> Kanuni Sultan Süleyman & I. François stratejik ittifakı.</li>
-        <li><strong>1720 Paris Sefaretnamesi:</strong> Yirmisekiz Çelebi Mehmed Efendi'nin Batılılaşma ve matbaa raporu.</li>
-        <li><strong>1868 Mekteb-i Sultânî:</strong> Modern laik eğitimin ve Frankofon aydınlanmanın öncüsü Galatasaray Lisesi.</li>
-        <li><strong>1921 Ankara Antlaşması & Lozan:</strong> TBMM Hükümeti'ni tanıyan ilk İtilaf devleti Fransa ve Cumhuriyet diplomasisi.</li>
-        <li><strong>1968 General de Gaulle Ziyareti:</strong> Türkiye-Fransa ilişkilerinde altın çağ ve bağımsız dış politika vizyonu.</li>
-      </ul>
+      <p>Yarım binyıllık diplomatik sefaretnameler, Lozan ve Hatay antlaşmaları ve gençlik delegasyonu programları.</p>
       <p><small>Detaylı dosya: <code>france-atlas/diplomacy-chronology-1536-2026.md</code></small></p>
     `
   },
   phonetics: {
-    badge: "Sesbilim & Fonetik",
-    title: "Fransızca Fonetik, Telaffuz & Faux Amis Rehberi",
+    badge: "Fonetik & Sesbilim",
+    title: "Burun Ünlüleri, Boğaz R'si ve Faux Amis",
     content: `
-      <p>Burun ünlüleri, ulamalar, boğaz R'si ve Türkçe-Fransızca yalancı eşdeğer kelimeler.</p>
-      <h4>Öne Çıkan Başlıklar:</h4>
-      <ul>
-        <li><strong>4 Temel Nazal Ses:</strong> /ɑ̃/ (an/en), /ɛ̃/ (in/ain), /ɔ̃/ (on), /œ̃/ (un).</li>
-        <li><strong>Ulama (Liaison):</strong> Sesli harfle başlayan kelimelerin akıcı birleşimi (<em>les amis</em> -> /le.za.mi/).</li>
-        <li><strong>Faux Amis Tuzakları:</strong> <em>Actuellement</em> (Şu an) ≠ Aktüel, <em>Figure</em> (Yüz) ≠ Figür, <em>Attendre</em> (Beklemek) ≠ Katılmak.</li>
-      </ul>
+      <p>Fransızca telaffuz kuralları, burun ünlüleri (/ɑ̃/, /ɛ̃/, /ɔ̃/), boğaz R'si (/ʁ/) ve Türkçe ile ortak kelimeler.</p>
       <p><small>Detaylı dosya: <code>france-atlas/phonetics-linguistics-guide.md</code></small></p>
     `
   },
-  etiquette: {
-    badge: "Sosyoloji & Protokol",
-    title: "Fransız Gündelik Yaşam Adab-ı Muaşereti & Nezaket Kodları",
+  verbs: {
+    badge: "Fiil & Gramer",
+    title: "Fiil Çekimleri ve Diplomatik Nezaket Kipi",
     content: `
-      <p>Fransa'da sosyal kodlar, nezaket kuralları ve Türk-Fransız karşılaştırmalı protokolü.</p>
-      <h4>Altın Kurallar:</h4>
-      <ul>
-        <li><strong>Bonjour Önceliği:</strong> Herhangi bir iletişime başlamadan önce mutlaka <em>"Bonjour"</em> denmelidir.</li>
-        <li><strong>Vouvoiement Nezaketi:</strong> Karşı taraf önermedikçe <em>"Vous"</em> (Siz) hitabı korunur.</li>
-        <li><strong>Masa Adabı:</strong> Ekmek elle lokmalara ayrılır; ücretsiz su için <em>"Une carafe d'eau"</em> istenir.</li>
-        <li><strong>Münazara Kültürü:</strong> Zıt fikir beyan etmek saygısızlık değil, konuyu derinleştirme erdemidir.</li>
-      </ul>
+      <p>Kritik düzensiz fiiller (être, avoir, aller, faire, vouloir, pouvoir) ve Conditionnel de politesse kuralları.</p>
+      <p><small>Detaylı dosya: <code>france-atlas/french-verbs-grammar-guide.md</code></small></p>
+    `
+  },
+  dialogues: {
+    badge: "Saha Diyalogları",
+    title: "5 Durumsal Rol Yapma Senaryosu",
+    content: `
+      <p>Restoran siparişi, resmî bakanlık heyeti tanışması, Station F pitch sunumu, metro ve eczane diyalogları.</p>
+      <p><small>Detaylı dosya: <code>france-atlas/youth-dialogue-scenarios.md</code></small></p>
+    `
+  },
+  etiquette: {
+    badge: "Sosyolojik Nezaket",
+    title: "Fransız Görgü ve Sosyal Kodları",
+    content: `
+      <p>La Bise öpüşme kuralları, masa adabı, ekmek/su isteme kodu ve tartışma kültürü rehberi.</p>
       <p><small>Detaylı dosya: <code>france-atlas/franco-turkish-etiquette-guide.md</code></small></p>
+    `
+  },
+  poetry: {
+    badge: "Şiir Antolojisi",
+    title: "Büyük Fransız Şairleri",
+    content: `
+      <p>Baudelaire, Rimbaud, Verlaine, Apollinaire ve Paul Éluard'ın başyapıtları çift dilli metinlerle.</p>
+      <p><small>Detaylı dosya: <code>france-atlas/french-poetry-anthology.md</code></small></p>
+    `
+  },
+  gastronomy: {
+    badge: "Gastronomi Mirası",
+    title: "Terroir ve 1200+ Peynir Mirası",
+    content: `
+      <p>UNESCO Mutfak Mirası, AOP coğrafi işaretleri, peynir çeşitleri ve geleneksel baget fırıncılığı.</p>
+      <p><small>Detaylı dosya: <code>france-atlas/gastronomy-terroir-guide.md</code></small></p>
+    `
+  },
+  resolutions: {
+    badge: "İkili Bildiri",
+    title: "Türkiye - Fransa Gençlik Eylem Bildirisi",
+    content: `
+      <p>Yeşil dönüşüm, dijital egemenlik, öğrenci hareketliliği ve gönüllülük denkliği stratejileri.</p>
+      <p><small>Detaylı dosya: <code>france-atlas/bilateral-resolution-framework.md</code></small></p>
+    `
+  },
+  budget: {
+    badge: "Seyahat & Bütçe",
+    title: "Fransa Pratik Yaşam & Bütçe Kılavuzu",
+    content: `
+      <p>Navigo ulaşım kartı, Euro/TL göstergeleri, bahşiş kuralları, priz tipleri ve acil numaralar.</p>
+      <p><small>Detaylı dosya: <code>france-atlas/everyday-culture.md</code></small></p>
     `
   }
 };
@@ -1526,306 +2413,255 @@ function openAtlasModal(key) {
   document.getElementById('modalBadge').innerText = data.badge;
   document.getElementById('modalTitle').innerText = data.title;
   document.getElementById('modalBody').innerHTML = data.content;
-  document.getElementById('atlasModal').classList.add('active');
-  playTone(480, 'sine', 0.08);
+  document.getElementById('atlasModal')?.classList.add('active');
+  playTone(500, 'sine', 0.08);
 }
 
 function closeAtlasModal(e) {
-  document.getElementById('atlasModal').classList.remove('active');
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('atlasModal')?.classList.remove('active');
 }
 
 // ==========================================================================
-// 13. TIMELINE DATA & ENGINE (500 YILLIK DİPLOMASİ)
+// 19. TIMELINE DATABASE & ENGINE
 // ==========================================================================
 const timelineData = [
   {
+    year: "1526",
+    era: "era1",
+    title: "Kanuni'nin I. François'ya Tarihi Mektubu",
+    desc: "Pavia Muharebesi'nde esir düşen Fransa Kralı I. François'ya yardım teminatı veren mektup gönderildi."
+  },
+  {
     year: "1536",
     era: "era1",
-    eraName: "Klasik Dönem (1536-1789)",
-    title: "Kanuni Sultan Süleyman & I. François İlk Resmi İttifakı",
-    desc: "Şarlken'in imparatorluk baskısına karşı Osmanlı ve Fransa arasında kurulan stratejik askeri-ticari ittifak ve kapitülasyonlar.",
-    detail: "Fransa, Akdeniz ticaretinde geniş imtiyazlar elde etti; İstanbul'da daimi elçilik açan ilk Avrupa devleti oldu."
-  },
-  {
-    year: "1543",
-    era: "era1",
-    eraName: "Klasik Dönem (1536-1789)",
-    title: "Barbaros Hayreddin Paşa Donanmasının Toulon Limanında Kışlaması",
-    desc: "Osmanlı ve Fransız donanmalarının ortak Nice kuşatması sonrasında Osmanlı donanması kışı Toulon'da geçirdi.",
-    detail: "Fransa kralı François I'in emriyle Toulon şehri 6 ay boyunca Osmanlı donanmasına tahsis edildi."
-  },
-  {
-    year: "1669",
-    era: "era1",
-    eraName: "Klasik Dönem (1536-1789)",
-    title: "Müteferrika Süleyman Ağa Paris Elçiliği & 'Turquerie' Modası",
-    desc: "XIV. Louis sarayına elçi olarak giden Süleyman Ağa, Paris sosyetesine Türk kahvesini tanıttı.",
-    detail: "Molière'in 'Kibarık Budalası' (Le Bourgeois Gentilhomme) eserindeki Türk töreni sahnesine ilham verdi."
+    title: "İlk Osmanlı - Fransız Ahitnamesi (Kapitülasyonlar)",
+    desc: "Veziriazam Pargalı İbrahim Paşa ile Jean de La Forêt arasında imzalanan ticaret ve dostluk antlaşması."
   },
   {
     year: "1720",
     era: "era1",
-    eraName: "Klasik Dönem (1536-1789)",
-    title: "Yirmisekiz Çelebi Mehmed Efendi Paris Sefaretnamesi",
-    desc: "Lale Devri'nin mimarı Çelebi Mehmed Efendi, Fransa'nın bilim, matbaa, mimari ve askeri kurumlarını inceledi.",
-    detail: "İbrahim Müteferrika ile birlikte Osmanlı'da ilk Müslüman devlet matbaasının kurulmasının yolunu açtı."
+    title: "Yirmisekiz Çelebi Mehmed Efendi Paris Sefareti",
+    desc: "Osmanlı elçisi Paris'i ziyaret etti; gözlemlerini aktardığı Fransa Sefaretnamesi Lâle Devri reformlarına ilham verdi."
   },
   {
-    year: "1789",
+    year: "1797",
     era: "era2",
-    eraName: "İhtilal & Tanzimat (1789-1923)",
-    title: "Fransız İhtilali & Osmanlı Aydınlanması",
-    desc: "İnsan ve Yurttaş Hakları Bildirisi; hürriyet, eşitlik ve anayasacılık fikirleriyle Osmanlı entelektüellerini etkiledi.",
-    detail: "III. Selim Nizam-ı Cedid reformlarında Fransız askeri ve teknik uzmanlardan geniş ölçüde yararlandı."
+    title: "İlk Daimi Osmanlı Elçiliği Paris'te Kuruldu",
+    desc: "Seyyid Ali Efendi Paris'e ilk daimi Osmanlı büyükelçisi olarak atandı."
   },
   {
     year: "1867",
     era: "era2",
-    eraName: "İhtilal & Tanzimat (1789-1923)",
-    title: "Sultan Abdülaziz'in Paris Evrensel Sergisi Ziyareti",
-    desc: "III. Napoléon'un resmi davetiyle Paris'e giden Sultan Abdülaziz, Avrupa'yı barışçıl amaçla ziyaret eden ilk padişah oldu.",
-    detail: "Paris Operası, Louvre ve Versailles'da ağırlanan Osmanlı heyeti iki ülke kültürel bağlarını zirveye taşıdı."
+    title: "Sultan Abdülaziz'in Paris Ziyareti",
+    desc: "III. Napoléon'un davetiyle Paris Uluslararası Sergisi'ni ziyaret eden ilk Osmanlı Padişahı oldu."
   },
   {
     year: "1868",
     era: "era2",
-    eraName: "İhtilal & Tanzimat (1789-1923)",
-    title: "Mekteb-i Sultânî'nin (Galatasaray Lisesi) Kuruluşu",
-    desc: "Fransızca ve Türkçe iki dilli, laik ve modern eğitim veren eğitim kurumunun açılışı.",
-    detail: "Tevfik Fikret, Şinasi, Namık Kemal geleneğiyle Türk edebiyatı ve diplomasisinin yetiştirici beşiği oldu."
+    title: "Mekteb-i Sultani (Galatasaray Lisesi) Açıldı",
+    desc: "Fransa ve Osmanlı iş birliğiyle Batılı müfredatla Fransızca eğitim veren seçkin lise kuruldu."
   },
   {
     year: "1921",
     era: "era3",
-    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
-    title: "TBMM ile Fransa Arasında Ankara Antlaşması (Franklin-Bouillon)",
-    desc: "Fransa, TBMM Hükümeti'ni ve Misak-ı Milli'yi resmen tanıyan ilk İtilaf devleti oldu.",
-    detail: "Güney Cephesi kapandı; Fransız hükümeti Ankara Hükümeti'nin meşruiyetini uluslararası alanda tescilledi."
+    title: "Ankara Antlaşması (TBMM - Fransa)",
+    desc: "Fransa, TBMM Hükümeti'ni tanıyan ilk İtilaf Devleti oldu ve Güney Cephesi kapandı."
   },
   {
-    year: "1938",
+    year: "1939",
     era: "era3",
-    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
-    title: "Hatay Antlaşması ve Diplomatik Uzlaşma",
-    desc: "Atatürk'ün diplomatik vizyonu ve Fransa ile yürütülen müzakerelerle Hatay Cumhuriyeti bağımsızlığını kazandı.",
-    detail: "1939'da Hatay'ın anavatana katılmasıyla sonuçlanan barışçıl ve rasyonel diplomasi zaferi."
+    title: "Hatay'ın Türkiye'ye Katılması",
+    desc: "Fransa ile imzalanan antlaşma neticesinde Hatay Devleti plebisitle Türkiye Cumhuriyeti'ne katıldı."
   },
   {
     year: "1968",
     era: "era3",
-    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
-    title: "General Charles de Gaulle'ün Resmi Türkiye Ziyareti",
-    desc: "Fransa Cumhurbaşkanı De Gaulle, Anıtkabir'i ve Galatasaray Lisesi'nin 100. yılını ziyaret etti.",
-    detail: "Soğuk Savaş döneminde bağımsız dış politika ekseninde Franko-Türk diyaloğu stratejik güç kazandı."
+    title: "General Charles de Gaulle'ün Türkiye Ziyareti",
+    desc: "Fransa Cumhurbaşkanı De Gaulle Anıtkabir'i ve Galatasaray Lisesi'nin 100. yıl törenlerini ziyaret etti."
   },
   {
     year: "1992",
     era: "era3",
-    eraName: "Cumhuriyet Diplomasisi (1923-2000)",
-    title: "Galatasaray Üniversitesi Uluslararası Antlaşması",
-    desc: "Cumhurbaşkanı Turgut Özal ve François Mitterrand tarafından imzalanan devletlerarası anlaşmayla kuruldu.",
-    detail: "Türkiye ve Fransa ortak himayesinde faaliyet gösteren frankofon yükseköğretim amiral gemisi."
+    title: "Galatasaray Üniversitesi Kuruldu",
+    desc: "Cumhurbaşkanları Turgut Özal ve François Mitterrand tarafından imzalanan uluslararası anlaşmayla kuruldu."
   },
   {
     year: "2026",
     era: "era4",
-    eraName: "21. Yüzyıl & Gelecek (2000-2026+)",
-    title: "GSB Türkiye - Fransa Gençlik Değişimi & Ortak Eylem Planı",
-    desc: "T.C. Gençlik ve Spor Bakanlığı öncülüğünde ikili gençlik diplomasisi, çevre hackathonları ve kardeş gençlik merkezleri hamlesi.",
-    detail: "Ankara, İstanbul, Paris ve Lyon ayaklarında genç delegasyonların hazırladığı 2026-2027 ortak yol haritası."
+    title: "GSB Türkiye - Fransa Gençlik Değişimi Programı",
+    desc: "500 yıllık diplomasi mirası zemininde Ankara, İstanbul, Paris ve Lyon'da gençlik diplomasisi zirvesi."
   }
 ];
 
 function renderTimeline(items) {
   const container = document.getElementById('timelineContainer');
   if (!container) return;
-  container.innerHTML = items.map(t => `
-    <div class="timeline-item" data-era="${t.era}">
-      <div class="timeline-item-header">
-        <span class="timeline-year">${t.year}</span>
-        <span class="timeline-era-tag">${t.eraName}</span>
-      </div>
-      <h4>${t.title}</h4>
-      <p class="timeline-desc">${t.desc}</p>
-      <div class="timeline-detail-box">
-        💡 <strong>Tarihsel Nüans:</strong> ${t.detail}
+  container.innerHTML = items.map(item => `
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">${item.year}</div>
+      <div class="timeline-content">
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
       </div>
     </div>
   `).join('');
 }
 
 function filterTimeline(era) {
-  document.querySelectorAll('.timeline-controls .chip').forEach(c => c.classList.remove('active'));
-  event?.target?.classList?.add('active');
+  document.querySelectorAll('#tab-timeline .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const searchVal = document.getElementById('timelineSearch')?.value.toLowerCase() || '';
 
-  const q = document.getElementById('timelineSearch')?.value.toLowerCase().trim() || '';
-  let filtered = era === 'all' ? timelineData : timelineData.filter(t => t.era === era);
-  if (q) {
-    filtered = filtered.filter(t => t.title.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.year.includes(q));
-  }
+  const filtered = timelineData.filter(item => {
+    const matchEra = era === 'all' || item.era === era;
+    const matchSearch = item.year.includes(searchVal) ||
+                        item.title.toLowerCase().includes(searchVal) ||
+                        item.desc.toLowerCase().includes(searchVal);
+    return matchEra && matchSearch;
+  });
   renderTimeline(filtered);
 }
 
 document.getElementById('timelineSearch')?.addEventListener('input', (e) => {
-  const q = e.target.value.toLowerCase().trim();
-  const filtered = timelineData.filter(t => 
-    t.title.toLowerCase().includes(q) || 
-    t.desc.toLowerCase().includes(q) || 
-    t.year.includes(q) ||
-    t.detail.toLowerCase().includes(q)
+  const searchVal = e.target.value.toLowerCase();
+  const filtered = timelineData.filter(item =>
+    item.year.includes(searchVal) ||
+    item.title.toLowerCase().includes(searchVal) ||
+    item.desc.toLowerCase().includes(searchVal)
   );
   renderTimeline(filtered);
 });
 
 // ==========================================================================
-// 14. PHONETICS, SPEECH SYNTHESIS & FAUX AMIS ENGINE
+// 20. FAUX AMIS DATABASE & ENGINE
 // ==========================================================================
-function speakText(text, lang = 'fr-FR') {
-  if (!('speechSynthesis' in window)) {
-    showToast('Tarayıcınız ses sentezini desteklemiyor.');
-    return;
-  }
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang;
-  utterance.rate = 0.85;
-  utterance.pitch = 1.0;
-  window.speechSynthesis.speak(utterance);
-  playTone(520, 'sine', 0.05);
-}
-
 const fauxAmisData = [
-  { fr: "Actuellement", trap: "Aktüel / Güncel DEĞİL!", real: "Şu anda, halihazırda (Örn: Actuellement à Paris)" },
-  { fr: "Figure", trap: "Desen / Figür DEĞİL!", real: "İnsan yüzü, sima (Örn: Une belle figure)" },
-  { fr: "Attendre", trap: "Katılmak / Atanmak DEĞİL!", real: "Beklemek (Örn: J'attends le train)" },
-  { fr: "Sensible", trap: "Mantıklı DEĞİL!", real: "Hassas, duygusal, duyarlı" },
-  { fr: "Déception", trap: "Aldatma / Hile DEĞİL!", real: "Hayal kırıklığı (Örn: Quelle déception !)" },
-  { fr: "Prétendre", trap: "Rol yapmak DEĞİL!", real: "İddia etmek, ileri sürmek" },
-  { fr: "Éventuellement", trap: "Sonuç olarak DEĞİL!", real: "Gerekirse, ihtimal dahilinde" },
-  { fr: "Opportunité", trap: "Fırsat / Şans DEĞİL!", real: "Zamanlama uygunluğu" },
-  { fr: "Chaud", trap: "Şov / Gösteri DEĞİL!", real: "Sıcak (Örn: Il fait très chaud)" },
-  { fr: "Journée", trap: "Jurnal / İhbar DEĞİL!", real: "Gündüz / Gün boyu süren zaman" },
-  { fr: "Monnaie", trap: "Para (Genel) DEĞİL!", real: "Bozuk para / Para üstü (Örn: Avez-vous de la monnaie ?)" },
-  { fr: "Blesser", trap: "Kutsamak (Bless) DEĞİL!", real: "Yaralamak / İncitmek" }
+  { fr: "Actuellement", trap: "Aslında değil!", correct: "Şu anda / Günümüzde", trEx: "Şu anda Paris'te bulunuyoruz.", frEx: "Nous sommes actuellement à Paris." },
+  { fr: "Éventuellement", trap: "Nihayetinde değil!", correct: "Gerekirse / İhtimal dahilinde", trEx: "Gerekirse yarın toplanabiliriz.", frEx: "Nous pouvons éventuellement nous réunir demain." },
+  { fr: "Formidable", trap: "Korkunç değil!", correct: "Harika / Muazzam", trEx: "Bu proje gerçekten harika!", frEx: "Ce projet est formidable !" },
+  { fr: "Sympathique (Sympa)", trap: "Sempatizan değil!", correct: "Cana yakın / Sevimli", trEx: "Çok cana yakın bir ekip.", frEx: "Une équipe très sympathique." },
+  { fr: "Prétendre", trap: "Rol yapmak değil!", correct: "İddia etmek / İleri sürmek", trEx: "Haklı olduğunu iddia ediyor.", frEx: "Il prétend avoir raison." },
+  { fr: "Sensible", trap: "Mantıklı (sensible) değil!", correct: "Duyarlı / Hassas", trEx: "Bu konuda çok hassas.", frEx: "Il est très sensible à ce sujet." }
 ];
 
 function renderFauxAmis() {
   const container = document.getElementById('fauxAmisContainer');
   if (!container) return;
   container.innerHTML = fauxAmisData.map(item => `
-    <div class="faux-card">
-      <div class="faux-header">
-        <span class="faux-fr">${item.fr}</span>
-        <button class="btn-audio-mini" onclick="speakText('${item.fr}')" title="Telaffuz Dinle">🔊</button>
+    <div class="faux-ami-card">
+      <div class="fa-fr">
+        ${item.fr}
+        <button class="btn-voice-mini" onclick="speakText('${item.fr}')" title="Dinle">🔊</button>
       </div>
-      <span class="faux-trap">❌ ${item.trap}</span>
-      <span class="faux-real">✔️ ${item.real}</span>
+      <div class="fa-trap">❌ Tuzak Anlam: ${item.trap}</div>
+      <div class="fa-correct">✅ Doğru Anlamı: <strong>${item.correct}</strong></div>
+      <div class="fa-example"><em>"${item.frEx}"</em><br><small>${item.trEx}</small></div>
     </div>
   `).join('');
 }
 
 // ==========================================================================
-// 15. SURVIVAL CHECKLIST & LOCALSTORAGE SYNC
+// 21. PACKING CHECKLIST ENGINE
 // ==========================================================================
 const checklistItemsData = [
-  "Pasaport & Schengen Vizesi (En az 6 ay geçerlilik süresi)",
-  "GSB Görevlendirme ve Kabul Belgeleri (Fransızca & Türkçe çıktı)",
-  "Uçak Biletleri & Seyahat Sigortası Poliçesi",
-  "Fransa Tipi Priz Dönüştürücü / Powerbank",
-  "Çift Dilli Gençlik Diplomasisi Çalıştay Notları & Kalem",
-  "Türkiye Kültür Hediyeleri (Türk kahvesi, lokum, broş)",
-  "Hava Durumuna Uygun Katmanlı Giysiler & Rahat Yürüyüş Ayakkabısı",
-  "Acil İletişim Rehberi & T.C. Paris Başkonsolosluğu İletişim Numaraları",
-  "Navigo Easy Ulaşım Kartı Hazırlığı",
-  "Fransızca-Türkçe Mini Cep Sözlüğü & Flashcard Özeti"
+  { text: "Geçerli Pasaport & Vize Belgeleri (Min. 6 ay geçerlilik)" },
+  { text: "T.C. GSB Delegasyon Görev Belgesi & Davet Mektupları" },
+  { text: "Uluslararası Seyahat Sağlık Sigortası Poliçesi" },
+  { text: "Tip C / E Priz Adaptörü (Fransa standart fişleriyle tam uyumludur)" },
+  { text: "Resmî Toplantılar İçin Takım Elbise / Delegasyon Kıyafeti" },
+  { text: "Paris Yürüyüş Rotaları İçin Rahat Spor Ayakkabı" },
+  { text: "Kişisel İlaçlar, Reçeteler ve Temel Seyahat Kiti" },
+  { text: "Fransız Delegasyonuna Sunulacak Kurumsal Kültürel Hediyeler" },
+  { text: "Navigo Ulaşım Kartı veya Dijital RATP / IDF Mobilités Uygulaması" },
+  { text: "Powerbank (Taşınabilir Şarj Cihazı) & Şarj Kabloları" }
 ];
 
 function initChecklist() {
-  const saved = JSON.parse(localStorage.getItem('gsb-france-checklist') || '[]');
   const container = document.getElementById('checklistItems');
   if (!container) return;
 
+  const savedState = JSON.parse(localStorage.getItem('gsb-france-checklist') || '[]');
+
   container.innerHTML = checklistItemsData.map((item, idx) => {
-    const isChecked = saved.includes(idx);
+    const isChecked = savedState.includes(idx);
     return `
-      <label class="cl-item ${isChecked ? 'checked' : ''}">
-        <input type="checkbox" onchange="toggleChecklistItem(${idx})" ${isChecked ? 'checked' : ''}>
-        <span>${item}</span>
+      <label class="cl-item ${isChecked ? 'checked' : ''}" id="cl-item-${idx}">
+        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleChecklistItem(${idx})">
+        <span>${item.text}</span>
       </label>
     `;
   }).join('');
 
-  updateChecklistProgress(saved.length, checklistItemsData.length);
+  updateChecklistProgress(savedState.length, checklistItemsData.length);
 }
 
 function toggleChecklistItem(index) {
-  let saved = JSON.parse(localStorage.getItem('gsb-france-checklist') || '[]');
-  if (saved.includes(index)) {
-    saved = saved.filter(i => i !== index);
+  let savedState = JSON.parse(localStorage.getItem('gsb-france-checklist') || '[]');
+  const itemEl = document.getElementById(`cl-item-${index}`);
+
+  if (savedState.includes(index)) {
+    savedState = savedState.filter(i => i !== index);
+    itemEl?.classList.remove('checked');
+    playTone(350, 'sine', 0.05);
   } else {
-    saved.push(index);
-    playTone(600, 'sine', 0.08);
+    savedState.push(index);
+    itemEl?.classList.add('checked');
+    playTone(600, 'triangle', 0.08);
   }
-  localStorage.setItem('gsb-france-checklist', JSON.stringify(saved));
-  initChecklist();
+
+  localStorage.setItem('gsb-france-checklist', JSON.stringify(savedState));
+  updateChecklistProgress(savedState.length, checklistItemsData.length);
 }
 
 function updateChecklistProgress(checkedCount, total) {
-  const percent = Math.round((checkedCount / total) * 100);
-  const progText = document.getElementById('clProgress');
-  const progBar = document.getElementById('clBarFill');
-  if (progText) progText.innerText = `%${percent} Tamamlandı (${checkedCount}/${total})`;
-  if (progBar) progBar.style.width = `${percent}%`;
+  const pct = Math.round((checkedCount / total) * 100);
+  const bar = document.getElementById('clBarFill');
+  const label = document.getElementById('clProgress');
+  if (bar) bar.style.width = `${pct}%`;
+  if (label) label.innerText = `${pct}% Tamamlandı (${checkedCount}/${total})`;
 }
 
 // ==========================================================================
-// 16. MINI-GAMES: SPEED WORD MATCH GAME
+// 22. WORD MATCH MINI-GAME ENGINE
 // ==========================================================================
 const matchWordPairsMaster = [
-  { fr: "La diplomatie", tr: "Diplomasi" },
-  { fr: "L'égalité", tr: "Eşitlik" },
+  { fr: "La liberté", tr: "Özgürlük" },
   { fr: "La fraternité", tr: "Kardeşlik" },
-  { fr: "La laïcité", tr: "Laiklik" },
-  { fr: "Le terroir", tr: "Yöre & Toprak Mirası" },
-  { fr: "Le flâneur", tr: "Aylak Kent Gezgini" },
-  { fr: "La jeunesse", tr: "Gençlik" },
-  { fr: "L'engagement", tr: "Gönüllü Katılım" },
-  { fr: "L'amitié", tr: "Dostluk" },
-  { fr: "Le patrimoine", tr: "Kültürel Miras" },
-  { fr: "La négociation", tr: "Müzakere" },
-  { fr: "Le citoyen", tr: "Yurttaş / Vatandaş" }
+  { fr: "L'égalité", tr: "Eşitlik" },
+  { fr: "Le terroir", tr: "Yöre / Toprak Mirası" },
+  { fr: "Le flâneur", tr: "Avare Şehir Gezgini" },
+  { fr: "Le bénévole", tr: "Gönüllü Kişi" },
+  { fr: "Le plaidoyer", tr: "Savunuculuk" },
+  { fr: "La laïcité", tr: "Devlet Laikliği" },
+  { fr: "L'addition", tr: "Hesap Faturası" },
+  { fr: "L'accord", tr: "Mutabakat / Antlaşma" }
 ];
 
 let matchGameTimer = null;
 let matchTimeLeft = 45;
 let matchScore = 0;
-let matchPairsMatched = 0;
-let matchSelectedCards = [];
 let matchActiveCards = [];
+let matchSelectedCards = [];
+let matchPairsMatched = 0;
 
 function switchGameMode(mode) {
-  const btnQuiz = document.getElementById('btnModeQuiz');
-  const btnMatch = document.getElementById('btnModeMatch');
-  const quizBox = document.getElementById('modeQuizContainer');
-  const matchBox = document.getElementById('modeMatchContainer');
-
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
   if (mode === 'quiz') {
-    btnQuiz?.classList.add('active');
-    btnMatch?.classList.remove('active');
-    if (quizBox) quizBox.style.display = 'block';
-    if (matchBox) matchBox.style.display = 'none';
-    if (matchGameTimer) clearInterval(matchGameTimer);
+    document.getElementById('btnModeQuiz')?.classList.add('active');
+    document.getElementById('modeQuizContainer').style.display = 'block';
+    document.getElementById('modeMatchContainer').style.display = 'none';
   } else {
-    btnMatch?.classList.add('active');
-    btnQuiz?.classList.remove('active');
-    if (quizBox) quizBox.style.display = 'none';
-    if (matchBox) matchBox.style.display = 'block';
+    document.getElementById('btnModeMatch')?.classList.add('active');
+    document.getElementById('modeQuizContainer').style.display = 'none';
+    document.getElementById('modeMatchContainer').style.display = 'block';
     initMatchGame();
   }
 }
 
 function initMatchGame() {
-  if (matchGameTimer) clearInterval(matchGameTimer);
+  clearInterval(matchGameTimer);
   matchTimeLeft = 45;
   matchScore = 0;
   matchPairsMatched = 0;
@@ -1836,15 +2672,15 @@ function initMatchGame() {
   document.getElementById('matchPairs').innerText = '0 / 6';
   document.getElementById('matchWinMsg').style.display = 'none';
 
-  // Pick 6 random pairs
-  const shuffled = [...matchWordPairsMaster].sort(() => Math.random() - 0.5).slice(0, 6);
-  matchActiveCards = [];
-  shuffled.forEach((pair, idx) => {
-    matchActiveCards.push({ id: idx, text: pair.fr, type: 'fr', pairId: idx, matched: false });
-    matchActiveCards.push({ id: idx + 100, text: pair.tr, type: 'tr', pairId: idx, matched: false });
-  });
-  matchActiveCards.sort(() => Math.random() - 0.5);
+  const shuffledMaster = [...matchWordPairsMaster].sort(() => 0.5 - Math.random()).slice(0, 6);
+  const cardDeck = [];
 
+  shuffledMaster.forEach((pair, idx) => {
+    cardDeck.push({ pairId: idx, text: pair.fr, type: 'fr', matched: false });
+    cardDeck.push({ pairId: idx, text: pair.tr, type: 'tr', matched: false });
+  });
+
+  matchActiveCards = cardDeck.sort(() => 0.5 - Math.random());
   renderMatchGrid();
 
   matchGameTimer = setInterval(() => {
@@ -1881,7 +2717,6 @@ function handleMatchCardClick(index) {
   if (matchSelectedCards.length === 2) {
     const [first, second] = matchSelectedCards;
     if (first.card.pairId === second.card.pairId && first.card.type !== second.card.type) {
-      // MATCH!
       first.card.matched = true;
       second.card.matched = true;
       first.el.classList.add('matched');
@@ -1905,7 +2740,6 @@ function handleMatchCardClick(index) {
         playTone(800, 'sine', 0.3);
       }
     } else {
-      // MISMATCH
       playTone(240, 'square', 0.15);
       setTimeout(() => {
         first.el.classList.remove('selected');
@@ -1916,33 +2750,32 @@ function handleMatchCardClick(index) {
   }
 }
 
-// Keyboard shortcuts for flashcards & game
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space' && document.getElementById('tab-vocabulary')?.classList.contains('active')) {
-    e.preventDefault();
-    flipCard();
-  } else if (e.code === 'ArrowRight' && document.getElementById('tab-vocabulary')?.classList.contains('active')) {
-    nextCard();
-  } else if (e.code === 'ArrowLeft' && document.getElementById('tab-vocabulary')?.classList.contains('active')) {
-    prevCard();
-  }
-});
-
 // ==========================================================================
-// 17. INITIAL INITIALIZATION
+// 23. INITIALIZATION ON DOM LOAD
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   renderQuotes(quotesData);
+  renderFigures(figuresData);
   loadPoem('albatros');
   renderRegions(regionsData);
   renderCheeses(cheeseData);
   updateFlashcard();
   renderVocabTable(vocabData);
+  initVerbSelector();
+  loadDialogueScenario('bistro');
+  updateResolutionPreview();
   renderFlaneurRoutes();
   renderQuizQuestion();
   renderTimeline(timelineData);
   renderFauxAmis();
   initChecklist();
-});
 
+  // Check initial hash routing
+  if (window.location.hash) {
+    const tabKey = window.location.hash.replace('#', '');
+    if (document.getElementById(`tab-${tabKey}`)) {
+      switchTab(tabKey);
+    }
+  }
+});

@@ -619,25 +619,14 @@ gsb-france-exchange-2026/
 │
 ├── README.md                              # 📘 Kapsamlı Başvuru Kılavuzu & Kültür Atlası
 ├── index.html                             # 🌐 İnteraktif Web Portalı ve Dijital Atlas
-├── style.css                              # 🎨 Modern Portal Arayüz Stilleri (Glassmorphism & Dual Theme)
-├── app.js                                 # ⚡ Dinamik Arama, Sesli Şiir Okuyucu, Flashcard & 20 Soruluk Quiz Motoru
+├── style.css                              # 🎨 Modern Portal Arayüz Stilleri (Glassmorphism, Dual Theme & Print)
+├── app.js                                 # ⚡ Dinamik Arama, Rol Yapma, Fiil Çekimi, Bildiri Stüdyosu, Sesli Telaffuz & Quiz Motoru
 │
-├── france-atlas/                          # 📚 Kapsamlı Fransa Araştırma Atlası
-│   ├── franco-turkish-relations.md        # 🇹🇷🤝🇫🇷 500 Yıllık Türkiye-Fransa Diplomasi ve Kültür Köprüsü (1536-2026)
-│   ├── music-sound-traditions.md          # 🎵 Barok Opera, Debussy Empresyonizmi, Chanson & French Touch
-│   ├── french-poetry-anthology.md         # 📜 Baudelaire, Rimbaud, Verlaine, Éluard, Prévert
-│   ├── gastronomy-terroir-guide.md        # 🍷 Terroir, Peynirler, Şaraplar, Baget & Michelin
-│   ├── cinema-theatre-music.md            # 🎬 Nouvelle Vague, Absürd Tiyatro, Chanson & Daft Punk
-│   ├── paris-flaneur-guide.md             # 🚶 Flânerie Felsefesi, Edebi Rotalar ve Bouquinistes
-│   ├── history-thought.md                 # 🏛️ Aydınlanma, Devrimler, Varoluşçuluk ve Mayıs 68
-│   ├── institutions-state.md              # ⚖️ 5. Cumhuriyet, Yarı-Başkanlık, Laïcité ve MJC Modeli
-│   ├── geography-regions.md               # 🗺️ "L'Hexagone", 13 Metropoliten Bölge ve Şehir Atlası
-│   ├── arts-literature.md                 # 🎨 Edebiyat, Flânerie, Empresyonizm ve Gotik Mimari
-│   ├── science-industry.md                # 🔬 Nükleer Enerji, Airbus/Uzay, TGV ve French Tech
-│   ├── everyday-culture.md                # 🥐 Art de Vivre, Gastronomi, Argot ve Verlan
-│   └── vocabulary-guide.md                # 🗣️ Diplomasi, Müzakere ve Günlük Fransızca Kılavuzu
-│
-├── france-atlas/                           # 📚 15 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+├── france-atlas/                          # 📚 20 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+│   ├── franco-turkish-biographies.md      # 👥 18 Düşünce ve Diplomasi Önderi (Kanuni, De Gaulle, Descartes, Yahya Kemal, vb.)
+│   ├── french-verbs-grammar-guide.md      # 📖 14 Düzensiz Fiil Çekimi, Diplomatik Gramer ve Nezaket Dili
+│   ├── youth-dialogue-scenarios.md        # 🎭 5 Saha Rol Yapma Senaryosu (Kafe, Bakanlık, Station F, Metro, Eczane)
+│   ├── bilateral-resolution-framework.md  # 📜 2026-2030 İkili Gençlik Stratejisi ve Resmî Bildiri Çerçevesi
 │   ├── history-thought.md                 # 📜 Düşünce & Fikir Tarihi (Aydınlanma, İhtilal, Mayıs 68)
 │   ├── institutions-state.md              # ⚖️ Devlet Mimarisi, Anayasa & Laïcité Modeli
 │   ├── geography-regions.md               # 🗺️ Coğrafya & 13 Metropoliten Bölge Atlası
@@ -646,7 +635,7 @@ gsb-france-exchange-2026/
 │   ├── cinema-theatre-music.md            # 🎬 Sinema (Nouvelle Vague), Tiyatro & Müzik Mirası
 │   ├── music-sound-traditions.md          # 🎵 Müzik Geleneği (Lully'den Daft Punk'a)
 │   ├── paris-flaneur-guide.md             # 🚶 Paris Kent Morfolojisi & 5 Flâneur Rotası
-│   ├── gastronomy-terroir.md              # 🍷 Terroir Doktrini, Peynir Atlası & UNESCO Mutfak Mirası
+│   ├── gastronomy-terroir-guide.md        # 🍷 Terroir Doktrini, Peynir Atlası & UNESCO Mutfak Mirası
 │   ├── science-industry.md                # 🔬 Bilim, Nükleer Enerji, Havacılık & French Tech
 │   ├── everyday-culture.md                # 🥐 Gündelik Yaşam Sanatı, Sosyoloji, Argot & Verlan
 │   ├── franco-turkish-relations.md        # 🤝 500 Yıllık Türkiye-Fransa İlişkileri & Frankofoni
@@ -697,6 +686,12 @@ http://localhost:8000
 
 ### 🌟 Portalın Gelişmiş Özellikleri:
 * 🌙 **Karanlık / Aydınlık Mod (Dark & Light Theme):** Kalıcı `localStorage` destekli modern tema geçişi.
+* 🔍 **Omni-Search Spotlight (Ctrl+K / Cmd+K):** Tüm dosyalarda, şahsiyetlerde, sözlükte ve tarihlerde anında genel arama.
+* 👥 **18 Düşünce ve Diplomasi Önderi Portreleri:** Kanuni'den De Gaulle'e, Şinasi'den Baudelaire'e kapsamlı biyografiler ve sesli aforizmalar.
+* 📖 **İnteraktif Fiil Çekim Motoru:** 14 kritik düzensiz fiilin 6 zaman kipi, sesli telaffuzu ve diplomatik nezaket grameri kuralları.
+* 🎭 **Saha Rol Yapma & Durumsal Diyalog Simülatörü:** Paris bistrosu, resmi bakanlık görüşmesi, Station F sunumu, metro ve eczane durum senaryoları.
+* 📜 **İkili Gençlik Bildirisi Stüdyosu:** 5 tematik politika sütununda maddeleri seçip özelleştirme, tek tıkla kopyalama ve Markdown indirme.
+* 💶 **Fransa Bütçe, Euro & Şehir Yaşam Rehberi:** Standart harcama ölçekleri, bahşiş kuralları, priz tipleri ve acil durum protokolleri.
 * ⏳ **500 Yıllık İnteraktif Diplomasi Zaman Tüneli:** 1536-2026 arası 4 tarihi döneme göre filtreleme, anlık arama ve tarihsel nüans kutuları.
 * 🎵 **Fransızca Fonetik & Sesbilim Laboratuvarı:** 4 burun ünlüsü (/ɑ̃/, /ɛ̃/, /ɔ̃/, /œ̃/), U vs OU ayrımı, boğaz R'si ve Web Speech API sesli telaffuz oynatıcıları.
 * ⚠️ **Yalancı Eşdeğerler (Faux Amis) Keşfedici:** Yanıltıcı Türkçe-Fransızca kelimelerin doğru karşılıkları ve sesli telaffuzları.
@@ -707,7 +702,7 @@ http://localhost:8000
 * 🖋️ **Çift Dilli Şiir & Edebiyat Okuyucusu:** 6 klasik şiir, çift sütun karşılaştırma ve sesli okuma motoru.
 * 🗺️ **13 Metropoliten Bölge Atlası & 🍷 Terroir AOP Peynir Kataloğu.**
 * 🖨️ **Tek Tıkla Yazdırılabilir / PDF Çıktı Tasarımı:** Araştırmacılar ve katılımcılar için optimize edilmiş print stylesheet.
-* 📜 **Modallar Aracılığıyla 15 Atlas Dosyasını Tarayıcıda Doğrudan Okuma.**
+* 📜 **Modallar Aracılığıyla 16 Atlas Dosyasını Tarayıcıda Doğrudan Okuma.**
 
 ---
 

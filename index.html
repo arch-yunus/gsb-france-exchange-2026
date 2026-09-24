@@ -24,17 +24,28 @@
         <button class="nav-btn active" data-tab="atlas">🏛️ Atlas</button>
         <button class="nav-btn" data-tab="timeline">⏳ 500 Yıl Diplomasi</button>
         <button class="nav-btn" data-tab="quotes">💬 Düşünce & Alıntılar</button>
+        <button class="nav-btn" data-tab="figures">👥 Fikir Önderleri</button>
         <button class="nav-btn" data-tab="poetry">🖋️ Şiir & Edebiyat</button>
         <button class="nav-btn" data-tab="regions">🗺️ Bölgeler</button>
         <button class="nav-btn" data-tab="gastronomy">🍷 Terroir & Mutfak</button>
         <button class="nav-btn" data-tab="vocabulary">🗣️ Sözlük & Flashcard</button>
+        <button class="nav-btn" data-tab="verbs">📖 Fiiller & Gramer</button>
         <button class="nav-btn" data-tab="phonetics">🎵 Fonetik & Faux Amis</button>
+        <button class="nav-btn" data-tab="dialogue">🎭 Rol Yapma & Diyalog</button>
         <button class="nav-btn" data-tab="flaneur">🚶 Flâneur Rotaları</button>
         <button class="nav-btn" data-tab="survival">🧳 Değişim Rehberi</button>
+        <button class="nav-btn" data-tab="budget">💶 Bütçe & Euro Rehberi</button>
+        <button class="nav-btn" data-tab="resolution">📜 Bildiri Oluşturucu</button>
         <button class="nav-btn" data-tab="workshops">🤝 Saha Seyir Defteri</button>
         <button class="nav-btn" data-tab="quiz">🧠 Bilgi & Mini Oyunlar</button>
       </nav>
       <div class="nav-actions">
+        <button id="searchOpenBtn" class="theme-toggle" title="Genel Arama (Ctrl + K / Cmd + K)" onclick="openSearchModal()">
+          <span>🔍</span>
+        </button>
+        <button id="shortcutsBtn" class="theme-toggle" title="Klavye Kısayolları (?)" onclick="openShortcutsModal()">
+          <span>⌨️</span>
+        </button>
         <button id="printBtn" class="theme-toggle" title="Özeti Yazdır / PDF Al" onclick="window.print()">
           <span>🖨️</span>
         </button>
@@ -64,20 +75,20 @@
           <span class="stat-label">Diplomatik & Kültürel Miras (1536-2026)</span>
         </div>
         <div class="stat-card">
+          <span class="stat-num">18</span>
+          <span class="stat-label">Düşünce & Diplomasi Şahsiyeti</span>
+        </div>
+        <div class="stat-card">
           <span class="stat-num">13</span>
           <span class="stat-label">Metropol Bölgesi & Coğrafi Atlas</span>
         </div>
         <div class="stat-card">
-          <span class="stat-num">4</span>
-          <span class="stat-label">Tematik İkili Politika Çalıştayı</span>
+          <span class="stat-num">5</span>
+          <span class="stat-label">İnteraktif Saha Diyalog Senaryosu</span>
         </div>
         <div class="stat-card">
-          <span class="stat-num">8 Gün</span>
-          <span class="stat-label">Ankara, İstanbul, Paris & Lyon</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-num">150+</span>
-          <span class="stat-label">Fransızca Terim, Deyim & Argot</span>
+          <span class="stat-num">180+</span>
+          <span class="stat-label">Fransızca Terim, Deyim & Fiil Çekimi</span>
         </div>
       </div>
     </div>
@@ -90,7 +101,7 @@
     <section id="tab-atlas" class="tab-content active">
       <div class="section-header">
         <h2>🏛️ Fransa Ansiklopedik Araştırma Atlası</h2>
-        <p>Aydınlanma felsefesinden nükleer sanayiye, anayasal mimariden flânerie estetiğine 12 ana araştırma dosyası</p>
+        <p>Aydınlanma felsefesinden nükleer sanayiye, anayasal mimariden flânerie estetiğine 16 ana araştırma dosyası</p>
       </div>
 
       <div class="atlas-grid">
@@ -105,6 +116,13 @@
           <div class="card-icon">⚖️</div>
           <h3>Devlet & Laïcité Modeli</h3>
           <p>5. Cumhuriyet, Yarı-Başkanlık, 1905 Laiklik Kanunu, Danıştay, Anayasa Konseyi ve MJC Gençlik Evleri.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('biographies')">
+          <div class="card-icon">👥</div>
+          <h3>18 Düşünce ve Diplomasi Önderi</h3>
+          <p>Kanuni, I. François, Çelebi Mehmed, Namık Kemal, Yahya Kemal, Cemil Meriç, Baudelaire ve De Gaulle.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
@@ -150,6 +168,20 @@
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
+        <div class="atlas-card" onclick="openAtlasModal('verbs')">
+          <div class="card-icon">📖</div>
+          <h3>Fiil Çekimleri & Diplomatik Gramer</h3>
+          <p>Kritik düzensiz fiiller (être, avoir, pouvoir, vouloir), Conditionnel de politesse ve Subjonctif kullanımı.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('dialogues')">
+          <div class="card-icon">🎭</div>
+          <h3>Saha Diyalogları & Rol Yapma</h3>
+          <p>Restoran siparişi, resmi heyet tanışması, Station F sunumu, metro ve eczane durum senaryoları.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
         <div class="atlas-card" onclick="openAtlasModal('etiquette')">
           <div class="card-icon">🤝</div>
           <h3>Sosyolojik Görgü & Adab-ı Muaşeret</h3>
@@ -171,31 +203,17 @@
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
-        <div class="atlas-card" onclick="openAtlasModal('cinema')">
-          <div class="card-icon">🎬</div>
-          <h3>Sinema, Tiyatro & Absürd</h3>
-          <p>Lumière kardeşler, Godard & Truffaut (Nouvelle Vague), Absürd Tiyatro (Beckett, Ionesco) ve Cannes Festivali.</p>
-          <span class="card-link">Dossier'yi İncele →</span>
-        </div>
-
-        <div class="atlas-card" onclick="openAtlasModal('music')">
-          <div class="card-icon">🎵</div>
-          <h3>Müzik: Barok'tan French Touch'a</h3>
-          <p>Lully ve Rameau'dan Debussy ve Ravel'e; Édith Piaf, Jacques Brel ve Daft Punk elektronik devrimi.</p>
-          <span class="card-link">Dossier'yi İncele →</span>
-        </div>
-
-        <div class="atlas-card" onclick="openAtlasModal('flaneur')">
-          <div class="card-icon">🚶</div>
-          <h3>Paris Kent Morfolojisi & Flânerie</h3>
-          <p>Baudelaire ve Walter Benjamin'in Flâneur felsefesi, Saint-Germain, Montmartre, Seine Bouquinistes ve edebiyat salonları.</p>
-          <span class="card-link">Dossier'yi İncele →</span>
-        </div>
-
-        <div class="atlas-card" onclick="openAtlasModal('actionplan')">
+        <div class="atlas-card" onclick="openAtlasModal('resolutions')">
           <div class="card-icon">📋</div>
-          <h3>2026-2027 Ortak Eylem Planı</h3>
-          <p>Kardeş Gençlik Merkezleri, İklim Hackathonları, Çift Dilli Podcast Projeleri ve Karşılıklı Staj Hareketlilikleri.</p>
+          <h3>İkili Gençlik Bildirisi Çerçevesi</h3>
+          <p>Yeşil dönüşüm, yapay zekâ egemenliği, kardeş gençlik merkezleri ve Akdeniz barışı eylem maddeleri.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('budget')">
+          <div class="card-icon">💶</div>
+          <h3>Seyahat & Bütçe Kılavuzu</h3>
+          <p>Euro/TL göstergeleri, Navigo kart kullanımı, bahşiş kuralları, priz tipleri ve acil durum protokolleri.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
       </div>
@@ -247,7 +265,29 @@
       </div>
     </section>
 
-    <!-- TAB 3: POETRY BILINGUAL READER -->
+    <!-- TAB 4: FIGURES & BIOGRAPHIES -->
+    <section id="tab-figures" class="tab-content">
+      <div class="section-header">
+        <h2>👥 Türk ve Fransız Düşünce & Diplomasi Önderleri</h2>
+        <p>500 yıllık etkileşimi inşa eden padişahlar, krallar, filozoflar, şairler ve devlet adamlarının portreleri</p>
+      </div>
+
+      <div class="figures-controls">
+        <input type="text" id="figureSearch" placeholder="Şahsiyet, eser veya dönem ara (örn. Kanuni, Cemil Meriç, Descartes, De Gaulle)..." class="search-input">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterFigures('all')">Tümü (18 Şahsiyet)</button>
+          <button class="chip" onclick="filterFigures('turkish')">Türk Aydınları & Diplomatları</button>
+          <button class="chip" onclick="filterFigures('french')">Fransız Filozofları & Yazarları</button>
+          <button class="chip" onclick="filterFigures('leaders')">Tarihsel Devlet Liderleri</button>
+        </div>
+      </div>
+
+      <div class="figures-grid" id="figuresContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 5: POETRY BILINGUAL READER -->
     <section id="tab-poetry" class="tab-content">
       <div class="section-header">
         <h2>🖋️ Çift Dilli Fransız Şiir Kütüphanesi</h2>
@@ -285,7 +325,7 @@
       </div>
     </section>
 
-    <!-- TAB 4: REGIONS -->
+    <!-- TAB 6: REGIONS -->
     <section id="tab-regions" class="tab-content">
       <div class="section-header">
         <h2>🗺️ Fransa Bölge & Şehir Atlası ("L'Hexagone")</h2>
@@ -308,7 +348,7 @@
       </div>
     </section>
 
-    <!-- TAB 5: GASTRONOMY & TERROIR -->
+    <!-- TAB 7: GASTRONOMY & TERROIR -->
     <section id="tab-gastronomy" class="tab-content">
       <div class="section-header">
         <h2>🍷 Terroir, Peynir & UNESCO Gastronomi Mirası</h2>
@@ -337,7 +377,7 @@
       </div>
     </section>
 
-    <!-- TAB 6: VOCABULARY -->
+    <!-- TAB 8: VOCABULARY -->
     <section id="tab-vocabulary" class="tab-content">
       <div class="section-header">
         <h2>🗣️ Fransızca - Türkçe Diplomasi & Yaşam Sözlüğü</h2>
@@ -406,7 +446,56 @@
       </div>
     </section>
 
-    <!-- TAB 8: PHONETICS & FAUX AMIS -->
+    <!-- TAB 9: VERBS & DIPLOMATIC GRAMMAR -->
+    <section id="tab-verbs" class="tab-content">
+      <div class="section-header">
+        <h2>📖 Fiil Çekim Motoru & Diplomatik Gramer Asistanı</h2>
+        <p>14 kritik düzensiz fiilin tüm zamanlardaki çekimleri, sesli telaffuzları ve diplomatik nezaket kuralları</p>
+      </div>
+
+      <div class="verb-controls">
+        <div class="verb-search-row">
+          <select id="verbSelect" class="select-input" onchange="renderVerbConjugation(this.value)">
+            <!-- Options populated by JS -->
+          </select>
+          <div class="verb-tense-chips">
+            <button class="chip active" onclick="setVerbTense('all')">Tüm Zamanlar</button>
+            <button class="chip" onclick="setVerbTense('present')">Présent</button>
+            <button class="chip" onclick="setVerbTense('passeCompose')">Passé Composé</button>
+            <button class="chip" onclick="setVerbTense('futurSimple')">Futur Simple</button>
+            <button class="chip" onclick="setVerbTense('conditionnel')">Conditionnel (Nezaket)</button>
+            <button class="chip" onclick="setVerbTense('subjonctif')">Subjonctif (İstek/Gereklilik)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="verb-conjugation-layout" id="verbConjugationContainer">
+        <!-- Injected via JS -->
+      </div>
+
+      <div class="grammar-guide-card">
+        <h3>🏛️ Fransız Diplomatik Nezaket Grameri (Formules de Politesse)</h3>
+        <div class="grammar-rules-grid">
+          <div class="g-rule">
+            <h4>1. Conditionnel de Politesse</h4>
+            <p>Doğrudan emir veya istek yerine daima nezaket kipi kullanılır:</p>
+            <p class="g-example"><strong>Kaba:</strong> <em>"Je veux un café."</em> → <strong>Zarif:</strong> <em>"Je voudrais un café, s'il vous plaît."</em></p>
+          </div>
+          <div class="g-rule">
+            <h4>2. Resmiyet ve Vouvoiement</h4>
+            <p>Fransa'da resmiyet temel saygı kuralıdır. Akranınızla tanışsanız bile ilk etapta <em>"Vous"</em> kullanılır.</p>
+            <p class="g-example">Karşı taraf <em>"On se tutoie ?"</em> diyene kadar senli-benli hitaba geçilmez.</p>
+          </div>
+          <div class="g-rule">
+            <h4>3. Resmî Karar Metinlerinde Subjonctif</h4>
+            <p>Ortak bildiri yazımında zorunluluk bildiren yapılardan sonra fiil Subjonctif çekilir:</p>
+            <p class="g-example"><em>"Il est indispensable que nous <strong>renforcions</strong> les échanges de jeunes."</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 10: PHONETICS & FAUX AMIS -->
     <section id="tab-phonetics" class="tab-content">
       <div class="section-header">
         <h2>🎵 Fransızca Fonetik, Sesbilim & Yalancı Eşdeğerler (Faux Amis)</h2>
@@ -479,7 +568,47 @@
       </div>
     </section>
 
-    <!-- TAB 9: PARIS FLANEUR ROUTES -->
+    <!-- TAB 11: DIALOGUE & ROLEPLAY SIMULATOR -->
+    <section id="tab-dialogue" class="tab-content">
+      <div class="section-header">
+        <h2>🎭 Saha Rol Yapma & Durumsal Diyalog Simülatörü</h2>
+        <p>Fransa'da karşılaşacağınız 5 kritik duruma göre interaktif konuşma simülasyonu ve sesli pratik</p>
+      </div>
+
+      <div class="dialogue-selector-bar">
+        <button class="dia-btn active" onclick="loadDialogueScenario('bistro')">☕ 1. Paris Bistrosu & Kafe</button>
+        <button class="dia-btn" onclick="loadDialogueScenario('official')">🏛️ 2. Resmî Bakanlık Heyeti</button>
+        <button class="dia-btn" onclick="loadDialogueScenario('stationf')">🚀 3. Station F Fikir Sunumu</button>
+        <button class="dia-btn" onclick="loadDialogueScenario('metro')">🚇 4. Metro & Ulaşım Sorusu</button>
+        <button class="dia-btn" onclick="loadDialogueScenario('pharmacy')">💊 5. Eczane & Sağlık</button>
+      </div>
+
+      <div class="dialogue-container">
+        <div class="dialogue-scenario-header">
+          <div class="dia-header-info">
+            <h3 id="diaScenarioTitle">1. Paris Bistrosu & Kafe Kültürü</h3>
+            <p id="diaScenarioDesc">Saint-Germain'de bir kafede doğru nezaketle sipariş verme ve hesap ödeme pratiği.</p>
+          </div>
+          <div class="dia-score-badge">
+            Başarı Puanı: <span id="diaScore">100 / 100</span>
+          </div>
+        </div>
+
+        <div class="dialogue-chat-box" id="diaChatBox">
+          <!-- Dialogue messages dynamically injected -->
+        </div>
+
+        <div class="dialogue-actions-box" id="diaActionsBox">
+          <!-- Choice buttons dynamically injected -->
+        </div>
+
+        <div class="dialogue-etiquette-tip" id="diaEtiquetteTip">
+          💡 <strong>Kültürel İpucu:</strong> Garsona asla "Garçon!" diye seslenmeyiniz. Göz teması kurup "Monsieur, s'il vous plaît" demek yeterlidir.
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 12: PARIS FLANEUR ROUTES -->
     <section id="tab-flaneur" class="tab-content">
       <div class="section-header">
         <h2>🚶 Paris Edebi & Felsefi Flâneur Rotaları</h2>
@@ -491,7 +620,7 @@
       </div>
     </section>
 
-    <!-- TAB 10: EXCHANGE SURVIVAL & ETIQUETTE KIT -->
+    <!-- TAB 13: EXCHANGE SURVIVAL & ETIQUETTE KIT -->
     <section id="tab-survival" class="tab-content">
       <div class="section-header">
         <h2>🧳 Gençlik Değişimi Saha Rehberi, Görgü Kuralları & Çanta Kontrol Listesi</h2>
@@ -554,7 +683,150 @@
       </div>
     </section>
 
-    <!-- TAB 11: WORKSHOPS & DIARY -->
+    <!-- TAB 14: BUDGET & PRACTICAL CITY GUIDE -->
+    <section id="tab-budget" class="tab-content">
+      <div class="section-header">
+        <h2>💶 Fransa Bütçe, Harcama & Pratik Yaşam Rehberi</h2>
+        <p>Euro/TL göstergeleri, standart maliyet ölçekleri, bahşiş kuralları ve pratik seyahat ipuçları</p>
+      </div>
+
+      <div class="budget-grid">
+        <!-- Interactive Currency & Cost Benchmark -->
+        <div class="budget-card">
+          <h3>💰 İnteraktif Euro Gösterge Hesaplayıcı</h3>
+          <p class="budget-desc">Fransa'daki temel kalemlerin ortalama fiyatlarını görüntüleyin:</p>
+          <div class="cost-benchmarks-list">
+            <div class="cost-item">
+              <span class="cost-name">🥖 Geleneksel Baget (Baguette Tradition)</span>
+              <span class="cost-val">€ 1.30</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">☕ Café Expresso (Tezgâhta)</span>
+              <span class="cost-val">€ 1.80 – 2.20</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">🥐 Taze Tereyağlı Kruvasan</span>
+              <span class="cost-val">€ 1.40 – 1.60</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">🚇 Paris Tekli Metro Bileti (Ticket t+)</span>
+              <span class="cost-val">€ 2.15</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">🎫 Günlük Navigo Kart (Zones 1-2)</span>
+              <span class="cost-val">€ 8.65</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">🍽️ Günlük Öğle Menüsü (Formule Midi)</span>
+              <span class="cost-val">€ 14.00 – 18.00</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">🏛️ Louvre Müzesi (Genç/Öğrenci)</span>
+              <span class="cost-val">€ 17.00 / (AB 18-25: Ücretsiz)</span>
+            </div>
+            <div class="cost-item">
+              <span class="cost-name">🚄 TGV Paris-Lyon Tren Bileti (Genç)</span>
+              <span class="cost-val">€ 35.00 – 55.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Practical Travel Guidelines -->
+        <div class="budget-card">
+          <h3>⚙️ Pratik Şehir Hayatı & Seyahat Kodları</h3>
+          <ul class="practical-tips-list">
+            <li><strong>🔌 Priz & Voltaj:</strong> Tip C ve E prizler (230V / 50Hz). Türkiye fişleriyle %100 uyumludur.</li>
+            <li><strong>🪙 Bahşiş (Pourboire):</strong> Fransız yasalarına göre servis ücreti (%15) faturaya dahildir. Memnun kalındığında bozukluk (1-2 €) bırakmak zarif bir gelenektir.</li>
+            <li><strong>🗓️ Pazar Günleri:</strong> Süpermarketler ve dükkanlar çoğu bölgede pazar günleri saat 13:00'ten sonra tamamen kapalıdır. İhtiyaçlarınızı cumartesiden temin ediniz.</li>
+            <li><strong>💧 İçme Suyu:</strong> Paris'te musluk suyu (*eau du robinet*) son derece kaliteli ve içilebilirdir. Parklarda tarihi Wallace Çeşmeleri ücretsizdir.</li>
+            <li><strong>📶 Wi-Fi & İletişim:</strong> Tüm belediye parklarında ve kafelerde *"Paris Wi-Fi"* ücretsizdir. Ön ödemeli eSIM (Free / Orange) kullanılabilir.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 15: BILATERAL YOUTH RESOLUTION BUILDER -->
+    <section id="tab-resolution" class="tab-content">
+      <div class="section-header">
+        <h2>📜 İkili Gençlik Bildirisi & Politika Taslağı Stüdyosu</h2>
+        <p>5 stratejik sütundan maddeleri seçip özelleştirerek T.C. GSB & Fransa Gençlik Bakanlığı resmi deklarasyonu oluşturun</p>
+      </div>
+
+      <div class="resolution-builder-layout">
+        <!-- Clause Selection Panel -->
+        <div class="res-selection-panel">
+          <h3>📌 Bildiri Maddelerini Seçin ve Özelleştirin</h3>
+
+          <div class="res-pillar-group">
+            <div class="res-pillar-title">🌱 Sütun 1: Yeşil Dönüşüm & Ekolojik Şehirler</div>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_1_1" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 1.1:</strong> 15 Dakikalık Şehir modellerinin gençlik merkezleri odaklı yaygınlaştırılması.</span>
+            </label>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_1_2" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 1.2:</strong> Sıfır Gıda İsrafı Gençlik Ağı ve Loi Garot mevzuat entegrasyonu.</span>
+            </label>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_1_3" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 1.3:</strong> Akdeniz ve Marmara havzasında ortak "Türk-Fransız Gençlik Hatıra Ormanı" kampları.</span>
+            </label>
+          </div>
+
+          <div class="res-pillar-group">
+            <div class="res-pillar-title">🤖 Sütun 2: Dijital Egemenlik, Yapay Zekâ & Girişimcilik</div>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_2_1" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 2.1:</strong> Station F ile ODTÜ/Bilişim Vadisi arasında Genç Teknoloji Köprüsü inkübasyon programı.</span>
+            </label>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_2_2" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 2.2:</strong> Açık kaynak yapay zekâ ve kültürel mirası koruma ortak hackathonları.</span>
+            </label>
+          </div>
+
+          <div class="res-pillar-group">
+            <div class="res-pillar-title">🌍 Sütun 3: Gençlik Hareketliliği & Çift Dilli Değişim</div>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_3_1" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 3.1:</strong> Karşılıklı gençlik delegasyonları ve stajlar için vize süreçlerinin hızlandırılması.</span>
+            </label>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_3_2" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 3.2:</strong> MJC Ağı ile GSB Gençlik Merkezleri arasında "Kardeş Gençlik Evi" protokolü.</span>
+            </label>
+          </div>
+
+          <div class="res-pillar-group">
+            <div class="res-pillar-title">🤝 Sütun 4: Sivil Katılım & Gönüllülük Denkliği</div>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_4_1" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 4.1:</strong> Fransız Service Civique ile Türk Ulusal Gönüllülük Sistemi arasında kredi denkliği.</span>
+            </label>
+            <label class="res-checkbox">
+              <input type="checkbox" id="res_4_2" checked onchange="updateResolutionPreview()">
+              <span><strong>Madde 4.2:</strong> Afet müdahalesi ve insani yardımlaşma gençlik tatbikatları.</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Resolution Live Document Preview -->
+        <div class="res-preview-panel">
+          <div class="res-preview-header">
+            <h3>📄 Resmî Deklarasyon Önizlemesi</h3>
+            <div class="res-actions">
+              <button class="btn-secondary" onclick="copyResolutionText()">📋 Kopyala</button>
+              <button class="btn-primary" onclick="downloadResolutionMarkdown()">💾 MD İndir</button>
+            </div>
+          </div>
+          <div class="res-document-paper" id="resDocumentContent">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 16: WORKSHOPS & DIARY -->
     <section id="tab-workshops" class="tab-content">
       <div class="section-header">
         <h2>🤝 Çalıştaylar, Saha Seyir Defteri & Ortak Bildiriler</h2>
@@ -624,7 +896,7 @@
       </div>
     </section>
 
-    <!-- TAB 12: QUIZ & MINI-GAMES -->
+    <!-- TAB 17: QUIZ & MINI-GAMES -->
     <section id="tab-quiz" class="tab-content">
       <div class="section-header">
         <h2>🧠 Bilgi Testi & İnteraktif Mini Oyunlar</h2>
@@ -680,6 +952,41 @@
 
   </main>
 
+  <!-- Global Omni-Search Modal (Ctrl + K) -->
+  <div class="modal-overlay" id="searchModal" onclick="closeSearchModal(event)">
+    <div class="search-modal-card" onclick="event.stopPropagation()">
+      <div class="search-modal-header">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="globalSearchInput" placeholder="Tüm atlas, sözlük, şahsiyetler ve dosyalarda ara..." oninput="handleGlobalSearch(this.value)">
+        <button class="modal-close" onclick="closeSearchModal()">&times;</button>
+      </div>
+      <div class="search-results-container" id="globalSearchResults">
+        <div class="search-hint">Kelime, şahsiyet, şehir, peynir veya diplomatik kavram yazarak anında bulun...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal (?) -->
+  <div class="modal-overlay" id="shortcutsModal" onclick="closeShortcutsModal(event)">
+    <div class="modal-card modal-small" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeShortcutsModal()">&times;</button>
+      <div class="modal-header">
+        <span class="modal-badge">Kılavuz</span>
+        <h3>⌨️ Klavye Kısayolları</h3>
+      </div>
+      <div class="modal-body">
+        <div class="shortcuts-list">
+          <div class="shortcut-row"><kbd>Ctrl</kbd> + <kbd>K</kbd> <span>Genel Hızlı Arama (Omni-Search)</span></div>
+          <div class="shortcut-row"><kbd>Boşluk</kbd> <span>Sözlük Kartını Çevir (Flashcard Flip)</span></div>
+          <div class="shortcut-row"><kbd>→</kbd> <span>Sonraki Flashcard</span></div>
+          <div class="shortcut-row"><kbd>←</kbd> <span>Önceki Flashcard</span></div>
+          <div class="shortcut-row"><kbd>?</kbd> <span>Klavye Kısayolları Penceresi</span></div>
+          <div class="shortcut-row"><kbd>Esc</kbd> <span>Açık Modalları Kapat</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal for Atlas Dossier Reading -->
   <div class="modal-overlay" id="atlasModal" onclick="closeAtlasModal(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
@@ -713,8 +1020,8 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Alıntı</h4>
-        <p><em>"Liberté, Égalité, Fraternité"</em></p>
+        <h4>Diplomatik İlke</h4>
+        <p><em>"Liberté, Égalité, Fraternité & Gençlik Diplomasisi"</em></p>
         <p><small>© 2026 GSB Gençlik Delegasyonu. Açık Kaynak Lisanslıdır (MIT).</small></p>
       </div>
     </div>
