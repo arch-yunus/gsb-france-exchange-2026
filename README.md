@@ -656,7 +656,10 @@ gsb-france-exchange-2026/
 │   ├── stage-turkey/                      # 🇹🇷 I. Etap: Türkiye (Ankara & İstanbul)
 │   └── stage-france/                      # 🇫🇷 II. Etap: Fransa (Paris & Lyon)
 │
-├── france-atlas/                          # 📚 21 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+├── france-atlas/                          # 📚 24 Başlıkta Ansiklopedik Fransa Araştırma Atlası
+│   ├── cultural-institutional-matrix.md   # ⚖️ Türkiye - Fransa Kültürel & Kurumsal Karşılaştırma Matrisi (Devlet, ENA/Mülkiye, MJC/GSB)
+│   ├── youth-slang-argot-verlan.md        # 💬 Fransız Gençlik Dili, Argot, Verlan & SMS Sözlüğü
+│   ├── diplomatic-speech-protocol-guide.md# 🎙️ Fransız Diplomatik Protokolü, Hitap Formülleri & Kadeh (Toast) Rehberi
 │   ├── strasbourg-alsace-guide.md         # 🥨 Strazburg & Alsace Rehberi (Avrupa Parlamentosu, AİHM, Maarif France)
 │   ├── franco-turkish-biographies.md      # 👥 18 Düşünce ve Diplomasi Önderi (Kanuni, De Gaulle, Descartes, Yahya Kemal, vb.)
 │   ├── french-verbs-grammar-guide.md      # 📖 14 Düzensiz Fiil Çekimi, Diplomatik Gramer ve Nezaket Dili
@@ -719,9 +722,15 @@ npx serve .
 http://localhost:8000
 ```
 
-### 🌟 Portalın Gelişmiş Özellikleri:
-* 🌙 **Karanlık / Aydınlık Mod (Dark & Light Theme):** Kalıcı `localStorage` destekli modern tema geçişi.
-* 🔍 **Omni-Search Spotlight (Ctrl+K / Cmd+K):** Tüm dosyalarda, şahsiyetlerde, sözlükte ve tarihlerde anında genel arama.
+### 🌟 Portalın Kapsamlı Modülleri ve Gelişmiş Özellikleri:
+* ⚖️ **Kültürel & Kurumsal Karşılaştırma Matrisi:** 5. Cumhuriyet vs Cumhurbaşkanlığı Sistemi, Grandes Écoles vs Mülkiye (SBF), Académie Française vs TDK, MJC vs GSB Gençlik Merkezleri, Service Civique vs Genç Gönüllüler ve Terroir vs Mahreç işaretleri karşılaştırması.
+* 🎧 **Fransızca İşitsel Anlama, Ses Hızı & Dikte Laboratuvarı:** Web Speech API ses motoru, ses hız ayarları (0.75x, 1x, 1.25x), canlı ses dalgası animasyonu, etkileşimli dikte yazım testi ve çoktan seçmeli dinleme anlama sınavı.
+* 💬 **Fransız Gençlik Dili, Argot, Verlan & SMS Sözlüğü:** İnteraktif hece tersyüz çözümleme motoru (*femme➔meuf, fou➔ouf, énervé➔vénère, louche➔chelou*), 30+ sesli argot kartı ve güncel mesajlaşma kısaltmaları tablosu.
+* 🎙️ **Diplomatik Konuşma, Hitap & Tost (Kadeh) Stüdyosu:** Heyet açılış konuşması, resmî yemek kadeh konuşması, zirve kapanış bildirgesi ve ortak basın notu oluşturucu; Fransızca, Türkçe ve yan yana çift dilli önizleme, sesli dinleme ve Markdown dışa aktarımı.
+* 📅 **Maarif France & GSB Strazburg-Alsace Programı (25-30 Eylül):** 6 günlük interaktif zaman çizelgesi, resmi program afişi tam boyut modalı ve 8 kilit ziyaret mekanına ait **Alsace POI Sesli Gezi Rehberi** (Notre-Dame Katedrali, Petite France, Avrupa Parlamentosu, CEDH/AİHM, Maarif France, Colmar, Batorama, Kehl Köprüsü).
+* ⚡ **Gelişmiş Flashcard Sistemi:** Kategori bazlı filtreleme (Diplomasi, Günlük, Argot/Verlan, Deyimler, Alsace), kart karıştırma (🔀), favori/öğrenildi yıldızlama (⭐), `localStorage` kalıcı hafıza ve klavye kısayolları (`Space`, `Arrow`, `L`, `S`).
+* 🌙 **Karanlık / Aydınlık Mod (Dark & Light Theme):** Kalıcı `localStorage` destekli modern camlaşma (glassmorphism) teması.
+* 🔍 **Omni-Search Spotlight (Ctrl+K / Cmd+K):** Atlas, sözlük, şahsiyetler, kronoloji, matris, argot ve program dosyalarında anında genel arama.
 * 👥 **18 Düşünce ve Diplomasi Önderi Portreleri:** Kanuni'den De Gaulle'e, Şinasi'den Baudelaire'e kapsamlı biyografiler ve sesli aforizmalar.
 * 📖 **İnteraktif Fiil Çekim Motoru:** 14 kritik düzensiz fiilin 6 zaman kipi, sesli telaffuzu ve diplomatik nezaket grameri kuralları.
 * 🎭 **Saha Rol Yapma & Durumsal Diyalog Simülatörü:** Paris bistrosu, resmi bakanlık görüşmesi, Station F sunumu, metro ve eczane durum senaryoları.
@@ -737,7 +746,6 @@ http://localhost:8000
 * 🖋️ **Çift Dilli Şiir & Edebiyat Okuyucusu:** 6 klasik şiir, çift sütun karşılaştırma ve sesli okuma motoru.
 * 🗺️ **13 Metropoliten Bölge Atlası & 🍷 Terroir AOP Peynir Kataloğu.**
 * 🖨️ **Tek Tıkla Yazdırılabilir / PDF Çıktı Tasarımı:** Araştırmacılar ve katılımcılar için optimize edilmiş print stylesheet.
-* 📜 **Modallar Aracılığıyla 16 Atlas Dosyasını Tarayıcıda Doğrudan Okuma.**
 
 ---
 

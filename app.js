@@ -1304,6 +1304,76 @@ function handleGlobalSearch(query) {
     });
   }
 
+  // Search Matrix Items
+  if (typeof matrixData !== 'undefined') {
+    matrixData.forEach(m => {
+      if (m.title.toLowerCase().includes(q) || m.frLabel.toLowerCase().includes(q) || m.trLabel.toLowerCase().includes(q)) {
+        results.push({
+          title: `⚖️ ${m.title}`,
+          desc: `${m.frLabel} vs ${m.trLabel}`,
+          badge: "Kurumsal Matris",
+          tab: "matrix"
+        });
+      }
+    });
+  }
+
+  // Search Slang & Argot
+  if (typeof slangData !== 'undefined') {
+    slangData.forEach(s => {
+      if (s.term.toLowerCase().includes(q) || s.tr.toLowerCase().includes(q) || s.exFr.toLowerCase().includes(q)) {
+        results.push({
+          title: `💬 ${s.term} (${s.ipa})`,
+          desc: `🇹🇷 ${s.tr} — "${s.exFr}"`,
+          badge: "Gençlik Dili & Argot",
+          tab: "slang"
+        });
+      }
+    });
+  }
+
+  // Search SMS Abbreviations
+  if (typeof smsData !== 'undefined') {
+    smsData.forEach(s => {
+      if (s.sms.toLowerCase().includes(q) || s.fr.toLowerCase().includes(q) || s.tr.toLowerCase().includes(q)) {
+        results.push({
+          title: `📱 ${s.sms} (${s.fr})`,
+          desc: `🇹🇷 ${s.tr}`,
+          badge: "SMS Kısaltması",
+          tab: "slang"
+        });
+      }
+    });
+  }
+
+  // Search Alsace POIs
+  if (typeof alsacePoiData !== 'undefined') {
+    alsacePoiData.forEach(poi => {
+      if (poi.name.toLowerCase().includes(q) || poi.desc.toLowerCase().includes(q) || poi.address.toLowerCase().includes(q)) {
+        results.push({
+          title: `🏛️ ${poi.name}`,
+          desc: `${poi.category} — ${poi.address}`,
+          badge: "Alsace Ziyaret Rehberi",
+          tab: "program"
+        });
+      }
+    });
+  }
+
+  // Search Listening Lab Sentences
+  if (typeof listeningData !== 'undefined') {
+    listeningData.forEach(l => {
+      if (l.sentenceFr.toLowerCase().includes(q) || l.sentenceTr.toLowerCase().includes(q)) {
+        results.push({
+          title: `🎧 ${l.category}`,
+          desc: `🇫🇷 ${l.sentenceFr}`,
+          badge: "İşitsel Dikte Lab",
+          tab: "listening"
+        });
+      }
+    });
+  }
+
   if (results.length === 0) {
     container.innerHTML = '<div class="search-hint">Eşleşen sonuç bulunamadı. Lütfen başka bir arama terimi deneyin.</div>';
     return;
@@ -1931,20 +2001,39 @@ const vocabData = [
   { fr: "C'est ouf !", ipa: "/sɛ uf/", tr: "İnanılmaz / Çılgınca! (Fou -> Ouf verlan)", cat: "argot", ex: "Ce projet de jeunesse est complètement ouf !" },
   { fr: "Un pote / Une pote", ipa: "/œ̃ pɔt/", tr: "Kanka / Yakın arkadaş", cat: "argot", ex: "Je voyage avec mes potes de la délégation." },
   { fr: "Avoir le seum", ipa: "/a.vwaʁ lə sœm/", tr: "Gıcık olmak / Morali bozulmak", cat: "argot", ex: "J'ai trop le seum d'avoir raté le train." },
+  { fr: "Kiffer", ipa: "/ki.fe/", tr: "Çok sevmek / Bayılmak", cat: "argot", ex: "Je kiffe trop la ville de Strasbourg !" },
+  { fr: "Gérer", ipa: "/ʒe.ʁe/", tr: "Üstesinden gelmek / Süper halletmek", cat: "argot", ex: "Tu as trop géré la présentation bilatérale." },
   { fr: "Poser un lapin", ipa: "/po.ze œ̃ la.pɛ̃/", tr: "Randevuya gelmemek / Ekip gitmek", cat: "idioms", ex: "Il m'a posé un lapin au café." },
   { fr: "Avoir le coup de foudre", ipa: "/a.vwaʁ lə ku d(ə) fudʁ/", tr: "İlk görüşte aşık olmak / Çarpılmak", cat: "idioms", ex: "J'ai eu un coup de foudre pour cette ville." },
   { fr: "C'est la fin des haricots", ipa: "/sɛ la fɛ̃ de za.ʁi.ko/", tr: "Her şey bitti / İş bitti", cat: "idioms", ex: "Pas de panique, ce n'est pas la fin des haricots !" },
+  { fr: "Tomber dans les pommes", ipa: "/tɔ̃.be dɑ̃ le pɔm/", tr: "Bayılmak / Kendinden geçmek", cat: "idioms", ex: "Avec cette chaleur, il a failli tomber dans les pommes." },
   { fr: "En revanche", ipa: "/ɑ̃ ʁə.vɑ̃ʃ/", tr: "Buna karşılık / Öte yandan", cat: "connectors", ex: "Le défi est grand ; en revanche la volonté existe." },
   { fr: "Toutefois", ipa: "/tut.fwa/", tr: "Bununla birlikte / Yine de", cat: "connectors", ex: "Toutefois, nous devons rester vigilants." },
   { fr: "Par conséquent", ipa: "/paʁ kɔ̃.se.kɑ̃/", tr: "Sonuç olarak / Dolayısıyla", cat: "connectors", ex: "Par conséquent, nous adoptons la résolution." },
-  { fr: "Bien que (+ Subjonctif)", ipa: "/bjɛ̃ kə/", tr: "-e rağmen / Olmasına karşın", cat: "connectors", ex: "Bien qu'il soit tard, nous continuons." }
+  { fr: "Bien que (+ Subjonctif)", ipa: "/bjɛ̃ kə/", tr: "-e rağmen / Olmasına karşın", cat: "connectors", ex: "Bien qu'il soit tard, nous continuons." },
+  { fr: "La Petite France", ipa: "/la p(ə).tit fʁɑ̃s/", tr: "Strazburg'un tarihi kanallı tabakhane mahallesi", cat: "strasbourg", ex: "Flâner le long des canaux de la Petite France." },
+  { fr: "La Tarte flambée (Flammekueche)", ipa: "/taʁt flɑ̃.be/", tr: "Alsace usulü ince çıtır fırın pidesi", cat: "strasbourg", ex: "Déguster une authentique tarte flambée à Colmar." },
+  { fr: "Le Parlement Européen", ipa: "/paʁ.lə.mɑ̃ ø.ʁɔ.pe.ɛ̃/", tr: "Avrupa Parlamentosu Genel Kurulu", cat: "strasbourg", ex: "Visiter l'hémicycle du Parlement Européen à Strasbourg." }
 ];
 
+let activeVocabDeck = [...vocabData];
 let currentCardIndex = 0;
 let isFlipped = false;
+let favoriteVocabSet = new Set(JSON.parse(localStorage.getItem('gsb-fav-vocab') || '[]'));
 
 function updateFlashcard() {
-  const item = vocabData[currentCardIndex];
+  if (activeVocabDeck.length === 0) {
+    document.getElementById('fcCategory').innerText = "Sonuç Yok";
+    document.getElementById('fcFrench').innerText = "Kart Bulunamadı";
+    document.getElementById('fcPronun').innerText = "";
+    document.getElementById('fcTurkish').innerText = "Bu filtreye uygun kart yok.";
+    document.getElementById('fcExample').innerText = "";
+    document.getElementById('fcCounter').innerText = "0 / 0";
+    return;
+  }
+
+  if (currentCardIndex >= activeVocabDeck.length) currentCardIndex = 0;
+  const item = activeVocabDeck[currentCardIndex];
   if (!item) return;
 
   document.getElementById('fcCategory').innerText = getVocabCategoryLabel(item.cat);
@@ -1952,13 +2041,66 @@ function updateFlashcard() {
   document.getElementById('fcPronun').innerText = item.ipa;
   document.getElementById('fcTurkish').innerText = item.tr;
   document.getElementById('fcExample').innerText = `"${item.ex}"`;
-  document.getElementById('fcCounter').innerText = `${currentCardIndex + 1} / ${vocabData.length}`;
+  document.getElementById('fcCounter').innerText = `${currentCardIndex + 1} / ${activeVocabDeck.length}`;
+
+  const isFav = favoriteVocabSet.has(item.fr);
+  const favBtn = document.getElementById('fcFavoriteBtn');
+  if (favBtn) {
+    favBtn.classList.toggle('active', isFav);
+    favBtn.title = isFav ? "Öğrenildi / Favorilerden Kaldır" : "Öğrenildi / Favori Olarak İşaretle";
+  }
+
+  updateFlashcardMasteryStats();
 
   const card = document.getElementById('flashcard');
   if (card && isFlipped) {
     card.classList.remove('flipped');
     isFlipped = false;
   }
+}
+
+function toggleFlashcardFavorite() {
+  const item = activeVocabDeck[currentCardIndex];
+  if (!item) return;
+
+  if (favoriteVocabSet.has(item.fr)) {
+    favoriteVocabSet.delete(item.fr);
+    showToast(`"${item.fr}" favorilerden kaldırıldı.`);
+    playTone(350, 'sine', 0.05);
+  } else {
+    favoriteVocabSet.add(item.fr);
+    showToast(`"${item.fr}" öğrenildi olarak kaydedildi! ⭐`);
+    playTone(700, 'triangle', 0.1);
+  }
+
+  localStorage.setItem('gsb-fav-vocab', JSON.stringify([...favoriteVocabSet]));
+  updateFlashcard();
+}
+
+function updateFlashcardMasteryStats() {
+  const statsEl = document.getElementById('fcMasteryStats');
+  if (statsEl) {
+    statsEl.innerText = `⭐ ${favoriteVocabSet.size} / ${vocabData.length} Öğrenildi`;
+  }
+}
+
+function shuffleFlashcards() {
+  activeVocabDeck = [...activeVocabDeck].sort(() => 0.5 - Math.random());
+  currentCardIndex = 0;
+  updateFlashcard();
+  showToast('Flashcardlar karıştırıldı! 🔀');
+  playTone(600, 'sine', 0.08);
+}
+
+function filterFlashcardCategory(category) {
+  if (category === 'all') {
+    activeVocabDeck = [...vocabData];
+  } else {
+    activeVocabDeck = vocabData.filter(v => v.cat === category);
+  }
+  currentCardIndex = 0;
+  updateFlashcard();
+  playTone(500, 'sine', 0.05);
 }
 
 function flipCard() {
@@ -1970,19 +2112,21 @@ function flipCard() {
 }
 
 function nextCard() {
-  currentCardIndex = (currentCardIndex + 1) % vocabData.length;
+  if (activeVocabDeck.length === 0) return;
+  currentCardIndex = (currentCardIndex + 1) % activeVocabDeck.length;
   updateFlashcard();
   playTone(550, 'triangle', 0.05);
 }
 
 function prevCard() {
-  currentCardIndex = (currentCardIndex - 1 + vocabData.length) % vocabData.length;
+  if (activeVocabDeck.length === 0) return;
+  currentCardIndex = (currentCardIndex - 1 + activeVocabDeck.length) % activeVocabDeck.length;
   updateFlashcard();
   playTone(400, 'triangle', 0.05);
 }
 
 function speakCurrentFlashcard() {
-  const item = vocabData[currentCardIndex];
+  const item = activeVocabDeck[currentCardIndex];
   if (item) speakText(item.fr);
 }
 
@@ -1993,6 +2137,7 @@ function getVocabCategoryLabel(cat) {
     case 'argot': return '⚡ Argot & Verlan';
     case 'idioms': return '💡 Deyimler';
     case 'connectors': return '🔗 Münazara Bağlaçları';
+    case 'strasbourg': return '🥨 Alsace & Strazburg';
     default: return cat;
   }
 }
@@ -2437,6 +2582,38 @@ const atlasModalData = {
       </ul>
       <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('program');" style="margin-top: 8px;">📅 25-30 Eylül Resmî Programını İncele →</button></p>
       <p><small>Detaylı dosya: <code>france-atlas/strasbourg-alsace-guide.md</code></small></p>
+    `
+  },
+  matrix: {
+    badge: "Kurumsal Karşılaştırma",
+    title: "Türkiye - Fransa Kurumsal & Kültürel Matris",
+    content: `
+      <p>5. Cumhuriyet vs Cumhurbaşkanlığı Hükümet Sistemi, Grandes Écoles vs Mülkiye, MJC vs GSB Gençlik Merkezleri, Service Civique vs Genç Gönüllüler ve Terroir vs Coğrafi İşaret modelleri.</p>
+      <ul>
+        <li><strong>Devlet & Anayasa:</strong> Conseil d'État / Danıştay ve Laïcité / Laiklik karşılaştırmaları.</li>
+        <li><strong>Gençlik Politikası:</strong> MJC federasyonu ve GSB Gençlik Merkezleri kardeşleşme potansiyeli.</li>
+        <li><strong>Kültür & Terroir:</strong> AOP/AOC doktrini ve Anadolu mahreç işaretleri.</li>
+      </ul>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('matrix');" style="margin-top: 8px;">⚖️ İnteraktif Matrisi İncele →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/cultural-institutional-matrix.md</code></small></p>
+    `
+  },
+  slang: {
+    badge: "Gençlik Dili & Argot",
+    title: "Fransız Gençlik Dili, Argot & Verlan Rehberi",
+    content: `
+      <p>Hece tersyüz sanatı (Verlan), 30+ sokak ve gençlik tabiri (kiffer, seum, chelou, chanmé, meuf) ve modern mesajlaşma (MDR, JPP, OKLM, TKT) kılavuzu.</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('slang');" style="margin-top: 8px;">💬 Argot & Verlan Laboratuvarına Git →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/youth-slang-argot-verlan.md</code></small></p>
+    `
+  },
+  speeches: {
+    badge: "Diplomatik Protokol",
+    title: "Fransız Diplomatik Protokolü & Konuşma Kılavuzu",
+    content: `
+      <p>Resmî hitap formülleri (Monsieur l'Ambassadeur, Monsieur le Consul général), diplomatik kadeh kaldırma (toast) adabı ve iki dilli heyet bildiri şablonları.</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('speeches');" style="margin-top: 8px;">🎙️ Diplomatik Konuşma Stüdyosuna Git →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/diplomatic-speech-protocol-guide.md</code></small></p>
     `
   }
 };
@@ -3203,7 +3380,917 @@ function closePosterModal(e) {
 }
 
 // ==========================================================================
-// 24. INITIALIZATION ON DOM LOAD
+// 25. CULTURAL & INSTITUTIONAL MATRIX (TÜRKİYE - FRANSA KARŞILAŞTIRMA MATRİSİ)
+// ==========================================================================
+const matrixData = [
+  {
+    category: "state",
+    title: "Yönetim Modeli & Yürütme Mimarisi",
+    frLabel: "5. Cumhuriyet (Vᵉ République)",
+    frDesc: "Yarı-Başkanlık Sistemi (Régime semi-présidentiel). Cumhurbaşkanı (Élysée) dış politika ve ordudan, Başbakan (Matignon) iç siyaset ve hükümetten sorumludur.",
+    trLabel: "Cumhurbaşkanlığı Hükümet Sistemi",
+    trDesc: "Doğrudan halk tarafından seçilen Cumhurbaşkanı yürütmenin başıdır. Bakanlar Kurulu doğrudan Cumhurbaşkanı liderliğinde toplanır.",
+    interaction: "1876 Kanun-i Esasi ve Tanzimat fermanları Fransız anayasal ilkelerinden büyük ölçüde etkilenmiştir.",
+    frTerms: ["Régime semi-présidentiel", "Cohabitation", "Le Premier ministre"]
+  },
+  {
+    category: "state",
+    title: "İdari Yargı & Danıştay Geleneği",
+    frLabel: "Conseil d'État (1799)",
+    frDesc: "Hem en yüksek idari mahkeme hem de hükümetin yasa tasarılarında en üst danışma kuruludur. Palais-Royal'de konuşludur.",
+    trLabel: "Danıştay (1868 Şûrâ-yı Devlet)",
+    trDesc: "Sultan Abdülaziz döneminde Fransız Conseil d'État model alınarak kurulan yüksek idari mahkeme ve danışma organı.",
+    interaction: "Türk idari hukuku ve kamu yönetimi doktrini 150 yıldır doğrudan Fransız idari yargı prensiplerine dayanır.",
+    frTerms: ["Conseil d'État", "Contentieux administratif", "Palais-Royal"]
+  },
+  {
+    category: "state",
+    title: "Laiklik & Din-Devlet İlişkileri",
+    frLabel: "Laïcité (1905 Kanunu)",
+    frDesc: "Kamusal alanda din ve devlet işlerinin kesin ayrılığı. Din hizmetleri kamu bütçesinden finanse edilmez (Alsace-Moselle hariç).",
+    trLabel: "Laiklik (Anayasa Madde 2)",
+    trDesc: "Devletin tüm din ve inançlara eşit mesafede durması; din hizmetlerinin kamu düzeni içinde Diyanet İşleri eliyle yürütülmesi.",
+    interaction: "Türkiye Cumhuriyeti kurucu kadroları 'Laiklik' kavramını Fransız aydınlanma ve cumhuriyetçilik doktrininden almıştır.",
+    frTerms: ["Laïcité de l'État", "Loi de 1905", "Neutralité religieuse"]
+  },
+  {
+    category: "education",
+    title: "Bürokrasi & Kamu Liderliği Yetiştirme",
+    frLabel: "Grandes Écoles (INSP / ENA & Sciences Po)",
+    frDesc: "Devlet adamı, büyükelçi ve üst düzey bürokrat yetiştiren seçkin kurumlar. 2 yıllık zorlu 'Classes Préparatoires' (Prépa) ile girilir.",
+    trLabel: "Mülkiye (Siyasal Bilgiler Fakültesi - 1859)",
+    trDesc: "Osmanlı'dan Cumhuriyet'e Türk diplomasisinin ve kaymakamlık/valilik omurgasının yetiştiği Ankara Üniversitesi SBF.",
+    interaction: "Mekteb-i Mülkiye, 19. yüzyılda Fransız École Libre des Sciences Politiques modeli örnek alınarak kurulmuştur.",
+    frTerms: ["Grandes Écoles", "INSP (ex-ENA)", "Sciences Po Paris"]
+  },
+  {
+    category: "education",
+    title: "Dil & Edebiyat Otoritesi",
+    frLabel: "Académie Française (1635)",
+    frDesc: "Kardinal Richelieu tarafından kurulan 40 'Ölümsüz' (Les Immortels). Fransız dilinin kurallarını ve resmî sözlüğünü belirler.",
+    trLabel: "Türk Dil Kurumu (TDK - 1932)",
+    trDesc: "Gazi Mustafa Kemal Atatürk'ün direktifiyle kurulan, Türkçenin zenginliğini ve terminolojisini geliştiren milli akademi.",
+    interaction: "İki kurum da ulusal dillerin yabancı etkilerden arındırılması ve bilimsel terminoloji üretiminde liderdir.",
+    frTerms: ["Académie Française", "Les Immortels", "Dictionnaire officiel"]
+  },
+  {
+    category: "education",
+    title: "Güzel Sanatlar Akademisi",
+    frLabel: "École des Beaux-Arts de Paris (ENSBA)",
+    frDesc: "Dünyanın en prestijli resim, heykel ve mimarlık okulu. Atölye (atelier) sistemi ve Roma Ödülü (Prix de Rome) geleneği.",
+    trLabel: "Sanayi-i Nefise Mektebi (MSGSÜ - 1882)",
+    trDesc: "Osman Hamdi Bey tarafından kurulan ve günümüzde Mimar Sinan Güzel Sanatlar Üniversitesi olan ilk sanat akademisi.",
+    interaction: "Osman Hamdi Bey, Sanayi-i Nefise'nin müfredatını ve atölye yapısını bizzat mezun olduğu Paris Beaux-Arts'tan kopyalamıştır.",
+    frTerms: ["École des Beaux-Arts", "Atelier de peinture", "Patrimoine artistique"]
+  },
+  {
+    category: "youth",
+    title: "Gençlik Merkezleri & Katılım Ağları",
+    frLabel: "MJC (Maisons des Jeunes et de la Culture)",
+    frDesc: "Fransa genelinde gençlerin kültür, sanat, tiyatro ve sivil katılımını destekleyen özerk yerel gençlik evleri federasyonu.",
+    trLabel: "GSB Gençlik Merkezleri (450+ Merkez)",
+    trDesc: "T.C. Gençlik ve Spor Bakanlığı bünyesinde 81 ilde teknoloji (Deneyap), sanat, müzik, spor ve liderlik kampları sunan ücretsiz merkezler.",
+    interaction: "2026 Değişim Programı, MJC ağları ile GSB Gençlik Merkezleri arasında 'Kardeş Gençlik Evi' protokolünü hayata geçirmektedir.",
+    frTerms: ["Maison des Jeunes", "Éducation populaire", "Participation citoyenne"]
+  },
+  {
+    category: "youth",
+    title: "Ulusal Gönüllülük & Kamu Yararı",
+    frLabel: "Service Civique (Fransa)",
+    frDesc: "16-25 yaş arası gençlerin 6 ila 12 ay süreyle toplum yararına görev aldığı, devlet tarafından desteklenen resmi gönüllülük sistemi.",
+    trLabel: "Genç Gönüllüler & Ulusal Gönüllülük Sistemi",
+    trDesc: "GSB çatısı altında afet müdahalesi, çevre, eğitim ve spor alanlarında binlerce genci bir araya getiren dijital platform.",
+    interaction: "İki ülke gençlik bakanlıkları, Service Civique ve Genç Gönüllüler arasında karşılıklı kredi tanınırlığını hedeflemektedir.",
+    frTerms: ["Service Civique", "Volontariat associatif", "Engagement solidaire"]
+  },
+  {
+    category: "gastronomy",
+    title: "Coğrafi İşaret & Toprak Felsefesi",
+    frLabel: "Terroir & AOP / AOC Doktrini (1935)",
+    frDesc: "Bir ürünün kalitesinin toprak kimyası, mikroklima ve yerel insan emeği (savoir-faire) ile ayrılmaz bağı. 46 AOP peynir, binlerce bağ.",
+    trLabel: "Yöre & Coğrafi İşaret / Mahreç Tescili",
+    trDesc: "TÜRKPATENT tarafından korunan Gaziantep Baklavası, Ezine Peyniri, Malatya Kayısısı gibi 1500+ tescilli Anadolu mirası.",
+    interaction: "Fransa'nın 1935'te kurduğu INAO sistemi, Türkiye'nin coğrafi işaret mevzuatının hazırlanmasında uluslararası referans olmuştur.",
+    frTerms: ["Le Terroir", "Appellation d'Origine Protégée (AOP)", "Savoir-faire local"]
+  },
+  {
+    category: "urban",
+    title: "Kentsel Tasarım & Ekolojik Mobilite",
+    frLabel: "Ville du quart d'heure (15 Dakikalık Şehir)",
+    frDesc: "Paris'te Carlos Moreno tarafından geliştirilen; iş, okul, pazar ve parkların 15 dakikalık yürüyüş mesafesinde olduğu sürdürülebilir kent modeli.",
+    trLabel: "Millet Bahçeleri & Sıfır Atık Şehirler",
+    trDesc: "Türkiye genelinde inşa edilen dev ekolojik koridorlar, bisiklet yolları ve akıllı şehircilik altyapısı.",
+    interaction: "İki ülkenin genç mimar ve şehir plancıları ortak kentsel yeşil dönüşüm atölyelerinde tecrübe paylaşımı yapmaktadır.",
+    frTerms: ["Ville du quart d'heure", "Mobilité douce", "Plan Vélo"]
+  }
+];
+
+function renderMatrix(items) {
+  const container = document.getElementById('matrixContainer');
+  if (!container) return;
+
+  container.innerHTML = items.map(item => `
+    <div class="matrix-card">
+      <div class="matrix-header">
+        <span class="matrix-tag">${getMatrixCategoryLabel(item.category)}</span>
+        <h3>${item.title}</h3>
+      </div>
+      <div class="matrix-dual-cols">
+        <div class="mcol fr-col">
+          <div class="mcol-header">
+            <span class="flag">🇫🇷</span>
+            <h4>${item.frLabel}</h4>
+          </div>
+          <p>${item.frDesc}</p>
+          <div class="mcol-terms">
+            ${item.frTerms.map(t => `
+              <span class="term-chip" onclick="speakText('${t.replace(/'/g, "\\'")}')" title="Seslendir">
+                ${t} 🔊
+              </span>
+            `).join('')}
+          </div>
+        </div>
+        <div class="mcol tr-col">
+          <div class="mcol-header">
+            <span class="flag">🇹🇷</span>
+            <h4>${item.trLabel}</h4>
+          </div>
+          <p>${item.trDesc}</p>
+        </div>
+      </div>
+      <div class="matrix-footer-note">
+        <strong>🤝 Tarihsel Etkileşim & Diyalog:</strong> ${item.interaction}
+      </div>
+    </div>
+  `).join('');
+}
+
+function getMatrixCategoryLabel(cat) {
+  switch (cat) {
+    case 'state': return '⚖️ Devlet & Anayasa';
+    case 'education': return '🎓 Eğitim & Akademi';
+    case 'youth': return '🤝 Gençlik & Gönüllülük';
+    case 'gastronomy': return '🍷 Gastronomi & Terroir';
+    case 'urban': return '🏙️ Şehircilik & Ulaşım';
+    default: return 'Genel';
+  }
+}
+
+function filterMatrix(category) {
+  document.querySelectorAll('#tab-matrix .filter-chips .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  const searchVal = document.getElementById('matrixSearch')?.value.toLowerCase() || '';
+
+  const filtered = matrixData.filter(m => {
+    const matchCat = category === 'all' || m.category === category;
+    const matchSearch = m.title.toLowerCase().includes(searchVal) ||
+                        m.frLabel.toLowerCase().includes(searchVal) ||
+                        m.trLabel.toLowerCase().includes(searchVal) ||
+                        m.frDesc.toLowerCase().includes(searchVal) ||
+                        m.trDesc.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
+  renderMatrix(filtered);
+  playTone(500, 'sine', 0.05);
+}
+
+function filterMatrixBySearch(query) {
+  const q = query.toLowerCase();
+  const filtered = matrixData.filter(m =>
+    m.title.toLowerCase().includes(q) ||
+    m.frLabel.toLowerCase().includes(q) ||
+    m.trLabel.toLowerCase().includes(q) ||
+    m.frDesc.toLowerCase().includes(q) ||
+    m.trDesc.toLowerCase().includes(q)
+  );
+  renderMatrix(filtered);
+}
+
+// ==========================================================================
+// 26. LISTENING & DICTATION LAB ENGINE (LABORATOIRE D'ÉCOUTE & DICTÉE)
+// ==========================================================================
+const listeningData = [
+  {
+    id: 1,
+    category: "Diplomasi & Heyet",
+    sentenceFr: "Nous sommes très heureux d'être reçus aujourd'hui au Parlement Européen à Strasbourg.",
+    sentenceTr: "Bugün Strazburg'daki Avrupa Parlamentosu'nda ağırlanmaktan büyük mutluluk duyuyoruz.",
+    hint: "Nous sommes ... heureux d'être reçus ... au Parlement Européen ...",
+    compOptions: [
+      "Bugün Strazburg'daki Avrupa Parlamentosu'nda ağırlanmaktan büyük mutluluk duyuyoruz.",
+      "Yarın Avrupa Parlamentosu'nda heyetlerarası resmi bir görüşme yapacağız.",
+      "Avrupa Parlamentosu seçimleri için Strazburg merkezine hareket ediyoruz.",
+      "Strazburg Belediyesi ile ortak bir gençlik çalıştayı düzenliyoruz."
+    ],
+    compCorrect: 0,
+    explanation: "'Être reçu' kabul edilmek / ağırlanmak demektir; 'heureux d'être reçus' ağırlanmaktan mutlu olmayı ifade eder."
+  },
+  {
+    id: 2,
+    category: "Resmî Nezaket",
+    sentenceFr: "Je vous remercie chaleureusement pour votre accueil exceptionnel et votre hospitalité.",
+    sentenceTr: "İstisnai karşılamanız ve misafirperverliğiniz için sizlere en içten teşekkürlerimi sunarım.",
+    hint: "Je vous remercie chaleureusement ... votre hospitalité.",
+    compOptions: [
+      "Gelecek toplantının tarihini kararlaştırmak için sabırsızlanıyoruz.",
+      "İstisnai karşılamanız ve misafirperverliğiniz için sizlere en içten teşekkürlerimi sunarım.",
+      "Protokol gereği akşam yemeği menüsünü teyit etmek istiyoruz.",
+      "Değişim programımızın ikinci etabını İstanbul'da gerçekleştireceğiz."
+    ],
+    compCorrect: 1,
+    explanation: "'Chaleureusement' sıcaktan türeyen 'içtenlikle/sıcak şekilde', 'hospitalité' ise misafirperverliktir."
+  },
+  {
+    id: 3,
+    category: "Gençlik & İnovasyon",
+    sentenceFr: "Les jeunes entrepreneurs collaborent activement sur des solutions pour le climat et la transition verte.",
+    sentenceTr: "Genç girişimciler iklim ve yeşil dönüşüm çözümleri üzerinde aktif olarak iş birliği yapıyor.",
+    hint: "Les jeunes entrepreneurs collaborent activement ... transition verte.",
+    compOptions: [
+      "Üniversite öğrencileri sınav haftası için kütüphanede toplanıyor.",
+      "Genç girişimciler iklim ve yeşil dönüşüm çözümleri üzerinde aktif olarak iş birliği yapıyor.",
+      "Girişimcilik fonları yalnızca büyük teknoloji şirketlerine aktarılmaktadır.",
+      "Yeşil alanların korunması için yeni bir yasa tasarısı meclise sunuldu."
+    ],
+    compCorrect: 1,
+    explanation: "'Transition verte' yeşil dönüşüm, 'collaborer' iş birliği yapmak anlamına gelir."
+  },
+  {
+    id: 4,
+    category: "Alsace & Tarih",
+    sentenceFr: "La Petite France est réputée pour ses maisons à colombages et ses canaux pittoresques.",
+    sentenceTr: "Petite France, ahşap karkaslı evleri ve pitoresk kanallarıyla meşhurdur.",
+    hint: "La Petite France est réputée ... maisons à colombages ...",
+    compOptions: [
+      "Strazburg Katedrali gotik mimarinin en yüksek örneklerinden biridir.",
+      "Petite France, ahşap karkaslı evleri ve pitoresk kanallarıyla meşhurdur.",
+      "Colmar şehrinde tekne turları yalnızca yaz aylarında yapılmaktadır.",
+      "Ren Nehri boyunca uzanan bisiklet yolları iki ülkeyi birbirine bağlar."
+    ],
+    compCorrect: 1,
+    explanation: "'Maisons à colombages' Alsace bölgesine özgü yarı ahşap karkaslı ev mimarisidir."
+  },
+  {
+    id: 5,
+    category: "Günlük Hayat & Gastronomi",
+    sentenceFr: "Pourriez-vous nous apporter une carafe d'eau fraîche et l'addition, s'il vous plaît ?",
+    sentenceTr: "Bize bir sürahi soğuk su ve hesabı getirebilir misiniz lütfen?",
+    hint: "Pourriez-vous ... carafe d'eau ... l'addition ...",
+    compOptions: [
+      "Rezervasyonumuz saat sekizde altı kişilik bir masa içindi.",
+      "Bize bir sürahi soğuk su ve hesabı getirebilir misiniz lütfen?",
+      "Günün tatlısı olarak taze elmalı tart tavsiye ediyor musunuz?",
+      "Menüdeki vejetaryen seçeneklerin neler olduğunu öğrenebilir miyiz?"
+    ],
+    compCorrect: 1,
+    explanation: "'Pourriez-vous' pouvoir fiilinin nezaket kipi çekimidir; 'carafe d'eau' ise masaya ücretsiz gelen musluk suyudur."
+  }
+];
+
+let currentListeningIndex = 0;
+let currentListeningSpeed = 1.0;
+let currentListeningMode = 'dictation';
+
+function setListenSpeed(speed) {
+  currentListeningSpeed = speed;
+  document.querySelectorAll('.audio-speed-controls .speed-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.speed) === speed);
+  });
+  playTone(550, 'sine', 0.05);
+}
+
+function switchListeningMode(mode) {
+  currentListeningMode = mode;
+  document.getElementById('btnListenModeDictation')?.classList.toggle('active', mode === 'dictation');
+  document.getElementById('btnListenModeComprehension')?.classList.toggle('active', mode === 'comprehension');
+
+  document.getElementById('dictationContainer').style.display = mode === 'dictation' ? 'block' : 'none';
+  document.getElementById('comprehensionContainer').style.display = mode === 'comprehension' ? 'block' : 'none';
+
+  renderListeningItem();
+}
+
+function renderListeningItem() {
+  const item = listeningData[currentListeningIndex];
+  if (!item) return;
+
+  document.getElementById('listenItemCategory').innerText = item.category;
+  document.getElementById('listenCounter').innerText = `Cümle ${currentListeningIndex + 1} / ${listeningData.length}`;
+
+  // Reset dictation inputs
+  const dInput = document.getElementById('dictationInput');
+  if (dInput) dInput.value = '';
+  const dFeedback = document.getElementById('dictationFeedback');
+  if (dFeedback) {
+    dFeedback.style.display = 'none';
+    dFeedback.innerHTML = '';
+  }
+
+  // Render Comprehension options
+  const compContainer = document.getElementById('compOptionsContainer');
+  if (compContainer) {
+    compContainer.innerHTML = item.compOptions.map((opt, idx) => `
+      <button class="comp-opt-btn" onclick="selectComprehensionOption(${idx})">
+        <span class="opt-num">${idx + 1}</span>
+        <span class="opt-text">${opt}</span>
+      </button>
+    `).join('');
+  }
+
+  const compFeedback = document.getElementById('compFeedback');
+  if (compFeedback) {
+    compFeedback.style.display = 'none';
+    compFeedback.innerHTML = '';
+  }
+  const btnCompNext = document.getElementById('btnCompNext');
+  if (btnCompNext) btnCompNext.style.display = 'none';
+}
+
+function playCurrentListeningSentence() {
+  const item = listeningData[currentListeningIndex];
+  if (!item) return;
+
+  if (!('speechSynthesis' in window)) {
+    showToast('Tarayıcınız ses sentezini desteklemiyor.');
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(item.sentenceFr);
+  utterance.lang = 'fr-FR';
+  utterance.rate = currentListeningSpeed;
+
+  const vis = document.getElementById('audioVisualizer');
+  if (vis) vis.classList.add('playing');
+
+  utterance.onend = () => {
+    if (vis) vis.classList.remove('playing');
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+function checkDictationAnswer() {
+  const item = listeningData[currentListeningIndex];
+  const userText = document.getElementById('dictationInput')?.value.trim() || '';
+  const feedback = document.getElementById('dictationFeedback');
+  if (!item || !feedback) return;
+
+  if (!userText) {
+    showToast('Lütfen önce duyduğunuz Fransızca cümleyi yazınız.');
+    return;
+  }
+
+  const cleanTarget = item.sentenceFr.replace(/[.,/#!$%^&*;:{}=\-_`~()?'""]/g, "").toLowerCase();
+  const cleanUser = userText.replace(/[.,/#!$%^&*;:{}=\-_`~()?'""]/g, "").toLowerCase();
+
+  const targetWords = cleanTarget.split(/\s+/);
+  const userWords = cleanUser.split(/\s+/);
+
+  let matchCount = 0;
+  userWords.forEach(w => {
+    if (targetWords.includes(w)) matchCount++;
+  });
+
+  const accuracy = Math.round((matchCount / Math.max(targetWords.length, userWords.length)) * 100);
+
+  feedback.style.display = 'block';
+  if (accuracy >= 80) {
+    feedback.className = 'dictation-feedback success-box';
+    feedback.innerHTML = `
+      <h4>🎉 Harika İş! Yazım Başarısı: %${accuracy}</h4>
+      <p><strong>Orijinal Metin:</strong> <em>"${item.sentenceFr}"</em></p>
+      <p><strong>Türkçe Anlamı:</strong> ${item.sentenceTr}</p>
+      <p><small>${item.explanation}</small></p>
+    `;
+    playTone(700, 'triangle', 0.15);
+  } else {
+    feedback.className = 'dictation-feedback warning-box';
+    feedback.innerHTML = `
+      <h4>✍️ Geliştirilebilir! Eşleşme: %${accuracy}</h4>
+      <p><strong>Doğru Metin:</strong> <em>"${item.sentenceFr}"</em></p>
+      <p><strong>Sizin Yazdığınız:</strong> <em>"${userText}"</em></p>
+      <p><strong>Türkçe Çeviri:</strong> ${item.sentenceTr}</p>
+      <p><small>${item.explanation}</small></p>
+    `;
+    playTone(300, 'sawtooth', 0.15);
+  }
+}
+
+function giveDictationHint() {
+  const item = listeningData[currentListeningIndex];
+  if (!item) return;
+  showToast(`💡 İpucu: ${item.hint}`);
+  playTone(500, 'sine', 0.08);
+}
+
+function selectComprehensionOption(index) {
+  const item = listeningData[currentListeningIndex];
+  const buttons = document.querySelectorAll('.comp-opt-btn');
+  const feedback = document.getElementById('compFeedback');
+  const btnNext = document.getElementById('btnCompNext');
+  if (!item || !feedback) return;
+
+  buttons.forEach(b => b.disabled = true);
+  feedback.style.display = 'block';
+
+  if (index === item.compCorrect) {
+    buttons[index].classList.add('correct');
+    feedback.className = 'comp-feedback correct-box';
+    feedback.innerHTML = `✅ <strong>Doğru Tebrikler!</strong><br>${item.explanation}`;
+    playTone(680, 'sine', 0.15);
+  } else {
+    buttons[index].classList.add('wrong');
+    buttons[item.compCorrect].classList.add('correct');
+    feedback.className = 'comp-feedback wrong-box';
+    feedback.innerHTML = `❌ <strong>Yanlış Seçenek!</strong> Doğru cevap: <em>${item.compOptions[item.compCorrect]}</em><br>${item.explanation}`;
+    playTone(220, 'square', 0.2);
+  }
+
+  if (btnNext) btnNext.style.display = 'inline-block';
+}
+
+function nextListeningSentence() {
+  currentListeningIndex = (currentListeningIndex + 1) % listeningData.length;
+  renderListeningItem();
+  playTone(550, 'sine', 0.05);
+}
+
+// ==========================================================================
+// 27. YOUTH SLANG, ARGOT, VERLAN & SMS ENGINE
+// ==========================================================================
+const verlanWordsData = {
+  femme: { original: "femme", ipaOri: "/fam/", verlan: "meuf", ipaVer: "/mœf/", meaningTr: "Kadın, kız arkadaş, hatun", step: "fem-me ➔ me-fe ➔ meuf" },
+  fou: { original: "fou", ipaOri: "/fu/", verlan: "ouf", ipaVer: "/uf/", meaningTr: "Deli, çılgın, inanılmaz (C'est un truc de ouf!)", step: "fou ➔ ou-f ➔ ouf" },
+  énervé: { original: "énervé", ipaOri: "/e.nɛʁ.ve/", verlan: "vénère", ipaVer: "/ve.nɛʁ/", meaningTr: "Aşırı sinirli, kızgın, gergin", step: "é-ner-vé ➔ ner-vé ➔ vé-nère" },
+  louche: { original: "louche", ipaOri: "/luʃ/", verlan: "chelou", ipaVer: "/ʃə.lu/", meaningTr: "Şüpheli, tuhaf, tekinsiz", step: "lou-che ➔ che-lou ➔ chelou" },
+  merci: { original: "merci", ipaOri: "/mɛʁ.si/", verlan: "cimer", ipaVer: "/si.mɛʁ/", meaningTr: "Teşekkürler, sağ ol", step: "mer-ci ➔ ci-mer ➔ cimer" },
+  lourd: { original: "lourd", ipaOri: "/luʁ/", verlan: "relou", ipaVer: "/ʁə.lu/", meaningTr: "Can sıkıcı, çekilmez, kıl", step: "lourd ➔ lour-re ➔ re-lou" },
+  fête: { original: "fête", ipaOri: "/fɛt/", verlan: "teuf", ipaVer: "/tœf/", meaningTr: "Parti, eğlence, kutlama", step: "fête ➔ fê-te ➔ teuf" },
+  musique: { original: "musique", ipaOri: "/my.zik/", verlan: "zikmu", ipaVer: "/zik.my/", meaningTr: "Müzik, şarkı", step: "mu-sique ➔ zique-mu ➔ zikmu" }
+};
+
+function loadVerlanWord(key) {
+  const data = verlanWordsData[key];
+  if (!data) return;
+
+  document.querySelectorAll('.verlan-quick-presets .chip-mini').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick')?.includes(`'${key}'`));
+  });
+
+  const row = document.getElementById('verlanDisplayRow');
+  if (!row) return;
+
+  row.innerHTML = `
+    <div class="verlan-side-box original-box">
+      <span class="v-tag">Standart Fransızca</span>
+      <h4>${data.original}</h4>
+      <code>${data.ipaOri}</code>
+      <button class="btn-voice-mini" onclick="speakText('${data.original}')" title="Dinle">🔊</button>
+    </div>
+
+    <div class="verlan-arrow-box">
+      <span class="v-step-text">${data.step}</span>
+      <span class="v-arrow">➔</span>
+    </div>
+
+    <div class="verlan-side-box verlan-box">
+      <span class="v-tag">Verlan (Sokak Dili)</span>
+      <h4>${data.verlan}</h4>
+      <code>${data.ipaVer}</code>
+      <button class="btn-voice-mini" onclick="speakText('${data.verlan}')" title="Dinle">🔊</button>
+    </div>
+
+    <div class="verlan-meaning-badge">
+      🇹🇷 Anlamı: <strong>${data.meaningTr}</strong>
+    </div>
+  `;
+
+  playTone(520, 'triangle', 0.08);
+}
+
+const slangData = [
+  { term: "Kiffer", ipa: "/ki.fe/", cat: "onay", tr: "Çok sevmek, bayılmak", exFr: "Je kiffe trop la ville de Strasbourg !", exTr: "Strazburg şehrine bayılıyorum!", origin: "Arapça 'kif' (keyif) kökünden." },
+  { term: "Avoir le seum", ipa: "/a.vwaʁ lə sœm/", cat: "duygu", tr: "Sinir olmak, morali bozulmak", exFr: "J'ai trop le seum, notre train a 20 minutes de retard.", exTr: "Çok moralim bozuldu, trenimiz 20 dakika rötarlı.", origin: "Arapça 'seum' (zehir) kökünden." },
+  { term: "Gérer", ipa: "/ʒe.ʁe/", cat: "onay", tr: "Üstesinden gelmek, süper halletmek", exFr: "T'as trop géré la présentation bilatérale !", exTr: "İkili sunumu harika hallettin!", origin: "Yönetmek fiilinin mecazi kullanımı." },
+  { term: "Posé", ipa: "/po.ze/", cat: "sosyal", tr: "Sakin, rahat, huzurlu takılan", exFr: "On est posés au bord de l'Ill à Petite France.", exTr: "Petite France'ta nehir kenarında sakin sakin takılıyoruz.", origin: "Yerleşmiş/oturmuş halden." },
+  { term: "Un bail", ipa: "/œ̃ baj/", cat: "sokak", tr: "Olay / Mesele / Uzun zaman", exFr: "Ça fait un bail qu'on ne s'est pas vus !", exTr: "Görüşmeyeli uzun zaman oldu!", origin: "Kira kontratı anlamından argoya geçiş." },
+  { term: "Chiller", ipa: "/tʃi.le/", cat: "sosyal", tr: "Kafa dinlemek, takılmak", exFr: "Ce soir on va juste chiller dans le parc de l'Orangerie.", exTr: "Bu akşam Orangerie Parkı'nda kafa dinleyeceğiz.", origin: "İngilizce 'chill' kökünden." },
+  { term: "Chanmé", ipa: "/ʃɑ̃.me/", cat: "onay", tr: "Müthiş, aşırı iyi (Méchant verlanı)", exFr: "Cette visite de l'hémicycle est carrément chanmée !", exTr: "Genel kurul salonu ziyareti kesinlikle müthiş!", origin: "Méchant kelimesinin tersyüzü." },
+  { term: "C'est nickel", ipa: "/sɛ ni.kɛl/", cat: "onay", tr: "Kusursuz, harika, tamamdır", exFr: "Rendez-vous devant la cathédrale à 14 heures ? — C'est nickel !", exTr: "Saat 14'te katedral önünde mi? — Tamamdır, harika!", origin: "Parlak nikel metalinden esinlenme." },
+  { term: "Le daron / La daronne", ipa: "/lə da.ʁɔ̃/", cat: "sosyal", tr: "Baba / Anne (Ebeveynler)", exFr: "J'appelle mes darons pour dire qu'on est bien arrivés.", exTr: "Sağ salim vardığımızı haber vermek için annemleri arıyorum.", origin: "Geleneksel Fransız argosu." },
+  { term: "Faire gaffe", ipa: "/fɛʁ ɡaf/", cat: "sokak", tr: "Dikkatli olmak, uyanık durmak", exFr: "Fais gaffe à ton sac dans les transports en commun.", exTr: "Toplu taşımada çantana dikkat et.", origin: "Göz kulak olmak deyiminden." }
+];
+
+function renderSlang(items) {
+  const container = document.getElementById('slangContainer');
+  if (!container) return;
+
+  container.innerHTML = items.map(s => `
+    <div class="slang-card">
+      <div class="slang-header">
+        <div class="slang-title-wrap">
+          <h4>${s.term}</h4>
+          <code>${s.ipa}</code>
+        </div>
+        <button class="btn-voice-mini" onclick="speakText('${s.term.replace(/'/g, "\\'")}')" title="Dinle">🔊</button>
+      </div>
+      <div class="slang-meaning">🇹🇷 <strong>${s.tr}</strong></div>
+      <div class="slang-example">
+        <p class="ex-fr">"${s.exFr}"</p>
+        <p class="ex-tr">${s.exTr}</p>
+      </div>
+      <div class="slang-origin"><small>💡 ${s.origin}</small></div>
+    </div>
+  `).join('');
+}
+
+function filterSlang(category) {
+  document.querySelectorAll('#tab-slang .filter-chips .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+
+  const filtered = category === 'all' ? slangData : slangData.filter(s => s.cat === category);
+  renderSlang(filtered);
+  playTone(500, 'sine', 0.05);
+}
+
+const smsData = [
+  { sms: "MDR", fr: "Mort de rire", tr: "Gülmekten öldüm (Kahkaha)", ex: "Ah ah trop drôle mdr !" },
+  { sms: "PTDR", fr: "Pété de rire", tr: "Gülmekten yarıldım", ex: "Je viens de voir la vidéo ptdr" },
+  { sms: "JPP", fr: "J'en peux plus", tr: "Artık dayanamıyorum / Bittim", ex: "Jpp de marcher dans la ville !" },
+  { sms: "OKLM", fr: "Au calme", tr: "Sakin, huzurlu, keyifli", ex: "On boit un café oklm." },
+  { sms: "TKT", fr: "T'inquiète (pas)", tr: "Merak etme, sıkıntı yok", ex: "Tkt j'arrive dans 5 min." },
+  { sms: "SLT", fr: "Salut", tr: "Selam", ex: "Slt ça va ?" },
+  { sms: "STP / SVP", fr: "S'il te plaît / S'il vous plaît", tr: "Lütfen", ex: "Envoie l'adresse stp." },
+  { sms: "BG", fr: "Beau gosse", tr: "Yakışıklı, karizmatik", ex: "Trop bg avec le costume !" },
+  { sms: "CIMER", fr: "Merci (Verlan)", tr: "Teşekkürler, sağ ol", ex: "Cimer pour le partage !" },
+  { sms: "A+ / @+", fr: "À plus tard", tr: "Sonra görüşürüz", ex: "Je dois y aller, a+ !" },
+  { sms: "BJR", fr: "Bonjour", tr: "Günaydın / Merhaba", ex: "Bjr à tous !" },
+  { sms: "PK", fr: "Pourquoi", tr: "Neden / Niçin?", ex: "Pk le musée est fermé ?" },
+  { sms: "CAD", fr: "C'est-à-dire", tr: "Yani, demek ki", ex: "On part à 9h cad soyez prêts à 8h45." }
+];
+
+function renderSmsTable(items) {
+  const tbody = document.getElementById('smsTableBody');
+  if (!tbody) return;
+
+  tbody.innerHTML = items.map(s => `
+    <tr>
+      <td><strong>${s.sms}</strong></td>
+      <td><em>${s.fr}</em></td>
+      <td>${s.tr}</td>
+      <td><small>${s.ex}</small></td>
+      <td>
+        <button class="btn-voice-mini" onclick="speakText('${s.fr.replace(/'/g, "\\'")}')" title="Açılımını Dinle">🔊</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterSmsTable(query) {
+  const q = query.toLowerCase();
+  const filtered = smsData.filter(s =>
+    s.sms.toLowerCase().includes(q) ||
+    s.fr.toLowerCase().includes(q) ||
+    s.tr.toLowerCase().includes(q) ||
+    s.ex.toLowerCase().includes(q)
+  );
+  renderSmsTable(filtered);
+}
+
+// ==========================================================================
+// 28. DIPLOMATIC SPEECHES & TOAST STUDIO ENGINE
+// ==========================================================================
+let currentSpeechLangView = 'fr';
+let currentGeneratedSpeech = { fr: "", tr: "" };
+
+function generateDiplomaticSpeech() {
+  const type = document.getElementById('speechTypeSelect')?.value || 'opening';
+  const speaker = document.getElementById('speakerNameInput')?.value || 'GSB Türkiye Gençlik Delegasyonu';
+  const counterpart = document.getElementById('counterpartInput')?.value || 'Monsieur le Consul Général & Maarif France';
+  const city = document.getElementById('speechCitySelect')?.value || 'Strasbourg';
+  const theme = document.getElementById('speechThemeSelect')?.value || 'all';
+
+  let themeFr = "la transition écologique, l'innovation numérique et le dialogue interculturel";
+  let themeTr = "yeşil dönüşüm, dijital inovasyon ve kültürlerarası diyalog";
+
+  if (theme === 'green') {
+    themeFr = "l'action climatique, les villes durables et l'économie circulaire";
+    themeTr = "iklim eylemi, sürdürülebilir şehirler ve döngüsel ekonomi";
+  } else if (theme === 'tech') {
+    themeFr = "l'intelligence artificielle open-source, la souveraineté technologique et l'entrepreneuriat jeunesse";
+    themeTr = "açık kaynak yapay zekâ, teknolojik egemenlik ve gençlik girişimciliği";
+  } else if (theme === 'culture') {
+    themeFr = "le patrimoine littéraire commun, la mémoire diplomatique séculaire et les arts";
+    themeTr = "ortak edebi miras, yarım binyıllık diplomatik hafıza ve sanat";
+  } else if (theme === 'civic') {
+    themeFr = "le volontariat national, l'équivalence du Service Civique et la solidarité civile";
+    themeTr = "ulusal gönüllülük, Service Civique denkliği ve sivil dayanışma";
+  }
+
+  let textFr = "";
+  let textTr = "";
+
+  if (type === 'opening') {
+    textFr = `DISCOURS D'OUVERTURE DE LA DÉLÉGATION DE JEUNESSE
+Lieu : ${city} | Date : Septembre 2026
+Orateur : ${speaker}
+
+${counterpart},
+Chers collègues, chers amis délégués,
+
+C'est avec une fierté immense et une émotion profonde que la délégation de la jeunesse de la République de Türkiye prend la parole aujourd'hui à ${city}.
+
+Depuis 1536, date du premier traité d'alliance et d'amitié unissant nos deux nations, l'histoire a démontré que lorsque la Türkiye et la France dialoguent, elles éclairent l'avenir de notre continent et de l'espace euro-méditerranéen.
+
+Aujourd'hui, en 2026, notre mission commune dépasse les protocoles : nous nous réunissons pour bâtir des passerelles concrètes autour de priorités décisives, notamment ${themeFr}.
+
+Au nom de toute notre délégation et du Ministère de la Jeunesse et des Sports de Türkiye (GSB), j'exprime notre profonde gratitude à nos hôtes pour leur accueil chaleureux et fraternel.
+
+Vive la coopération franco-turque, et vive la jeunesse bâtisseuse de paix !`;
+
+    textTr = `GENÇLİK HEYETİ RESMÎ AÇILIŞ KONUŞMASI
+Yer : ${city} | Tarih : Eylül 2026
+Konuşmacı : ${speaker}
+
+${counterpart},
+Değerli Meslektaşlarım, Kıymetli Delege Dostlarım,
+
+Türkiye Cumhuriyeti gençlik delegasyonu olarak bugün ${city} kentinde söz almaktan büyük bir onur ve heyecan duyuyoruz.
+
+İki milletimizi birleştiren 1536 tarihli ilk dostluk ahitnamesinden bu yana tarih göstermiştir ki, Türkiye ve Fransa diyalog kurduğunda tüm kıtamızın ve Akdeniz havzasının ortak geleceğine ışık tutmaktadır.
+
+Bugün 2026 yılında ortak vazifemiz diplomatik protokollerin ötesindedir: ${themeTr} gibi stratejik öncelikler etrafında somut barış köprüleri inşa etmek için buradayız.
+
+Heyetimiz ve T.C. Gençlik ve Spor Bakanlığımız adına, ev sahiplerimize sıcak ve kardeşçe karşılamaları için en derin şükranlarımızı sunarım.
+
+Yaşasın Türk-Fransız iş birliği, yaşasın geleceği inşa eden gençlik!`;
+
+  } else if (type === 'toast') {
+    textFr = `TOAST OFFICIEL DU DÎNER DIPLOMATIQUE
+Lieu : ${city} | Date : Septembre 2026
+Par : ${speaker}
+
+${counterpart},
+Mesdames et Messieurs,
+
+À l'occasion de ce dîner de gala réunissant les jeunesses de France et de Türkiye à ${city}, je tiens à saluer l'amitié indéfectible qui unit nos deux peuples.
+
+Autour de cette table, nous ne partageons pas seulement l'art de vivre et la richesse de nos terroirs, mais également une vision audacieuse pour ${themeFr}.
+
+Je vous invite à lever vos verres :
+À la santé de nos hôtes,
+À l'amitié séculaire entre la Türkiye et la France,
+Et à la jeunesse, promesse de notre avenir partagé !
+
+Santé !`;
+
+    textTr = `RESMÎ AKŞAM YEMEĞİ DİPLOMATİK KADEH KONUŞMASI (TOAST)
+Yer : ${city} | Tarih : Eylül 2026
+Konuşmacı : ${speaker}
+
+${counterpart},
+Hanımefendiler ve Beyefendiler,
+
+${city} kentinde Fransa ve Türkiye gençliğini buluşturan bu akşam yemeği vesilesiyle, iki halkı birbirine bağlayan sarsılmaz dostluğu selamlamaktan mutluluk duyuyorum.
+
+Bu sofranın etrafında sadece yaşam sanatını ve mutfak miraslarımızı değil, aynı zamanda ${themeTr} üzerine ortak ve cesur vizyonumuzu paylaşıyoruz.
+
+Sizleri kadehlerimizi kaldırmaya davet ediyorum:
+Ev sahiplerimizin sağlığına,
+Türkiye ve Fransa arasındaki asırlık dostluğa,
+Ve ortak geleceğimizin teminatı olan gençliğin şerefine!
+
+Şerefe ve sağlıkla!`;
+
+  } else if (type === 'closing') {
+    textFr = `DÉCLARATION SOLENNELLE DE CLÔTURE
+Lieu : ${city} | Sommet Jeunesse 2026
+
+Réunies en session plénière à ${city}, les délégations de jeunes turcs et français déclarent solennellement avoir conclu un accord d'action conjointe 2026-2030.
+
+Nos travaux ont abouti à des engagements clairs portant sur ${themeFr}, l'équivalence des mobilités et le jumelage des centres de jeunesse.
+
+Nous confions ce mandat à nos institutions respectives afin d'assurer la pérennité de notre alliance fraternelle.`;
+
+    textTr = `ZİRVE RESMÎ KAPANIŞ BİLDİRGESİ
+Yer : ${city} | 2026 Gençlik Zirvesi
+
+${city} kentinde genel kurul oturumunda bir araya gelen Türk ve Fransız gençlik heyetleri, 2026-2030 ortak eylem mutabakatını resmen imzaladıklarını beyan eder.
+
+Çalışmalarımız ${themeTr}, öğrenci hareketliliği denkliği ve gençlik merkezleri kardeşleşmesi üzerine somut taahhütlerle sonuçlanmıştır.
+
+Bu tarihi görevi, kardeşlik ittifakımızın sürekliliğini temin etmek üzere ilgili devlet kurumlarımıza arz ederiz.`;
+
+  } else {
+    textFr = `COMMUNIQUÉ DE PRESSE CONJOINT
+${city}, Septembre 2026 — Dans le cadre du Programme d'Échange de Jeunesse GSB 2026, les délégations de Türkiye et de France ont achevé avec succès une semaine de consultations intensives à ${city}.
+
+Les discussions ont permis d'adopter une feuille de route bilatérale centrée sur ${themeFr}. Une prochaine session se tiendra en 2027 en Türkiye.`;
+
+    textTr = `ORTAK BASIN DUYURUSU
+${city}, Eylül 2026 — 2026 GSB Gençlik Değişimi Programı kapsamında, Türkiye ve Fransa gençlik heyetleri ${city} kentindeki bir haftalık yoğun istişare programını başarıyla tamamlamıştır.
+
+Görüşmeler sonucunda ${themeTr} odaklı ikili yol haritası kabul edilmiştir. Bir sonraki resmi temas 2027 yılında Türkiye'de gerçekleştirilecektir.`;
+  }
+
+  currentGeneratedSpeech = { fr: textFr, tr: textTr };
+  renderSpeechPaper();
+}
+
+function setSpeechViewLang(lang) {
+  currentSpeechLangView = lang;
+  document.getElementById('btnSpeechLangFr')?.classList.toggle('active', lang === 'fr');
+  document.getElementById('btnSpeechLangTr')?.classList.toggle('active', lang === 'tr');
+  document.getElementById('btnSpeechLangDual')?.classList.toggle('active', lang === 'dual');
+  renderSpeechPaper();
+  playTone(480, 'sine', 0.05);
+}
+
+function renderSpeechPaper() {
+  const paper = document.getElementById('speechPaperContent');
+  if (!paper) return;
+
+  if (currentSpeechLangView === 'fr') {
+    paper.innerHTML = `<pre class="speech-text-block">${currentGeneratedSpeech.fr}</pre>`;
+  } else if (currentSpeechLangView === 'tr') {
+    paper.innerHTML = `<pre class="speech-text-block">${currentGeneratedSpeech.tr}</pre>`;
+  } else {
+    paper.innerHTML = `
+      <div class="speech-dual-grid">
+        <div class="speech-col">
+          <div class="speech-lang-lbl">🇫🇷 Français (Resmî Metin)</div>
+          <pre class="speech-text-block">${currentGeneratedSpeech.fr}</pre>
+        </div>
+        <div class="speech-col">
+          <div class="speech-lang-lbl">🇹🇷 Türkçe Çeviri</div>
+          <pre class="speech-text-block">${currentGeneratedSpeech.tr}</pre>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function speakDiplomaticSpeech() {
+  if (currentGeneratedSpeech.fr) {
+    speakText(currentGeneratedSpeech.fr);
+    showToast('Konuşma metni seslendiriliyor... 🔊');
+  }
+}
+
+function copySpeechText() {
+  const text = currentSpeechLangView === 'tr' ? currentGeneratedSpeech.tr : currentGeneratedSpeech.fr;
+  navigator.clipboard.writeText(text);
+  showToast('Konuşma metni panoya kopyalandı! 📋');
+  playTone(550, 'sine', 0.1);
+}
+
+function downloadSpeechMarkdown() {
+  const md = `# ${document.getElementById('speechTypeSelect')?.selectedOptions[0]?.text || 'Diplomatic Speech'}
+
+## 🇫🇷 Version Française
+\`\`\`text
+${currentGeneratedSpeech.fr}
+\`\`\`
+
+---
+
+## 🇹🇷 Türkçe Çevirisi
+\`\`\`text
+${currentGeneratedSpeech.tr}
+\`\`\`
+`;
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `GSB-France-Speech-${Date.now()}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Konuşma Markdown dosyası indirildi! 💾');
+}
+
+// ==========================================================================
+// 29. ALSACE & STRASBOURG POI TOUR GUIDE ENGINE
+// ==========================================================================
+const alsacePoiData = [
+  {
+    name: "Cathédrale Notre-Dame de Strasbourg",
+    category: "Gotik Başyapıt",
+    desc: "142 metrelik pembe kumtaşı kulesi, 16. yüzyıl Astronomik Saati ve Goethe'nin hayranlıkla tırmandığı gotik mimari harikası.",
+    address: "Place de la Cathédrale, 67000 Strasbourg",
+    tip: "Kule terasına çıkıldığında açık havalarda Kara Ormanlar (Schwarzwald) ve Vosges dağları panoraması görülür."
+  },
+  {
+    name: "Petite France & Ponts Couverts",
+    category: "Tarihi Doku",
+    desc: "İll Nehri kanalları üzerinde 16. yüzyıldan kalma yarı ahşap tabakhane evleri (Maison des Tanneurs) ve gözetleme kuleli kapalı köprüler.",
+    address: "Quai de la Petite France, 67000 Strasbourg",
+    tip: "Kanallardaki tarihi su bentleri ve savaklar gemi trafiğini kontrol etmek için halen aktif çalışmaktadır."
+  },
+  {
+    name: "Parlement Européen (Louise Weiss)",
+    category: "Avrupa Kurumları",
+    desc: "Avrupa Birliği'nin demokratik kalbi; 750 milletvekilinin toplandığı devasa genel kurul salonu (Hémicycle) ve cam-çelik mimarisi.",
+    address: "1 Allée du Printemps, 67070 Strasbourg",
+    tip: "Girişte resmî pasaport ve güvenlik kontrolü zorunludur; salon oturumu simülasyonu yapılmaktadır."
+  },
+  {
+    name: "Cour Européenne des Droits de l'Homme (CEDH / AİHM)",
+    category: "Uluslararası Yargı",
+    desc: "Lord Richard Rogers tarafından tasarlanan adalet terazisi formundaki Avrupa İnsan Hakları Mahkemesi yerleşkesi.",
+    address: "Allée des Droits de l'Homme, 67000 Strasbourg",
+    tip: "46 üye ülkenin yargıçlarının görev yaptığı en üst insan hakları yargı organıdır."
+  },
+  {
+    name: "Maarif France & T.C. Strazburg Başkonsolosluğu",
+    category: "Eğitim & Diplomasi",
+    desc: "Türk gençliği, akademisyenleri ve Fransa'daki Türk toplumunun eğitim, dil ve kültür merkezi.",
+    address: "Strasbourg / Alsace",
+    tip: "Delegasyon buluşmaları, panel ve ikili gençlik çalıştaylarının ana merkezidir."
+  },
+  {
+    name: "Colmar Petite Venise & Maison Pfister",
+    category: "Alsace Masal Kenti",
+    desc: "Lauch Nehri üzerindeki rengarenk yarı ahşap masal evleri, 1537 tarihli Rönesans Pfister Evi ve Auguste Bartholdi heykelleri.",
+    address: "Colmar Tarihi Merkezi, Alsace",
+    tip: "Marché Couvert kapalı pazarında Alsace peynirleri ve Flammekueche tadımı tavsiye edilir."
+  },
+  {
+    name: "Batorama İll Nehri Tekne Turu",
+    category: "Nehir Gezisi",
+    desc: "Strazburg'un tarihi Neustadt (Alman İmparatorluk Mahallesi), Grande Île ve Avrupa mahallelerini su seviyesinden keşfetme rotası.",
+    address: "Embarcadère Palais Rohan, Strasbourg",
+    tip: "Çift dilli sesli rehber eşliğinde su bentlerinin yükselip alçalması deneyimlenir."
+  },
+  {
+    name: "Passerelle des Deux Rives (İki Kıyı Köprüsü)",
+    category: "Barış & Sınır Köprüsü",
+    desc: "Ren Nehri üzerinde Fransa (Strazburg) ile Almanya'yı (Kehl) birleştiren sınırsız Avrupa yaya ve bisiklet köprüsü.",
+    address: "Jardin des Deux Rives, Strasbourg / Kehl",
+    tip: "Tek adımda Fransa'dan Almanya'ya geçiş yapılarak iki uluslu park deneyimlenir."
+  }
+];
+
+function renderAlsacePoi() {
+  const container = document.getElementById('alsacePoiContainer');
+  if (!container) return;
+
+  container.innerHTML = alsacePoiData.map(poi => `
+    <div class="poi-card">
+      <div class="poi-header">
+        <h4>${poi.name}</h4>
+        <span class="poi-badge">${poi.category}</span>
+      </div>
+      <p class="poi-desc">${poi.desc}</p>
+      <div class="poi-address">📍 <strong>Konum:</strong> ${poi.address}</div>
+      <div class="poi-tip">💡 <strong>Ziyaret İpucu:</strong> ${poi.tip}</div>
+      <button class="btn-voice-mini" onclick="speakText('${poi.name.replace(/'/g, "\\'")}')" title="İsmi Seslendir">🔊 İsmi Dinle</button>
+    </div>
+  `).join('');
+}
+
+// Global Keyboard Shortcuts
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    openSearchModal();
+  } else if (e.key === '?' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+    openShortcutsModal();
+  } else if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+  } else if (e.code === 'Space' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    const vocabTab = document.getElementById('tab-vocabulary');
+    if (vocabTab?.classList.contains('active')) {
+      e.preventDefault();
+      flipCard();
+    }
+  } else if (e.key === 'ArrowRight' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    const vocabTab = document.getElementById('tab-vocabulary');
+    if (vocabTab?.classList.contains('active')) {
+      nextCard();
+    }
+  } else if (e.key === 'ArrowLeft' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    const vocabTab = document.getElementById('tab-vocabulary');
+    if (vocabTab?.classList.contains('active')) {
+      prevCard();
+    }
+  } else if (e.key.toLowerCase() === 'l' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    const vocabTab = document.getElementById('tab-vocabulary');
+    if (vocabTab?.classList.contains('active')) {
+      speakCurrentFlashcard();
+    }
+  } else if (e.key.toLowerCase() === 's' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    const vocabTab = document.getElementById('tab-vocabulary');
+    if (vocabTab?.classList.contains('active')) {
+      shuffleFlashcards();
+    }
+  }
+});
+
+// ==========================================================================
+// 30. INITIALIZATION ON DOM LOAD
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -3224,6 +4311,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initChecklist();
   renderProgram('all');
 
+  // Initialize newly added comprehensive modules
+  renderMatrix(matrixData);
+  renderListeningItem();
+  loadVerlanWord('femme');
+  renderSlang(slangData);
+  renderSmsTable(smsData);
+  generateDiplomaticSpeech();
+  renderAlsacePoi();
+
   // Check initial hash routing
   if (window.location.hash) {
     const tabKey = window.location.hash.replace('#', '');
@@ -3232,3 +4328,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+

@@ -25,16 +25,20 @@
         <button class="nav-btn" data-tab="timeline">⏳ 500 Yıl Diplomasi</button>
         <button class="nav-btn" data-tab="quotes">💬 Düşünce & Alıntılar</button>
         <button class="nav-btn" data-tab="figures">👥 Fikir Önderleri</button>
+        <button class="nav-btn" data-tab="matrix">⚖️ Kurumsal Matris</button>
         <button class="nav-btn" data-tab="poetry">🖋️ Şiir & Edebiyat</button>
         <button class="nav-btn" data-tab="regions">🗺️ Bölgeler</button>
         <button class="nav-btn" data-tab="gastronomy">🍷 Terroir & Mutfak</button>
         <button class="nav-btn" data-tab="vocabulary">🗣️ Sözlük & Flashcard</button>
         <button class="nav-btn" data-tab="verbs">📖 Fiiller & Gramer</button>
         <button class="nav-btn" data-tab="phonetics">🎵 Fonetik & Faux Amis</button>
+        <button class="nav-btn" data-tab="listening">🎧 İşitsel Dikte Lab</button>
         <button class="nav-btn" data-tab="dialogue">🎭 Rol Yapma & Diyalog</button>
+        <button class="nav-btn" data-tab="slang">💬 Argot & Verlan</button>
         <button class="nav-btn" data-tab="flaneur">🚶 Flâneur Rotaları</button>
         <button class="nav-btn" data-tab="survival">🧳 Değişim Rehberi</button>
         <button class="nav-btn" data-tab="budget">💶 Bütçe & Euro Rehberi</button>
+        <button class="nav-btn" data-tab="speeches">🎙️ Diplomatik Konuşmalar</button>
         <button class="nav-btn" data-tab="resolution">📜 Bildiri Oluşturucu</button>
         <button class="nav-btn" data-tab="program">📅 Strazburg Programı (25-30 Eylül)</button>
         <button class="nav-btn" data-tab="workshops">🤝 Saha Seyir Defteri</button>
@@ -218,10 +222,24 @@
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
 
-        <div class="atlas-card" onclick="openAtlasModal('strasbourg')">
-          <div class="card-icon">🥨</div>
-          <h3>Strazburg & Alsace Başkenti</h3>
-          <p>Avrupa Parlamentosu, AİHM, Maarif France, Petite France, Colmar ve 25-30 Eylül gençlik değişim rotası.</p>
+        <div class="atlas-card" onclick="openAtlasModal('matrix')">
+          <div class="card-icon">⚖️</div>
+          <h3>Kurumsal & Kültürel Matris</h3>
+          <p>Devlet modelleri, Grandes Écoles vs Mülkiye, MJC vs GSB ve Terroir vs Mahreç karşılaştırması.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('slang')">
+          <div class="card-icon">💬</div>
+          <h3>Argot, Verlan & Gençlik Dili</h3>
+          <p>Kiffer, Seum, Chelou, Meuf, SMS kısaltmaları (Mdr, Jpp, Oklm) ve interaktif hece tersyüz motoru.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('speeches')">
+          <div class="card-icon">🎙️</div>
+          <h3>Diplomatik Protokol & Hitap</h3>
+          <p>Resmi hitap kalıpları, kadeh kaldırma (toast) adabı ve iki dilli heyet konuşması şablonları.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
       </div>
@@ -291,6 +309,37 @@
       </div>
 
       <div class="figures-grid" id="figuresContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB: CULTURAL & INSTITUTIONAL MATRIX -->
+    <section id="tab-matrix" class="tab-content">
+      <div class="section-header">
+        <h2>⚖️ Türkiye - Fransa Kültürel & Kurumsal Karşılaştırma Matrisi</h2>
+        <p>Devlet mimarisinden Grandes Écoles geleneğine, MJC-GSB modellerinden Terroir felsefesine ikili karşılaştırma platformu</p>
+      </div>
+
+      <div class="matrix-stats-bar">
+        <div class="m-stat-item"><span>6</span> Karşılaştırmalı Alan</div>
+        <div class="m-stat-item"><span>16+</span> Kurumsal Eşleşme</div>
+        <div class="m-stat-item"><span>1536-2026</span> Tarihsel Etkileşim</div>
+        <div class="m-stat-item"><span>100%</span> Çift Yönlü Analiz</div>
+      </div>
+
+      <div class="matrix-controls">
+        <input type="text" id="matrixSearch" placeholder="Kurum, kavram veya alan ara (örn. Laïcité, ENA, Mülkiye, MJC, Terroir)..." class="search-input" oninput="filterMatrixBySearch(this.value)">
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterMatrix('all')">Tüm Alanlar</button>
+          <button class="chip" onclick="filterMatrix('state')">Devlet & Anayasa</button>
+          <button class="chip" onclick="filterMatrix('education')">Eğitim & Elit Okullar</button>
+          <button class="chip" onclick="filterMatrix('youth')">Gençlik & Gönüllülük</button>
+          <button class="chip" onclick="filterMatrix('gastronomy')">Gastronomi & Terroir</button>
+          <button class="chip" onclick="filterMatrix('urban')">Şehircilik & Ulaşım</button>
+        </div>
+      </div>
+
+      <div class="matrix-grid" id="matrixContainer">
         <!-- Injected via JS -->
       </div>
     </section>
@@ -397,8 +446,25 @@
         <div class="flashcard-section">
           <div class="fc-header-row">
             <h3>⚡ İnteraktif Flashcard Öğrenim Modülü</h3>
-            <button class="btn-voice" onclick="speakCurrentFlashcard()" title="Telaffuzu Dinle">🔊 Dinle</button>
+            <div class="fc-top-actions">
+              <button class="btn-voice" onclick="speakCurrentFlashcard()" title="Telaffuzu Dinle">🔊 Dinle</button>
+              <button class="btn-favorite" id="fcFavoriteBtn" onclick="toggleFlashcardFavorite()" title="Öğrenildi / Favori Olarak İşaretle">⭐</button>
+              <button class="btn-shuffle" onclick="shuffleFlashcards()" title="Kartları Karıştır">🔀 Karıştır</button>
+            </div>
           </div>
+
+          <div class="fc-category-filter-row">
+            <select id="fcCategoryFilter" class="select-input-small" onchange="filterFlashcardCategory(this.value)">
+              <option value="all">Tüm Kategoriler (25+ Kart)</option>
+              <option value="diplomacy">Gençlik Diplomasisi</option>
+              <option value="daily">Günlük Yaşam & Seyahat</option>
+              <option value="argot">Argot, Verlan & Sokak Dili</option>
+              <option value="idioms">Deyimler & Kalıplar</option>
+              <option value="strasbourg">Alsace & Strazburg Terimleri</option>
+            </select>
+            <span class="fc-mastery-tag" id="fcMasteryStats">0 / 25 Öğrenildi</span>
+          </div>
+
           <div class="flashcard" id="flashcard" onclick="flipCard()">
             <div class="flashcard-inner">
               <div class="flashcard-front">
@@ -576,6 +642,83 @@
       </div>
     </section>
 
+    <!-- TAB: LISTENING & DICTATION LAB -->
+    <section id="tab-listening" class="tab-content">
+      <div class="section-header">
+        <h2>🎧 Fransızca İşitsel Anlama, Ses Hızı & Dikte Laboratuvarı</h2>
+        <p>Diplomasi, havalimanı, üniversite ve günlük konuşmaları dinleyin, ses hızını ayarlayın ve dikte yazımınızı test edin</p>
+      </div>
+
+      <!-- Mode Selector -->
+      <div class="quiz-mode-selector">
+        <button class="mode-btn active" id="btnListenModeDictation" onclick="switchListeningMode('dictation')">✍️ Fransızca Dikte (Dictée & Écriture)</button>
+        <button class="mode-btn" id="btnListenModeComprehension" onclick="switchListeningMode('comprehension')">👂 Anlama & Çeviri Testi (Compréhension Orale)</button>
+      </div>
+
+      <!-- Audio Engine Controls -->
+      <div class="audio-engine-card">
+        <div class="audio-engine-top">
+          <div class="audio-meta">
+            <span class="audio-badge" id="listenItemCategory">Diplomasi</span>
+            <span class="audio-counter" id="listenCounter">Cümle 1 / 15</span>
+          </div>
+          <div class="audio-speed-controls">
+            <span>Ses Hızı:</span>
+            <button class="speed-btn" data-speed="0.75" onclick="setListenSpeed(0.75)">0.75x (Yavaş)</button>
+            <button class="speed-btn active" data-speed="1.0" onclick="setListenSpeed(1.0)">1.0x (Normal)</button>
+            <button class="speed-btn" data-speed="1.25" onclick="setListenSpeed(1.25)">1.25x (Hızlı)</button>
+          </div>
+        </div>
+
+        <div class="audio-player-center">
+          <button class="btn-audio-huge" id="btnPlayAudioSentence" onclick="playCurrentListeningSentence()">
+            <span class="play-icon">▶️</span>
+            <span class="play-text">Fransızca Cümleyi Dinle</span>
+          </button>
+          <div class="audio-visualizer" id="audioVisualizer">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode 1: Dictation (Dictée) -->
+      <div class="dictation-box" id="dictationContainer">
+        <div class="dictation-input-area">
+          <label for="dictationInput"><strong>Duyduğunuz Fransızca cümleyi buraya yazınız:</strong></label>
+          <textarea id="dictationInput" class="dictation-textarea" placeholder="Duyduğunuz kelimeleri buraya yazın (örn. Nous sommes très heureux d'être ici...)" rows="3"></textarea>
+          <div class="dictation-actions">
+            <button class="btn-primary" onclick="checkDictationAnswer()">✅ Cevabımı Denetle</button>
+            <button class="btn-secondary" onclick="giveDictationHint()">💡 İpucu Al</button>
+            <button class="btn-secondary" onclick="nextListeningSentence()">Sonraki Cümle →</button>
+          </div>
+        </div>
+
+        <div class="dictation-feedback" id="dictationFeedback" style="display:none;">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Mode 2: Oral Comprehension Multiple Choice -->
+      <div class="comprehension-box" id="comprehensionContainer" style="display:none;">
+        <h3 class="comp-question">Dinlediğiniz cümlenin en doğru Türkçe karşılığı hangisidir?</h3>
+        <div class="comp-options-grid" id="compOptionsContainer">
+          <!-- Injected via JS -->
+        </div>
+        <div class="comp-feedback" id="compFeedback" style="display:none;">
+          <!-- Injected via JS -->
+        </div>
+        <div class="comp-actions" style="margin-top:1rem; text-align:right;">
+          <button class="btn-primary" id="btnCompNext" style="display:none;" onclick="nextListeningSentence()">Sonraki Soru →</button>
+        </div>
+      </div>
+    </section>
+
     <!-- TAB 11: DIALOGUE & ROLEPLAY SIMULATOR -->
     <section id="tab-dialogue" class="tab-content">
       <div class="section-header">
@@ -612,6 +755,83 @@
 
         <div class="dialogue-etiquette-tip" id="diaEtiquetteTip">
           💡 <strong>Kültürel İpucu:</strong> Garsona asla "Garçon!" diye seslenmeyiniz. Göz teması kurup "Monsieur, s'il vous plaît" demek yeterlidir.
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: YOUTH SLANG, ARGOT & VERLAN -->
+    <section id="tab-slang" class="tab-content">
+      <div class="section-header">
+        <h2>💬 Fransız Gençlik Dili, Argot, Verlan & SMS Sözlüğü</h2>
+        <p>Sokak kültürü, hece tersyüz motoru (Verlan), 30+ popüler gençlik tabiri ve modern Fransızca mesajlaşma kısaltmaları</p>
+      </div>
+
+      <!-- Verlan Syllable Reverser Interactive Tool -->
+      <div class="verlan-engine-card">
+        <div class="verlan-header">
+          <div class="verlan-icon">🔄</div>
+          <div>
+            <h3>İnteraktif Verlan Çözümleme & Dönüşüm Motoru</h3>
+            <p>Fransızca standart kelimelerin Verlan (l'envers) argosuna nasıl dönüştüğünü keşfedin</p>
+          </div>
+        </div>
+
+        <div class="verlan-interactive-box">
+          <div class="verlan-quick-presets">
+            <span>Hızlı Kelimeler:</span>
+            <button class="chip-mini active" onclick="loadVerlanWord('femme')">femme ➔ meuf</button>
+            <button class="chip-mini" onclick="loadVerlanWord('fou')">fou ➔ ouf</button>
+            <button class="chip-mini" onclick="loadVerlanWord('énervé')">énervé ➔ vénère</button>
+            <button class="chip-mini" onclick="loadVerlanWord('louche')">louche ➔ chelou</button>
+            <button class="chip-mini" onclick="loadVerlanWord('merci')">merci ➔ cimer</button>
+            <button class="chip-mini" onclick="loadVerlanWord('lourd')">lourd ➔ relou</button>
+            <button class="chip-mini" onclick="loadVerlanWord('fête')">fête ➔ teuf</button>
+            <button class="chip-mini" onclick="loadVerlanWord('musique')">musique ➔ zikmu</button>
+          </div>
+
+          <div class="verlan-display-row" id="verlanDisplayRow">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Slang & Youth Expressions Cards -->
+      <div class="slang-section-title">
+        <h3>🔥 En Popüler 30+ Fransız Gençlik & Argot Tabiri</h3>
+        <div class="filter-chips">
+          <button class="chip active" onclick="filterSlang('all')">Tümü (30+)</button>
+          <button class="chip" onclick="filterSlang('duygu')">Duygular & Tepkiler</button>
+          <button class="chip" onclick="filterSlang('sosyal')">Sosyal & Arkadaşlık</button>
+          <button class="chip" onclick="filterSlang('onay')">Beğeni & Onay</button>
+          <button class="chip" onclick="filterSlang('sokak')">Sokak & Günlük</button>
+        </div>
+      </div>
+
+      <div class="slang-grid" id="slangContainer">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- SMS & Chatting Guide -->
+      <div class="sms-guide-card">
+        <div class="sms-header">
+          <h3>📱 Fransız Gençlik Mesajlaşma (SMS / WhatsApp) Kısaltmaları</h3>
+          <input type="text" id="smsSearch" placeholder="SMS kısaltması veya anlam ara (örn. MDR, JPP, OKLM, TKT, CIMER)..." class="search-input-small" oninput="filterSmsTable(this.value)">
+        </div>
+        <div class="sms-table-wrapper">
+          <table class="sms-table">
+            <thead>
+              <tr>
+                <th>SMS Kısaltması</th>
+                <th>Fransızca Açılımı</th>
+                <th>Türkçe Karşılığı</th>
+                <th>Örnek / Kullanım</th>
+                <th>Ses</th>
+              </tr>
+            </thead>
+            <tbody id="smsTableBody">
+              <!-- Injected via JS -->
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -749,6 +969,88 @@
             <li><strong>💧 İçme Suyu:</strong> Paris'te musluk suyu (*eau du robinet*) son derece kaliteli ve içilebilirdir. Parklarda tarihi Wallace Çeşmeleri ücretsizdir.</li>
             <li><strong>📶 Wi-Fi & İletişim:</strong> Tüm belediye parklarında ve kafelerde *"Paris Wi-Fi"* ücretsizdir. Ön ödemeli eSIM (Free / Orange) kullanılabilir.</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB: DIPLOMATIC SPEECHES & TOAST STUDIO -->
+    <section id="tab-speeches" class="tab-content">
+      <div class="section-header">
+        <h2>🎙️ Diplomatik Konuşma, Hitap & Tost (Kadeh) Stüdyosu</h2>
+        <p>İkili delegasyon açılış konuşması, resmî yemek kadeh kaldırma (toast) metni veya ortak basın duyurusunu kişiselleştirip çift dilli oluşturun</p>
+      </div>
+
+      <div class="speech-studio-layout">
+        <!-- Generator Controls Panel -->
+        <div class="speech-controls-panel">
+          <h3>⚙️ Konuşma Parametreleri ve Şablon</h3>
+
+          <div class="form-group">
+            <label for="speechTypeSelect"><strong>Konuşma / Metin Türü:</strong></label>
+            <select id="speechTypeSelect" class="select-input" onchange="generateDiplomaticSpeech()">
+              <option value="opening">1. Heyet Açılış Konuşması (Discours d'Ouverture)</option>
+              <option value="toast">2. Resmî Yemek Kadeh Konuşması (Toast Officiel)</option>
+              <option value="closing">3. Gençlik Zirvesi Kapanış Bildirgesi (Déclaration de Clôture)</option>
+              <option value="press">4. Ortak Basın Notu (Communiqué Conjoint)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="speakerNameInput"><strong>Konuşmacı / Delegasyon Başkanı:</strong></label>
+            <input type="text" id="speakerNameInput" class="search-input" value="GSB Türkiye Gençlik Delegasyonu Adına" oninput="generateDiplomaticSpeech()">
+          </div>
+
+          <div class="form-group">
+            <label for="counterpartInput"><strong>Muhatap Makam / Ev Sahibi:</strong></label>
+            <input type="text" id="counterpartInput" class="search-input" value="Monsieur le Consul Général & Maarif France" oninput="generateDiplomaticSpeech()">
+          </div>
+
+          <div class="form-group">
+            <label for="speechCitySelect"><strong>Etkinlik Şehri:</strong></label>
+            <select id="speechCitySelect" class="select-input" onchange="generateDiplomaticSpeech()">
+              <option value="Strasbourg">Strazburg (Alsace)</option>
+              <option value="Paris">Paris (Île-de-France)</option>
+              <option value="Lyon">Lyon (Auvergne-Rhône-Alpes)</option>
+              <option value="Ankara">Ankara (Türkiye)</option>
+              <option value="Istanbul">İstanbul (Türkiye)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="speechThemeSelect"><strong>Ana Odak Teması:</strong></label>
+            <select id="speechThemeSelect" class="select-input" onchange="generateDiplomaticSpeech()">
+              <option value="all">Kapsamlı Gençlik Diplomasisi & Ortak Gelecek</option>
+              <option value="green">Ekolojik Şehirler & Yeşil Dönüşüm</option>
+              <option value="tech">Yapay Zekâ, Girişimcilik & Station F</option>
+              <option value="culture">Kültürlerarası Diyalog & 500 Yıllık Miras</option>
+              <option value="civic">Sivil Katılım & Ulusal Gönüllülük Ağı</option>
+            </select>
+          </div>
+
+          <div class="speech-tips-card">
+            <h4>💡 Diplomatik Protokol İpucu</h4>
+            <p id="speechProTip">Fransız diplomatik hitabında büyükelçiye <em>"Monsieur l'Ambassadeur"</em>, başkonsolosa <em>"Monsieur le Consul général"</em> denir. Kadeh konuşmasında mutlaka <em>"À l'amitié franco-turque !"</em> vurgusu yapılmalıdır.</p>
+          </div>
+        </div>
+
+        <!-- Speech Preview Panel -->
+        <div class="speech-preview-panel">
+          <div class="speech-preview-header">
+            <div class="speech-tabs-switch">
+              <button class="speech-tab-btn active" id="btnSpeechLangFr" onclick="setSpeechViewLang('fr')">🇫🇷 Français (Resmî Metin)</button>
+              <button class="speech-tab-btn" id="btnSpeechLangTr" onclick="setSpeechViewLang('tr')">🇹🇷 Türkçe Çeviri</button>
+              <button class="speech-tab-btn" id="btnSpeechLangDual" onclick="setSpeechViewLang('dual')">🌐 Yan Yana Çift Dilli</button>
+            </div>
+            <div class="speech-action-buttons">
+              <button class="btn-voice" onclick="speakDiplomaticSpeech()" title="Fransızca Olarak Seslendir">🔊 Dinle</button>
+              <button class="btn-secondary" onclick="copySpeechText()">📋 Kopyala</button>
+              <button class="btn-primary" onclick="downloadSpeechMarkdown()">💾 MD İndir</button>
+            </div>
+          </div>
+
+          <div class="speech-paper" id="speechPaperContent">
+            <!-- Rendered by JS -->
+          </div>
         </div>
       </div>
     </section>
@@ -901,6 +1203,16 @@
       <!-- Dynamic Program Timeline Container -->
       <div class="program-timeline-wrapper" id="programContainer">
         <!-- Rendered via JS -->
+      </div>
+
+      <!-- Interactive Alsace POI & Monument Tour Cards -->
+      <div class="poi-section-header">
+        <h3>🏛️ Alsace & Strazburg Ziyaret Noktaları ve Sesli Anlatım Kılavuzu</h3>
+        <p>Programda yer alan 8 kilit anıt, kurum ve tarihi mekanın arka planı ve ziyaret rehberi</p>
+      </div>
+
+      <div class="alsace-poi-grid" id="alsacePoiContainer">
+        <!-- Injected via JS -->
       </div>
     </section>
 
@@ -1077,6 +1389,8 @@
           <div class="shortcut-row"><kbd>Boşluk</kbd> <span>Sözlük Kartını Çevir (Flashcard Flip)</span></div>
           <div class="shortcut-row"><kbd>→</kbd> <span>Sonraki Flashcard</span></div>
           <div class="shortcut-row"><kbd>←</kbd> <span>Önceki Flashcard</span></div>
+          <div class="shortcut-row"><kbd>L</kbd> <span>Sesli Telaffuzu Dinle (Listen)</span></div>
+          <div class="shortcut-row"><kbd>S</kbd> <span>Flashcardları Karıştır (Shuffle)</span></div>
           <div class="shortcut-row"><kbd>?</kbd> <span>Klavye Kısayolları Penceresi</span></div>
           <div class="shortcut-row"><kbd>Esc</kbd> <span>Açık Modalları Kapat</span></div>
         </div>
