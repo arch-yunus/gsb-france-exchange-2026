@@ -3950,25 +3950,730 @@ kbd {
 }
 
 /* ==========================================================================
-   12. PRINT STYLES
+   13. HERITAGE MAP & ROUTE SIMULATOR STYLES
+   ========================================================================== */
+.map-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: var(--bg-card);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-filter-group {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.map-country-toggle {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.country-pill {
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.country-pill.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 35, 149, 0.25);
+}
+
+.heritage-map-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .heritage-map-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.heritage-nodes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.heritage-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.heritage-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.heritage-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.heritage-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.heritage-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.heritage-card-top h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.heritage-country-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary-light);
+  white-space: nowrap;
+}
+
+.heritage-city {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.heritage-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.heritage-bilateral {
+  background: rgba(227, 10, 23, 0.05);
+  border-left: 3px solid var(--secondary);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-main);
+  border-radius: 0 6px 6px 0;
+}
+
+.heritage-footer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.heritage-coords {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Route Simulator */
+.route-simulator-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 90px;
+}
+
+.route-card-header {
+  margin-bottom: 0.75rem;
+}
+
+.route-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary-light);
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+}
+
+.route-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.route-selectors {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.route-selectors .form-group {
+  flex: 1;
+}
+
+.route-swap-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: var(--transition);
+}
+
+.route-swap-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: rotate(180deg);
+}
+
+.route-result-box {
+  background: var(--bg-main);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.route-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+  background: var(--bg-card);
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.r-stat-item .r-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary-light);
+  display: block;
+}
+
+.r-stat-item .r-lbl {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.route-context-box {
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 3px solid var(--primary-light);
+  padding: 0.6rem 0.8rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   14. VIRELANGUES (TONGUE TWISTERS) & LIAISON STYLES
+   ========================================================================== */
+.virelangues-section, .liaison-sim-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.virelangues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.virelangue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: var(--transition);
+}
+
+.virelangue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+
+.virelangue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.virelangue-phoneme {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: rgba(217, 119, 6, 0.1);
+  color: var(--accent);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+}
+
+.virelangue-fr {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.virelangue-ipa {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  background: var(--bg-main);
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+}
+
+.virelangue-tr {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.virelangue-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* Liaison Quiz */
+.liaison-quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.liaison-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.liaison-phrase {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  text-align: center;
+  padding: 0.5rem;
+  background: var(--bg-main);
+  border-radius: 8px;
+}
+
+.liaison-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.liaison-btn {
+  padding: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.liaison-btn:hover {
+  background: var(--primary-light);
+  color: #fff;
+  border-color: var(--primary-light);
+}
+
+.liaison-btn.correct {
+  background: #10b981 !important;
+  color: #fff !important;
+  border-color: #10b981 !important;
+}
+
+.liaison-btn.incorrect {
+  background: #ef4444 !important;
+  color: #fff !important;
+  border-color: #ef4444 !important;
+}
+
+.liaison-explanation {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  display: none;
+}
+
+/* ==========================================================================
+   15. CURRENCY & BUDGET CALCULATOR STYLES
+   ========================================================================== */
+.currency-converter-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: var(--bg-main);
+  padding: 1.15rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.currency-rate-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.quick-currency-presets {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+}
+
+.quick-currency-presets button {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.78rem;
+}
+
+.budget-planner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.planner-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .planner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.planner-results-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 0.6rem;
+}
+
+.calc-total-eur {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--primary);
+  font-family: var(--font-serif);
+}
+
+[data-theme="dark"] .calc-total-eur {
+  color: var(--primary-light);
+}
+
+.calc-total-try {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.calc-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border-color);
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   16. CERTIFICATE OF ACHIEVEMENT (CERTIFICAT DE RÉUSSITE)
+   ========================================================================== */
+.certificate-generator-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cert-controls-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.cert-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .cert-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cert-action-bar {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.certificate-paper {
+  background: #ffffff;
+  color: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  font-family: var(--font-serif);
+}
+
+.cert-border {
+  border: 5px double #b45309;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.cert-inner-border {
+  border: 1px solid #d97706;
+  padding: 2rem;
+  border-radius: 4px;
+  text-align: center;
+  background: radial-gradient(circle at center, #fffdfa 0%, #faf5ee 100%);
+}
+
+.cert-flags {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.cert-institution {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #002395;
+  margin-bottom: 0.75rem;
+}
+
+.cert-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #92400e;
+  letter-spacing: 1px;
+  margin-bottom: 0.25rem;
+}
+
+.cert-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #78350f;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+.cert-text-intro {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.cert-recipient-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  border-bottom: 2px solid #d97706;
+  display: inline-block;
+  padding: 0 1.5rem 0.3rem 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cert-recipient-role {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #b45309;
+  margin-bottom: 1.25rem;
+}
+
+.cert-text-desc {
+  font-size: 0.88rem;
+  color: #4b5563;
+  line-height: 1.5;
+  max-width: 680px;
+  margin: 0 auto 2rem auto;
+}
+
+.cert-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cert-sign-col {
+  flex: 1;
+  text-align: center;
+}
+
+.cert-sign-title {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.cert-sign-line {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.3rem;
+  border-top: 1px solid #9ca3af;
+  padding-top: 0.3rem;
+  max-width: 180px;
+  margin: 0.5rem auto 0 auto;
+}
+
+.cert-seal {
+  width: 90px;
+  height: 90px;
+  border: 3px double #d97706;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fef3c7;
+  color: #92400e;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.68rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.2);
+}
+
+.cert-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
+}
+
+/* ==========================================================================
+   17. PRINT STYLES
    ========================================================================== */
 @media print {
   body {
     background: #ffffff !important;
     color: #000000 !important;
   }
-  .navbar, .theme-toggle, .github-link, .quotes-controls, .region-controls, .cheese-controls, .poetry-selector, .btn-voice, .fc-controls, .quiz-box, .match-game-box, .dialogue-selector-bar, .dialogue-actions-box, .res-actions, .figures-controls, .verb-controls, .footer, .modal-overlay, .program-filter-controls, .matrix-controls, .audio-engine-card, .verlan-quick-presets, .speech-controls-panel {
+  .navbar, .theme-toggle, .github-link, .quotes-controls, .region-controls, .cheese-controls, .poetry-selector, .btn-voice, .fc-controls, .quiz-box, .match-game-box, .dialogue-selector-bar, .dialogue-actions-box, .res-actions, .figures-controls, .verb-controls, .footer, .modal-overlay, .program-filter-controls, .matrix-controls, .audio-engine-card, .verlan-quick-presets, .speech-controls-panel, .map-controls-bar, .route-simulator-card, .cert-controls-card, .btn-primary, .btn-secondary, .btn-voice-mini {
     display: none !important;
   }
   .tab-content {
     display: block !important;
     page-break-after: always;
   }
+  .certificate-paper {
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
   .hero {
     background: none !important;
     padding: 1rem 0 !important;
   }
-  .stat-card, .atlas-card, .timeline-item, .quote-card, .figure-card, .cheese-card, .ws-card, .budget-card, .verb-tense-card, .program-day-card, .pslot-content-col, .matrix-card, .slang-card, .poi-card, .speech-paper {
+  .stat-card, .atlas-card, .timeline-item, .quote-card, .figure-card, .cheese-card, .ws-card, .budget-card, .verb-tense-card, .program-day-card, .pslot-content-col, .matrix-card, .slang-card, .poi-card, .speech-paper, .heritage-card {
     border: 1px solid #ccc !important;
     box-shadow: none !important;
     break-inside: avoid;

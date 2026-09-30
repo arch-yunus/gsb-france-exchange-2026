@@ -23,6 +23,7 @@
       <nav class="nav-links">
         <button class="nav-btn active" data-tab="atlas">🏛️ Atlas</button>
         <button class="nav-btn" data-tab="timeline">⏳ 500 Yıl Diplomasi</button>
+        <button class="nav-btn" data-tab="map">🗺️ Diplomasi Haritası</button>
         <button class="nav-btn" data-tab="quotes">💬 Düşünce & Alıntılar</button>
         <button class="nav-btn" data-tab="figures">👥 Fikir Önderleri</button>
         <button class="nav-btn" data-tab="matrix">⚖️ Kurumsal Matris</button>
@@ -242,6 +243,27 @@
           <p>Resmi hitap kalıpları, kadeh kaldırma (toast) adabı ve iki dilli heyet konuşması şablonları.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('heritageMap')">
+          <div class="card-icon">🗺️</div>
+          <h3>Diplomasi & Miras Haritası</h3>
+          <p>Paris, Strazburg, Colmar, Lyon, İstanbul ve Ankara'daki 500 yıllık hafıza mekanları ve kurumlar.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('virelangues')">
+          <div class="card-icon">🗣️</div>
+          <h3>Tekerlemeler & Ulamalı Fonetik</h3>
+          <p>Klasik Fransızca virelangues tekerlemeleri, zor fonem ayrımları ve zorunlu/yasak ulama kuralları.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('crossCultural')">
+          <div class="card-icon">🤝</div>
+          <h3>Kültürlerarası Görgü & Kodlar</h3>
+          <p>Fransa'da 10 altın kural, Bonjour kutsiyeti, masa adabı, vouvoiement ve delegasyon protokolü.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
       </div>
     </section>
 
@@ -265,6 +287,95 @@
 
       <div class="interactive-timeline" id="timelineContainer">
         <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB: INTERACTIVE DIPLOMACY & HERITAGE MAP -->
+    <section id="tab-map" class="tab-content">
+      <div class="section-header">
+        <h2>🗺️ Fransa - Türkiye Diplomasi & Kültürel Miras Haritası</h2>
+        <p>Paris'ten Strazburg'a, İstanbul'dan Ankara'ya 500 yıllık ittifakın, düşünce havzalarının ve kurumlarının interaktif rehberi</p>
+      </div>
+
+      <!-- Map Explorer Control Bar -->
+      <div class="map-controls-bar">
+        <div class="map-filter-group">
+          <input type="text" id="mapSearchInput" class="search-input" placeholder="Şehir, anıt, kurum veya şahsiyet ara (örn. AİHM, Galatasaray, Panthéon, Maarif)..." oninput="filterHeritageMap()">
+          <div class="filter-chips">
+            <button class="chip active" onclick="setMapCategory('all', event)">Tüm Duraklar</button>
+            <button class="chip" onclick="setMapCategory('diplomacy', event)">🏛️ Diplomasi & Temsilcilik</button>
+            <button class="chip" onclick="setMapCategory('education', event)">🎓 Eğitim & Fikir</button>
+            <button class="chip" onclick="setMapCategory('arts', event)">🏰 Sanat, Mimari & Tarih</button>
+            <button class="chip" onclick="setMapCategory('science', event)">🚀 Bilim & İnovasyon</button>
+          </div>
+        </div>
+
+        <div class="map-country-toggle">
+          <button class="country-pill active" onclick="setMapCountry('all', event)">🌐 Tümü (🇹🇷 🇫🇷)</button>
+          <button class="country-pill" onclick="setMapCountry('fr', event)">🇫🇷 Fransa (8 Şehir)</button>
+          <button class="country-pill" onclick="setMapCountry('tr', event)">🇹🇷 Türkiye (4 Şehir)</button>
+        </div>
+      </div>
+
+      <!-- Map Layout: Left Heritage Cards, Right Route Planner Simulator -->
+      <div class="heritage-map-layout">
+        <!-- Heritage Nodes Grid -->
+        <div class="heritage-nodes-column">
+          <div class="heritage-nodes-header">
+            <h3 id="heritageCountTitle">📍 Keşfedilecek Diplomatik & Tarihî Duraklar (14 Mekan)</h3>
+            <span class="heritage-hint">Sesli rehber için 🔊 butonunu kullanabilirsiniz</span>
+          </div>
+          <div class="heritage-cards-grid" id="heritageNodesContainer">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Bilateral Route & Travel Distance Simulator -->
+        <div class="route-simulator-column">
+          <div class="route-simulator-card">
+            <div class="route-card-header">
+              <span class="route-badge">İnteraktif Rota & Mesafe Motoru</span>
+              <h3>🚆 Delegasyon Rota ve Seyahat Planlayıcı</h3>
+            </div>
+            <p class="route-desc">Şehirler arası mesafeleri, TGV/YHT seyahat sürelerini ve diplomatik tarihî bağlamı hesaplayın:</p>
+
+            <div class="route-selectors">
+              <div class="form-group">
+                <label for="routeOriginSelect"><strong>Kalkış Noktası:</strong></label>
+                <select id="routeOriginSelect" class="select-input" onchange="calculateBilateralRoute()">
+                  <option value="paris">Paris (Île-de-France) 🇫🇷</option>
+                  <option value="strasbourg" selected>Strazburg (Alsace) 🇫🇷</option>
+                  <option value="colmar">Colmar (Alsace) 🇫🇷</option>
+                  <option value="lyon">Lyon (Auvergne-Rhône-Alpes) 🇫🇷</option>
+                  <option value="istanbul">İstanbul (Türkiye) 🇹🇷</option>
+                  <option value="ankara">Ankara (Türkiye) 🇹🇷</option>
+                </select>
+              </div>
+
+              <div class="route-swap-btn" onclick="swapRouteEndpoints()" title="Kalkış ve Varış Noktalarını Değiştir">
+                ⇄
+              </div>
+
+              <div class="form-group">
+                <label for="routeDestSelect"><strong>Varış Noktası:</strong></label>
+                <select id="routeDestSelect" class="select-input" onchange="calculateBilateralRoute()">
+                  <option value="paris">Paris (Île-de-France) 🇫🇷</option>
+                  <option value="strasbourg">Strazburg (Alsace) 🇫🇷</option>
+                  <option value="colmar" selected>Colmar (Alsace) 🇫🇷</option>
+                  <option value="lyon">Lyon (Auvergne-Rhône-Alpes) 🇫🇷</option>
+                  <option value="kehl">Kehl (Baden-Württemberg) 🇩🇪</option>
+                  <option value="istanbul">İstanbul (Türkiye) 🇹🇷</option>
+                  <option value="ankara">Ankara (Türkiye) 🇹🇷</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Route Result Card -->
+            <div class="route-result-box" id="routeResultBox">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -639,6 +750,28 @@
             <!-- Injected via JS -->
           </div>
         </div>
+
+        <!-- Virelangues (Tongue Twisters) Articulation Lab -->
+        <div class="virelangues-section">
+          <div class="section-sub-header">
+            <h3>🗣️ Fransızca Tekerleme Laboratuvarı (Virelangues Antolojisi)</h3>
+            <p>Artikülasyon, geniz ünlüleri ve boğaz seslerini geliştirmek için 8 klasik diplomatik ve edebi tekerleme:</p>
+          </div>
+          <div class="virelangues-grid" id="virelanguesContainer">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Liaison & Enchaînement Test Simulator -->
+        <div class="liaison-sim-section">
+          <div class="section-sub-header">
+            <h3>🔗 Fransızca Ulama & Kaynama Testi (Liaison Simulator)</h3>
+            <p>Aşağıdaki kelime öbeklerinde ulamanın <strong>Zorunlu (Obligatoire)</strong> mu yoksa <strong>Yasak (Interdite)</strong> mı olduğunu tahmin edin:</p>
+          </div>
+          <div class="liaison-quiz-grid" id="liaisonQuizContainer">
+            <!-- Injected by JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -959,15 +1092,104 @@
           </div>
         </div>
 
-        <!-- Practical Travel Guidelines -->
+        <!-- Live Currency Converter Engine -->
         <div class="budget-card">
-          <h3>⚙️ Pratik Şehir Hayatı & Seyahat Kodları</h3>
+          <h3>💱 Canlı Euro (EUR) / Türk Lirası (TRY) Çevirici</h3>
+          <p class="budget-desc">Döviz kuru ve hızlı harcama tutarlarını hesaplayın:</p>
+
+          <div class="currency-converter-box">
+            <div class="form-group">
+              <label for="currencyEurInput"><strong>Miktar (Euro - €):</strong></label>
+              <input type="number" id="currencyEurInput" class="search-input" value="50" min="1" oninput="convertCurrency('eur')">
+            </div>
+
+            <div class="currency-rate-info">
+              <span>Kur: <strong>1 EUR ≈ <span id="currentExchangeRate">37.50</span> TRY</strong></span>
+              <button class="btn-voice-mini" onclick="toggleCustomRate()">⚙️ Kuru Düzenle</button>
+            </div>
+            <div id="customRateRow" style="display:none; margin-bottom: 12px;">
+              <label><small>Özel 1 EUR Kuru (TL):</small></label>
+              <input type="number" id="customRateInput" class="search-input-small" value="37.50" step="0.5" oninput="updateCustomRate(this.value)">
+            </div>
+
+            <div class="form-group">
+              <label for="currencyTryInput"><strong>Miktar (Türk Lirası - ₺):</strong></label>
+              <input type="number" id="currencyTryInput" class="search-input" value="1875" min="1" oninput="convertCurrency('try')">
+            </div>
+
+            <div class="quick-currency-presets">
+              <span>Hızlı Tutar:</span>
+              <button class="btn-secondary" onclick="setPresetEur(10)">€10</button>
+              <button class="btn-secondary" onclick="setPresetEur(25)">€25</button>
+              <button class="btn-secondary" onclick="setPresetEur(50)">€50</button>
+              <button class="btn-secondary" onclick="setPresetEur(100)">€100</button>
+              <button class="btn-secondary" onclick="setPresetEur(250)">€250</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delegation Budget Planner & Estimator -->
+        <div class="budget-card" style="grid-column: 1 / -1;">
+          <div class="budget-planner-header">
+            <h3>📊 İnteraktif Heyet Harcama & Bütçe Simülatörü</h3>
+            <span class="route-badge">Saha Masraf Hesaplayıcı</span>
+          </div>
+          <div class="planner-grid">
+            <div class="planner-inputs">
+              <div class="form-group">
+                <label for="budgetDays"><strong>Kalınacak Gün Sayısı:</strong></label>
+                <input type="number" id="budgetDays" class="search-input" value="6" min="1" max="30" oninput="calculateDelegationBudget()">
+              </div>
+              <div class="form-group">
+                <label for="budgetMealPlan"><strong>Yemek Tercihi (Günlük):</strong></label>
+                <select id="budgetMealPlan" class="select-input" onchange="calculateDelegationBudget()">
+                  <option value="15">Ekonomik (Kafeterya / Sandviç ~ €15/gün)</option>
+                  <option value="28" selected>Standart (Bistro / Formule Midi ~ €28/gün)</option>
+                  <option value="45">Restoran & Gurme Deneyim (~ €45/gün)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="budgetTransport"><strong>Şehir İçi Ulaşım:</strong></label>
+                <select id="budgetTransport" class="select-input" onchange="calculateDelegationBudget()">
+                  <option value="9" selected>Navigo / CTS Günlük Bilet (~ €9/gün)</option>
+                  <option value="15">Tramvay + Bisiklet (Vélhop/Vélib ~ €15/gün)</option>
+                  <option value="4">Sadece Yürüyüş + Nadir Bilet (~ €4/gün)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="budgetExtras"><strong>Müze, Kültürel Etkinlik & Hatıra:</strong></label>
+                <select id="budgetExtras" class="select-input" onchange="calculateDelegationBudget()">
+                  <option value="10">Temel / Öğrenci İndirimli (~ €10/gün)</option>
+                  <option value="25" selected>Standart Müze + Hediyelik (~ €25/gün)</option>
+                  <option value="50">Kapsamlı Rehberli Turlar & Opera (~ €50/gün)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="planner-results-card">
+              <h4>📋 Tahmini Toplam Heyet Harcaması (Kişi Başı)</h4>
+              <div class="calc-total-eur" id="calcTotalEur">€ 372.00</div>
+              <div class="calc-total-try" id="calcTotalTry">≈ ₺ 13,950.00</div>
+              <div class="calc-breakdown-list">
+                <div class="calc-row"><span>🍽️ Beslenme:</span> <strong id="calcMealSum">€ 168.00</strong></div>
+                <div class="calc-row"><span>🚇 Ulaşım:</span> <strong id="calcTransitSum">€ 54.00</strong></div>
+                <div class="calc-row"><span>🏛️ Kültür & Hediyelik:</span> <strong id="calcCultureSum">€ 150.00</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Practical Travel Guidelines -->
+        <div class="budget-card" style="grid-column: 1 / -1;">
+          <h3>⚙️ Pratik Şehir Hayatı, Priz & Diplomatik İletişim Rehberi</h3>
           <ul class="practical-tips-list">
             <li><strong>🔌 Priz & Voltaj:</strong> Tip C ve E prizler (230V / 50Hz). Türkiye fişleriyle %100 uyumludur.</li>
-            <li><strong>🪙 Bahşiş (Pourboire):</strong> Fransız yasalarına göre servis ücreti (%15) faturaya dahildir. Memnun kalındığında bozukluk (1-2 €) bırakmak zarif bir gelenektir.</li>
+            <li><strong>🪙 Bahşiş (Pourboire):</strong> Fransız yasalarına göre servis ücreti (%15) faturaya dahildir. Memnun kalındığında masaya 1-2 € bırakmak zarif bir gelenektir.</li>
             <li><strong>🗓️ Pazar Günleri:</strong> Süpermarketler ve dükkanlar çoğu bölgede pazar günleri saat 13:00'ten sonra tamamen kapalıdır. İhtiyaçlarınızı cumartesiden temin ediniz.</li>
-            <li><strong>💧 İçme Suyu:</strong> Paris'te musluk suyu (*eau du robinet*) son derece kaliteli ve içilebilirdir. Parklarda tarihi Wallace Çeşmeleri ücretsizdir.</li>
-            <li><strong>📶 Wi-Fi & İletişim:</strong> Tüm belediye parklarında ve kafelerde *"Paris Wi-Fi"* ücretsizdir. Ön ödemeli eSIM (Free / Orange) kullanılabilir.</li>
+            <li><strong>💧 İçme Suyu:</strong> Paris ve Strazburg'da musluk suyu (*eau du robinet*) son derece kaliteli ve içilebilirdir. Parklarda tarihi Wallace Çeşmeleri ücretsizdir.</li>
+            <li><strong>🏛️ T.C. Strazburg Başkonsolosluğu:</strong> +33 3 88 36 69 10 • 103 Rue de Lausanne, 67000 Strasbourg</li>
+            <li><strong>🏛️ T.C. Paris Büyükelçiliği:</strong> +33 1 53 92 71 11 • 16 Avenue de Lamballe, 75016 Paris</li>
+            <li><strong>🏛️ T.C. Lyon Başkonsolosluğu:</strong> +33 4 72 83 98 40 • 87 Rue de Sèze, 69006 Lyon</li>
           </ul>
         </div>
       </div>
@@ -1316,6 +1538,7 @@
       <div class="quiz-mode-selector">
         <button class="mode-btn active" id="btnModeQuiz" onclick="switchGameMode('quiz')">📝 20 Soruluk Bilgi Testi</button>
         <button class="mode-btn" id="btnModeMatch" onclick="switchGameMode('match')">⚡ Hızlı Kelime Eşleştirme Oyunu</button>
+        <button class="mode-btn" id="btnModeCert" onclick="switchGameMode('cert')">🏆 Başarı Belgesi (Certificat de Réussite)</button>
       </div>
 
       <!-- Mode 1: 20 Question Quiz -->
@@ -1355,6 +1578,77 @@
         </div>
         <div class="match-win-msg" id="matchWinMsg" style="display:none;">
           🎉 Tebrikler! Tüm kelimeleri başarıyla eşleştirdiniz!
+        </div>
+      </div>
+
+      <!-- Mode 3: Certificate Generator -->
+      <div class="certificate-generator-box" id="modeCertContainer" style="display:none;">
+        <div class="cert-controls-card">
+          <h3>🎓 Kişiselleştirilmiş Başarı Sertifikası Oluşturucu</h3>
+          <p>Adınızı ve heyetteki unvanınızı girerek iki dilli resmî değişim başarı sertifikanızı üretin ve yazdırın:</p>
+
+          <div class="cert-form-row">
+            <div class="form-group">
+              <label for="certNameInput"><strong>Katılımcı Adı & Soyadı:</strong></label>
+              <input type="text" id="certNameInput" class="search-input" value="Sayın Delegasyon Üyesi" placeholder="Örn. Yunus Bahadır..." oninput="updateCertificatePreview()">
+            </div>
+
+            <div class="form-group">
+              <label for="certRoleSelect"><strong>Delegasyon / Katılımcı Unvanı:</strong></label>
+              <select id="certRoleSelect" class="select-input" onchange="updateCertificatePreview()">
+                <option value="T.C. GSB Gençlik Delegasyonu Temsilcisi" selected>T.C. GSB Gençlik Delegasyonu Temsilcisi</option>
+                <option value="Kültürlerarası Diplomasi & Politika Araştırmacısı">Kültürlerarası Diplomasi & Politika Araştırmacısı</option>
+                <option value="GSB Ulusal Gençlik Lideri">GSB Ulusal Gençlik Lideri</option>
+                <option value="Fransız Dili, Felsefe & Kültür Heyet Üyesi">Fransız Dili, Felsefe & Kültür Heyet Üyesi</option>
+                <option value="Maarif France Çift Dilli Gençlik Delegesi">Maarif France Çift Dilli Gençlik Delegesi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cert-action-bar">
+            <button class="btn-primary" onclick="window.print()">🖨️ Sertifikayı Yazdır / PDF İndir</button>
+            <button class="btn-secondary" onclick="copyCertShareLink()">📋 Sertifika Doğrulama Kodunu Kopyala</button>
+          </div>
+        </div>
+
+        <!-- Rendered Certificate Card -->
+        <div class="certificate-paper" id="certificatePaper">
+          <div class="cert-border">
+            <div class="cert-inner-border">
+              <div class="cert-header">
+                <div class="cert-flags">🇹🇷 &nbsp; 🌟 &nbsp; 🇫🇷</div>
+                <div class="cert-institution">T.C. GENÇLİK VE SPOR BAKANLIĞI & MAARIF FRANCE</div>
+                <h1 class="cert-title">CERTIFICAT DE RÉUSSITE</h1>
+                <div class="cert-subtitle">KÜLTÜRLERARASI GENÇLİK DİPLOMASİSİ VE AKADEMİK ARAŞTIRMA BAŞARI BELGESİ</div>
+              </div>
+
+              <div class="cert-body">
+                <p class="cert-text-intro">Bu belge, Fransa - Türkiye 500 Yıllık Diplomatik ve Kültürel Miras Değişimi programının tüm araştırma modüllerini, ansiklopedik atlasını ve saha protokol eğitimini üstün başarıyla tamamlayan:</p>
+                <h2 class="cert-recipient-name" id="certRecipientName">Sayın Delegasyon Üyesi</h2>
+                <p class="cert-recipient-role" id="certRecipientRole">T.C. GSB Gençlik Delegasyonu Temsilcisi</p>
+                <p class="cert-text-desc">adına düzenlenmiş olup; iki ülke arasındaki dostluk, kamu diplomasisi, felsefi düşünce mirası ve sivil dayanışmaya sağladığı katkılardan ötürü takdim edilmiştir.</p>
+              </div>
+
+              <div class="cert-footer">
+                <div class="cert-sign-col">
+                  <div class="cert-sign-title">T.C. Gençlik ve Spor Bakanlığı</div>
+                  <div class="cert-sign-line">Uluslararası Gençlik Delegasyonu</div>
+                </div>
+                <div class="cert-seal">
+                  <div class="seal-badge">2026<br>RESMÎ<br>ONAY</div>
+                </div>
+                <div class="cert-sign-col">
+                  <div class="cert-sign-title">Maarif France & Strazburg</div>
+                  <div class="cert-sign-line">Kültürlerarası Diyalog Komisyonu</div>
+                </div>
+              </div>
+
+              <div class="cert-meta-row">
+                <span>Doğrulama Kodu: <code id="certCode">GSB-FR-2026-9842</code></span>
+                <span>Tarih: <span id="certDate">Eylül 2026</span></span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

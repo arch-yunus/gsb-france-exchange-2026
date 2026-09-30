@@ -679,8 +679,11 @@ gsb-france-exchange-2026/
 │   ├── franco-turkish-relations.md        # 🤝 500 Yıllık Türkiye-Fransa İlişkileri & Frankofoni
 │   ├── diplomacy-chronology-1536-2026.md  # ⏳ 500 Yıllık Diplomatik & Kültürel Kronoloji
 │   ├── phonetics-linguistics-guide.md     # 🗣️ Fonetik, Sesbilim, Burun Ünlüleri & Faux Amis
+│   ├── virelangues-phonetics.md           # 🗣️ Tekerlemeler (Virelangues), Ulamalar & Artikülasyon
 │   ├── franco-turkish-etiquette-guide.md  # 🤝 Sosyolojik Görgü Kuralları & Karşılaştırmalı Protokol
-│   └── vocabulary-guide.md                # 🗣️ Diplomasi & Yaşam Sözlüğü (150+ Terim)
+│   ├── cross-cultural-etiquette.md        # 🎩 Fransa'da 10 Altın Görgü Kuralı & Delegasyon Kodları
+│   ├── diplomatic-heritage-map.md         # 🗺️ 12 Şehirde 500 Yıllık Diplomasi & Miras Topografyası
+│   └── vocabulary-guide.md                # 🗣️ Diplomasi & Yaşam Sözlüğü (180+ Terim)
 │
 ├── workshops/                             # 🏛️ Tematik Gençlik Çalıştayları ve Müzakereler
 │   ├── youth-diplomacy.md                 # 🌐 Kamu Diplomasisi ve Türkiye-Fransa İkili İlişkileri
@@ -694,11 +697,18 @@ gsb-france-exchange-2026/
 │   │   ├── day-02-youth-policy-workshop.md
 │   │   ├── day-03-istanbul-historical-dialogue.md
 │   │   └── day-04-bilateral-action-plans.md
-│   └── stage-france/                      # 🇫🇷 Fransa Etabı Günlükleri (Paris & Lyon)
-│       ├── day-01-arrival-paris.md
-│       ├── day-02-institutions-visit.md
-│       ├── day-03-unesco-multilateral-diplomacy.md
-│       └── day-04-regional-engagement-lyon.md
+│   ├── stage-france/                      # 🇫🇷 Fransa Etabı Günlükleri (Paris & Lyon)
+│   │   ├── day-01-arrival-paris.md
+│   │   ├── day-02-institutions-visit.md
+│   │   ├── day-03-unesco-multilateral-diplomacy.md
+│   │   └── day-04-regional-engagement-lyon.md
+│   └── stage-alsace-strasbourg/           # 🥨 Maarif France & Alsace Etabı Günlükleri (Strazburg, Colmar, Kehl)
+│       ├── day-01-arrival-basel-strasbourg.md
+│       ├── day-02-zoology-maarif-cathedrale.md
+│       ├── day-03-colmar-alsace-heritage.md
+│       ├── day-04-petite-france-batorama.md
+│       ├── day-05-parliament-echr-kehl.md
+│       └── day-06-delegation-return.md
 │
 └── presentations/                         # 📊 Sunumlar ve Politika Belgeleri
     ├── turkey-cultural-presentation.md   # 🇹🇷 Fransa Heyetine Yönelik Türkiye Sunumu
@@ -723,6 +733,11 @@ http://localhost:8000
 ```
 
 ### 🌟 Portalın Kapsamlı Modülleri ve Gelişmiş Özellikleri:
+* 🗺️ **Fransa - Türkiye Diplomasi & Kültürel Miras Haritası:** Paris (Hôtel de Monaco, Panthéon, Station F), Strazburg (Avrupa Konseyi, AİHM, Maarif France), Colmar, Lyon, Marsilya, İstanbul (Galatasaray, Institut Français, Palais de France) ve Ankara (GSB, Fransız Elçiliği) durakları; kategori filtreleme, koordinatlar, sesli rehber ve **İnteraktif Delegasyon Rota & Mesafe Hesaplayıcı (TGV/YHT/Hava yolu)**.
+* 🗣️ **Fransızca Tekerleme Laboratuvarı (Virelangues Antolojisi):** 8 klasik Fransızca tekerleme (/s/-/ʃ/, /y/-/u/, /r/, /p/-/b/), Uluslararası Fonetik Alfabe (IPA) dökümü, Türkçe çevirileri ve 0.75x (yavaş) ile 1.0x (normal) hızda sesli telaffuz antrenmanları.
+* 🔗 **Fransızca Ulama & Kaynama Test Simülatörü (Liaison & Enchaînement):** Zorunlu (*Obligatoire*) ve Yasak (*Interdite*) ulama kurallarını anlık olarak test eden interaktif fonetik simülatörü.
+* 💱 **Canlı Euro / TL Çevirici & Delegasyon Bütçe Hesaplayıcı:** Ayarlanabilir döviz kuru, hızlı preset butonları (€10, €25, €50, €100, €250), gün sayısı ve tercihlere göre beslenme, ulaşım ve kültür masraflarını hesaplayan **Saha Bütçe Simülatörü**.
+* 🏆 **Kişiselleştirilmiş Başarı Sertifikası Jeneratörü (Certificat de Réussite):** Katılımcı adı ve unvanına özel çift dilli resmî başarı belgesi, T.C. GSB ve Maarif France mühürleri, dinamik doğrulama kodu ve tek tıkla **PDF / Yazdırılabilir Çıktı**.
 * ⚖️ **Kültürel & Kurumsal Karşılaştırma Matrisi:** 5. Cumhuriyet vs Cumhurbaşkanlığı Sistemi, Grandes Écoles vs Mülkiye (SBF), Académie Française vs TDK, MJC vs GSB Gençlik Merkezleri, Service Civique vs Genç Gönüllüler ve Terroir vs Mahreç işaretleri karşılaştırması.
 * 🎧 **Fransızca İşitsel Anlama, Ses Hızı & Dikte Laboratuvarı:** Web Speech API ses motoru, ses hız ayarları (0.75x, 1x, 1.25x), canlı ses dalgası animasyonu, etkileşimli dikte yazım testi ve çoktan seçmeli dinleme anlama sınavı.
 * 💬 **Fransız Gençlik Dili, Argot, Verlan & SMS Sözlüğü:** İnteraktif hece tersyüz çözümleme motoru (*femme➔meuf, fou➔ouf, énervé➔vénère, louche➔chelou*), 30+ sesli argot kartı ve güncel mesajlaşma kısaltmaları tablosu.

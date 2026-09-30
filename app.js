@@ -2615,6 +2615,33 @@ const atlasModalData = {
       <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('speeches');" style="margin-top: 8px;">🎙️ Diplomatik Konuşma Stüdyosuna Git →</button></p>
       <p><small>Detaylı dosya: <code>france-atlas/diplomatic-speech-protocol-guide.md</code></small></p>
     `
+  },
+  heritageMap: {
+    badge: "Diplomasi & Miras Haritası",
+    title: "Fransa - Türkiye Diplomasi ve Kültürel Miras Topografyası",
+    content: `
+      <p>Paris (Hôtel de Monaco, Panthéon, Station F), Strazburg (Avrupa Konseyi, AİHM, Maarif France), Colmar, Lyon, İstanbul (Galatasaray, Institut Français, Palais de France) ve Ankara (GSB, Fransız Büyükelçiliği) arasındaki 500 yıllık hafıza mekanları.</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('map');" style="margin-top: 8px;">🗺️ Diplomasi Haritasını Aç →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/diplomatic-heritage-map.md</code></small></p>
+    `
+  },
+  virelangues: {
+    badge: "Fonetik & Diksiyon",
+    title: "Fransızca Tekerlemeler (Virelangues) & Ulamalı Fonetik",
+    content: `
+      <p>Arşidüşes çoraplarından kaplumbağa Lulu'ya, Fransız geniz sesleri (/ɑ̃/, /ɛ̃/, /ɔ̃/), /s/-/ʃ/, /y/-/u/ ve boğaz R (/ʁ/) artikülasyon alıştırmaları ve zorunlu/yasak ulama (liaison) kuralları.</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('phonetics');" style="margin-top: 8px;">🗣️ Tekerleme Laboratuvarına Git →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/virelangues-phonetics.md</code></small></p>
+    `
+  },
+  crossCultural: {
+    badge: "Saha Protokolü & Görgü",
+    title: "Fransa'da 10 Altın Nezaket Kuralı & Delegasyon Kodları",
+    content: `
+      <p>"Bonjour" sihirli anahtarı, Vouvoiement (Siz hitabı), La Bise (bölgesel yanak öpüşme), Fransız sofra adabı (ekmek masa örtüsüne konur, göz temasıyla kadeh kaldırma), metro kuralları ve 15 dakikalık nezaket payı (le quart d'heure de politesse).</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('survival');" style="margin-top: 8px;">🤝 Görgü Kılavuzunu İncele →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/cross-cultural-etiquette.md</code></small></p>
+    `
   }
 };
 
@@ -2859,15 +2886,27 @@ let matchPairsMatched = 0;
 
 function switchGameMode(mode) {
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  const modeQuiz = document.getElementById('modeQuizContainer');
+  const modeMatch = document.getElementById('modeMatchContainer');
+  const modeCert = document.getElementById('modeCertContainer');
+
   if (mode === 'quiz') {
     document.getElementById('btnModeQuiz')?.classList.add('active');
-    document.getElementById('modeQuizContainer').style.display = 'block';
-    document.getElementById('modeMatchContainer').style.display = 'none';
-  } else {
+    if (modeQuiz) modeQuiz.style.display = 'block';
+    if (modeMatch) modeMatch.style.display = 'none';
+    if (modeCert) modeCert.style.display = 'none';
+  } else if (mode === 'match') {
     document.getElementById('btnModeMatch')?.classList.add('active');
-    document.getElementById('modeQuizContainer').style.display = 'none';
-    document.getElementById('modeMatchContainer').style.display = 'block';
+    if (modeQuiz) modeQuiz.style.display = 'none';
+    if (modeMatch) modeMatch.style.display = 'block';
+    if (modeCert) modeCert.style.display = 'none';
     initMatchGame();
+  } else if (mode === 'cert') {
+    document.getElementById('btnModeCert')?.classList.add('active');
+    if (modeQuiz) modeQuiz.style.display = 'none';
+    if (modeMatch) modeMatch.style.display = 'none';
+    if (modeCert) modeCert.style.display = 'block';
+    updateCertificatePreview();
   }
 }
 
@@ -4290,7 +4329,689 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==========================================================================
-// 30. INITIALIZATION ON DOM LOAD
+// 31. HERITAGE MAP & BILATERAL ROUTE SIMULATOR ENGINE
+// ==========================================================================
+let currentMapCategory = 'all';
+let currentMapCountry = 'all';
+
+const heritageNodesData = [
+  {
+    id: "paris-embassy",
+    country: "fr",
+    category: "diplomacy",
+    name: "T.C. Paris Büyükelçiliği (Hôtel de Monaco)",
+    city: "Paris (7e Arrondissement) 🇫🇷",
+    coords: "48.8566° N, 2.3168° E",
+    desc: "1774 yılında Alexandre-Théodore Brongniart tarafından inşa edilen tarihi konak, 1936'dan bu yana Türkiye Cumhuriyeti'nin Fransa nezdindeki büyükelçilik kordiplomatiğine ev sahipliği yapmaktadır.",
+    bilateral: "Mustafa Kemal Atatürk'ün direktifleriyle satın alınmış; Türk hariciyesinin Avrupa'daki en prestijli temsil mekanlarından biridir.",
+    audioText: "Ambassade de Turquie à Paris, Hôtel de Monaco."
+  },
+  {
+    id: "strasbourg-coe",
+    country: "fr",
+    category: "diplomacy",
+    name: "Avrupa Konseyi & Avrupa Parlamentosu",
+    city: "Strazburg (Quartier Européen) 🇫🇷",
+    coords: "48.5975° N, 7.7711° E",
+    desc: "Türkiye'nin 1949 yılında kurucu üye olarak katıldığı Avrupa Konseyi (Palais de l'Europe) ve Avrupa Parlamentosu genel kurul salonu.",
+    bilateral: "Türk parlamenter ve genç delegelerinin Avrupa insan hakları, hukuk ve gençlik politikalarında karar alma süreçlerine katıldığı merkez.",
+    audioText: "Conseil de l'Europe et Parlement européen à Strasbourg."
+  },
+  {
+    id: "strasbourg-echr",
+    country: "fr",
+    category: "diplomacy",
+    name: "Avrupa İnsan Hakları Mahkemesi (AİHM / CEDH)",
+    city: "Strazburg (Allée des Droits de l'Homme) 🇫🇷",
+    coords: "48.5971° N, 7.7745° E",
+    desc: "Richard Rogers tarafından tasarlanan ikonik adalet sarayı; Avrupa İnsan Hakları Sözleşmesi'nin yargısal güvence mekanizmasıdır.",
+    bilateral: "Türk hukukçuların ve raportörlerin görev yaptığı, evrensel hukukun temel referans merkezi.",
+    audioText: "Cour européenne des droits de l'homme à Strasbourg."
+  },
+  {
+    id: "strasbourg-maarif",
+    country: "fr",
+    category: "education",
+    name: "Maarif France & Strazburg Eğitim Yerleşkesi",
+    city: "Strazburg (Alsace) 🇫🇷",
+    coords: "48.5839° N, 7.7455° E",
+    desc: "Türkiye Maarif Vakfı bünyesinde çok dilli ve çok kültürlü eğitim veren, Türk-Fransız gençlik ve akademik projelerini koordine eden merkez.",
+    bilateral: "2026 GSB Değişim Programı'nın Strazburg ayağında ev sahipliği ve kültürlerarası atölye koordinasyonu yürüten kilit paydaş.",
+    audioText: "Maarif France, Campus de Strasbourg."
+  },
+  {
+    id: "paris-pantheon",
+    country: "fr",
+    category: "education",
+    name: "Panthéon & Quartier Latin Düşünce Havzası",
+    city: "Paris (5e Arrondissement) 🇫🇷",
+    coords: "48.8462° N, 2.3449° E",
+    desc: "Voltaire, Rousseau, Victor Hugo, Émile Zola ve Marie Curie'nin anıt mezarlarının bulunduğu, Sorbonne Üniversitesi ile çevrili felsefe merkezi.",
+    bilateral: "Namık Kemal, Şinasi, Ahmet Rıza, Yahya Kemal ve Cemil Meriç'in düşünce dünyasını şekillendiren tarihi entelektüel havza.",
+    audioText: "Le Panthéon et le Quartier latin à Paris."
+  },
+  {
+    id: "paris-stationf",
+    country: "fr",
+    category: "science",
+    name: "Station F & French Tech Ekosistemi",
+    city: "Paris (13e Arrondissement) 🇫🇷",
+    coords: "48.8344° N, 2.3711° E",
+    desc: "Tarihi Halle Freyssinet tren hangarından dönüştürülen, 1000'den fazla girişime ve Mistral AI gibi yapay zekâ devlerine ev sahipliği yapan dünyanın en büyük startup kampüsü.",
+    bilateral: "Türk genç teknoloji girişimcilerinin Avrupa pazarına açıldığı ve ikili Ar-Ge hackathonlarının düzenlendiği inovasyon üssü.",
+    audioText: "Station F, le plus grand campus de start-up au monde."
+  },
+  {
+    id: "colmar-bartholdi",
+    country: "fr",
+    category: "arts",
+    name: "Musée Bartholdi & Petite Venise",
+    city: "Colmar (Haut-Rhin - Alsace) 🇫🇷",
+    coords: "48.0772° N, 7.3578° E",
+    desc: "New York Özgürlük Anıtı'nın heykeltıraşı Auguste Bartholdi'nin doğum evi ve tarihi su kanallarıyla çevrili geleneksel Alsace yarı ahşap mimari koridoru.",
+    bilateral: "Kültürel koruma, sivil mimari ve uluslararası kamu diplomasisi sembolizminin incelendiği açık hava laboratuvarı.",
+    audioText: "Musée Bartholdi et la Petite Venise à Colmar."
+  },
+  {
+    id: "lyon-silk",
+    country: "fr",
+    category: "arts",
+    name: "Vieux Lyon & Tarihî İpek Yolu Mirası",
+    city: "Lyon (Auvergne-Rhône-Alpes) 🇫🇷",
+    coords: "45.7600° N, 4.8270° E",
+    desc: "Rönesans traboule geçitleri, Canut ipek dokuma tezgahları ve sinemanın doğum yeri olan Institut Lumière.",
+    bilateral: "16. yüzyıldan itibaren Bursa ham ipeğinin Lyon'da işlenmesiyle tesis edilen 400 yıllık Akdeniz ticaret ve sanat köprüsü.",
+    audioText: "Vieux Lyon et la tradition de la soierie."
+  },
+  {
+    id: "marseille-mucem",
+    country: "fr",
+    category: "arts",
+    name: "Mucem (Avrupa ve Akdeniz Medeniyetleri Müzesi)",
+    city: "Marsilya (Provence-Alpes-Côte d'Azur) 🇫🇷",
+    coords: "43.2965° N, 5.3610° E",
+    desc: "Rudy Ricciotti tasarımı deniz kıyısındaki modern müze; Akdeniz havzasının ortak tarihi, denizcilik ve ticaret ağlarını sergiler.",
+    bilateral: "Osmanlı-Fransız deniz ticaretinin, Levanten tüccar ağlarının ve Akdeniz gençlik deniz festivallerinin buluşma noktası.",
+    audioText: "Mucem à Marseille, Musée des civilisations de l'Europe et de la Méditerranée."
+  },
+  {
+    id: "ist-galatasaray",
+    country: "tr",
+    category: "education",
+    name: "Galatasaray Lisesi (Mekteb-i Sultânî - 1868)",
+    city: "İstanbul (Beyoğlu) 🇹🇷",
+    coords: "41.0335° N, 28.9778° E",
+    desc: "Sultan Abdülaziz ve III. Napoléon iş birliğiyle 1868'de modern Frankofon eğitim modeline kavuşturulan tarihi maarif kurumu.",
+    bilateral: "Tevfik Fikret'ten günümüze Türk-Fransız aydınlanmasının, çift dilli diplomasinin ve edebiyatının simge anıtı.",
+    audioText: "Lycée de Galatasaray à Istanbul, Mekteb-i Sultânî."
+  },
+  {
+    id: "ist-institut-francais",
+    country: "tr",
+    category: "arts",
+    name: "Institut Français & Tarihi Fransız Sarayı",
+    city: "İstanbul (Beyoğlu & Tepebaşı) 🇹🇷",
+    coords: "41.0369° N, 28.9850° E",
+    desc: "Fransız Dili, sineması ve kültürünü tanıtan merkez ile 16. yüzyıldan bu yana Fransız elçilerinin ikamet ettiği tarihi Palais de France.",
+    bilateral: "Yüzyıllardır iki ülke aydınlarını, yazarlarını ve genç sanatçılarını bir araya getiren kültür diplomasisi kalesi.",
+    audioText: "Institut Français d'Istanbul et Palais de France."
+  },
+  {
+    id: "ist-pierre-loti",
+    country: "tr",
+    category: "arts",
+    name: "Pierre Loti Tepesi & Haliç Seyir Noktası",
+    city: "İstanbul (Eyüpsultan) 🇹🇷",
+    coords: "41.0543° N, 28.9339° E",
+    desc: "Fransız deniz subayı ve yazar Julien Viaud'nun (Pierre Loti) İstanbul'a olan sevgisini 'Aziyadé' romanında ölümsüzleştirdiği tarihi mekan.",
+    bilateral: "Fransız edebiyatının İstanbul tutkusunu ve Doğu-Batı romantizmini simgeleyen edebi durak.",
+    audioText: "Colline Pierre Loti à Istanbul, surplombant la Corne d'Or."
+  },
+  {
+    id: "ank-gsb",
+    country: "tr",
+    category: "diplomacy",
+    name: "T.C. Gençlik ve Spor Bakanlığı (GSB) Genel Merkezi",
+    city: "Ankara (Çankaya) 🇹🇷",
+    coords: "39.9167° N, 32.8538° E",
+    desc: "Türkiye genelindeki 500+ Gençlik Merkezi, Ulusal Gönüllülük Ağı ve uluslararası ikili gençlik değişimlerinin koordinasyon merkezi.",
+    bilateral: "Fransa Gençlik Bakanlığı ve Maarif France ile imzalanan 2026 Gençlik Diplomasisi Eylem Planı'nın idari yürütücüsü.",
+    audioText: "Ministère de la Jeunesse et des Sports de Turquie à Ankara."
+  },
+  {
+    id: "ank-french-embassy",
+    country: "tr",
+    category: "diplomacy",
+    name: "Fransa Cumhuriyeti Ankara Büyükelçiliği",
+    city: "Ankara (Paris Caddesi - Çankaya) 🇹🇷",
+    coords: "39.9022° N, 32.8597° E",
+    desc: "Türkiye ile Fransa arasındaki diplomatik ilişkilerin, vize kolaylaştırma süreçlerinin ve eğitim antlaşmalarının başkentteki temsilciliği.",
+    bilateral: "500 yıllık ittifakın resmi diplomatik müzakerelerinin ve kültürel iş birliği protokollerinin imzalandığı yer.",
+    audioText: "Ambassade de France à Ankara."
+  }
+];
+
+function renderHeritageNodes(list) {
+  const container = document.getElementById('heritageNodesContainer');
+  const countTitle = document.getElementById('heritageCountTitle');
+  if (!container) return;
+
+  if (countTitle) {
+    countTitle.innerText = `📍 Keşfedilecek Diplomatik & Tarihî Duraklar (${list.length} Mekan)`;
+  }
+
+  if (list.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1 / -1; padding: 2rem; text-align: center; color: var(--text-muted);">
+        Arama kriterinize uygun miras durağı bulunamadı.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map(item => `
+    <div class="heritage-card">
+      <div class="heritage-card-top">
+        <h4>${item.name}</h4>
+        <span class="heritage-country-tag">${item.country === 'fr' ? '🇫🇷 Fransa' : '🇹🇷 Türkiye'}</span>
+      </div>
+      <div class="heritage-city">📍 ${item.city}</div>
+      <p class="heritage-desc">${item.desc}</p>
+      <div class="heritage-bilateral">
+        <strong>🤝 Türk-Fransız Bağlamı:</strong> ${item.bilateral}
+      </div>
+      <div class="heritage-footer-actions">
+        <span class="heritage-coords">🌐 ${item.coords}</span>
+        <button class="btn-voice-mini" onclick="speakText('${item.audioText.replace(/'/g, "\\'")}')" title="Fransızca Seslendir">🔊 Dinle</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterHeritageMap() {
+  const searchVal = document.getElementById('mapSearchInput')?.value.toLowerCase() || '';
+
+  const filtered = heritageNodesData.filter(item => {
+    const matchCat = currentMapCategory === 'all' || item.category === currentMapCategory;
+    const matchCountry = currentMapCountry === 'all' || item.country === currentMapCountry;
+    const matchSearch = item.name.toLowerCase().includes(searchVal) ||
+                        item.city.toLowerCase().includes(searchVal) ||
+                        item.desc.toLowerCase().includes(searchVal) ||
+                        item.bilateral.toLowerCase().includes(searchVal);
+    return matchCat && matchCountry && matchSearch;
+  });
+
+  renderHeritageNodes(filtered);
+}
+
+function setMapCategory(cat, event) {
+  currentMapCategory = cat;
+  document.querySelectorAll('.map-filter-group .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  filterHeritageMap();
+}
+
+function setMapCountry(country, event) {
+  currentMapCountry = country;
+  document.querySelectorAll('.country-pill').forEach(p => p.classList.remove('active'));
+  event?.target?.classList.add('active');
+  filterHeritageMap();
+}
+
+// Routes Database & Calculator
+const routesDatabase = {
+  "strasbourg-colmar": {
+    dist: "72 km",
+    duration: "30 dakika",
+    type: "TER Grand Est (Bölgesel Ekspres)",
+    co2: "%85 Daha Az Karbon Salımı",
+    context: "Alsace bağ yolu, Haut-Rhin ovası ve tarihi yarı ahşap Colmar mimarisi koridoru."
+  },
+  "colmar-strasbourg": {
+    dist: "72 km",
+    duration: "30 dakika",
+    type: "TER Grand Est",
+    co2: "%85 Daha Az Karbon Salımı",
+    context: "Colmar'dan Avrupa Parlamentosu ve Katedral şehri Strazburg'a dönüş hattı."
+  },
+  "strasbourg-kehl": {
+    dist: "8 km",
+    duration: "15 dakika",
+    type: "CTS Tram D (Uluslararası Tramvay)",
+    co2: "%95 Çevre Dostu Elektrikli Hat",
+    context: "Ren Nehri üzerindeki Passerelle des Deux Rives üzerinden Fransa ile Almanya'yı birbirine bağlayan sınır ötesi barış hattı."
+  },
+  "kehl-strasbourg": {
+    dist: "8 km",
+    duration: "15 dakika",
+    type: "CTS Tram D",
+    co2: "%95 Çevre Dostu",
+    context: "Almanya Kehl'den Strazburg merkezine hızlı raylı geçiş."
+  },
+  "paris-strasbourg": {
+    dist: "490 km",
+    duration: "1 saat 45 dakika",
+    type: "TGV inOui (Hızlı Tren - 320 km/s)",
+    co2: "Uçaktan %90 Daha Düşük CO2",
+    context: "Fransa'nın başkentinden Avrupa diplomasisinin kalbine 320 km/s süratle bağlanan ana omurga."
+  },
+  "strasbourg-paris": {
+    dist: "490 km",
+    duration: "1 saat 45 dakika",
+    type: "TGV inOui",
+    co2: "%90 Daha Düşük CO2",
+    context: "Alsace'tan Paris Gare de l'Est garına yüksek hızlı tren bağlantısı."
+  },
+  "paris-lyon": {
+    dist: "465 km",
+    duration: "1 saat 58 dakika",
+    type: "TGV inOui (Fransa'nın 1. TGV Hattı)",
+    co2: "Uçaktan %90 Daha Düşük Karbon",
+    context: "1981'de açılan Avrupa'nın ilk yüksek hızlı tren hattı; gastronomi ve tarihi ipek ticaret ekseni."
+  },
+  "lyon-paris": {
+    dist: "465 km",
+    duration: "1 saat 58 dakika",
+    type: "TGV inOui",
+    co2: "%90 Daha Düşük Karbon",
+    context: "Lyon Part-Dieu'den Paris Gare de Lyon'a ekspres hat."
+  },
+  "ankara-istanbul": {
+    dist: "450 km",
+    duration: "4 saat 15 dakika",
+    type: "YHT (Yüksek Hızlı Tren)",
+    co2: "Karayoluna Göre %70 Daha Çevreci",
+    context: "Türkiye Cumhuriyeti'nin başkenti Ankara ile tarihi Frankofon ve kültürel miras kenti İstanbul arası ana aks."
+  },
+  "istanbul-ankara": {
+    dist: "450 km",
+    duration: "4 saat 15 dakika",
+    type: "YHT",
+    co2: "%70 Daha Çevreci",
+    context: "İstanbul Söğütlüçeşme / Pendik'ten Ankara Garı'na bürokratik ve gençlik hattı."
+  },
+  "istanbul-paris": {
+    dist: "2,250 km",
+    duration: "3 saat 35 dakika (Uçuş)",
+    type: "Doğrudan Uçuş (THY / Air France)",
+    co2: "Uluslararası Hava Koridoru",
+    context: "Doğu ile Batı uygarlıkları arasındaki 500 yıllık ittifakın ana diplomatik hava köprüsü."
+  },
+  "paris-istanbul": {
+    dist: "2,250 km",
+    duration: "3 saat 30 dakika (Uçuş)",
+    type: "Doğrudan Uçuş",
+    co2: "Uluslararası Hava Koridoru",
+    context: "CDG Havalimanı'ndan İstanbul İGA'ya delegasyon dönüş rotası."
+  }
+};
+
+function calculateBilateralRoute() {
+  const origin = document.getElementById('routeOriginSelect')?.value || 'strasbourg';
+  const dest = document.getElementById('routeDestSelect')?.value || 'colmar';
+  const resultBox = document.getElementById('routeResultBox');
+  if (!resultBox) return;
+
+  if (origin === dest) {
+    resultBox.innerHTML = `
+      <div style="text-align: center; color: var(--text-muted); padding: 1rem;">
+        ⚠️ Lütfen farklı kalkış ve varış şehirleri seçiniz.
+      </div>
+    `;
+    return;
+  }
+
+  const key = `${origin}-${dest}`;
+  const route = routesDatabase[key] || {
+    dist: "~ 600 - 1,800 km",
+    duration: "Değişken (Aktarmalı)",
+    type: "TGV + Uçuş Kombinasyonu",
+    co2: "Karma Ulaşım Modeli",
+    context: "İki merkez arasında çok modlu (TGV + Uçak) gençlik delegasyonu seyahat koridoru."
+  };
+
+  resultBox.innerHTML = `
+    <div class="route-stats-row">
+      <div class="r-stat-item">
+        <span class="r-val">${route.dist}</span>
+        <span class="r-lbl">Toplam Mesafe</span>
+      </div>
+      <div class="r-stat-item">
+        <span class="r-val">${route.duration}</span>
+        <span class="r-lbl">Seyahat Süresi</span>
+      </div>
+      <div class="r-stat-item">
+        <span class="r-val">🌱 ${route.type.split(' ')[0]}</span>
+        <span class="r-lbl">Araç Tipi</span>
+      </div>
+    </div>
+    <div class="route-context-box">
+      <strong>🚆 Ulaşım Aracı:</strong> ${route.type}<br>
+      <strong>🌿 Ekolojik Veri:</strong> ${route.co2}<br>
+      <strong>📜 Tarihî & Diplomatik Bağlam:</strong> ${route.context}
+    </div>
+  `;
+}
+
+function swapRouteEndpoints() {
+  const orig = document.getElementById('routeOriginSelect');
+  const dest = document.getElementById('routeDestSelect');
+  if (orig && dest) {
+    const temp = orig.value;
+    orig.value = dest.value;
+    dest.value = temp;
+    calculateBilateralRoute();
+    playTone(480, 'sine', 0.08);
+  }
+}
+
+// ==========================================================================
+// 32. VIRELANGUES (TONGUE TWISTERS) LAB ENGINE
+// ==========================================================================
+const virelanguesData = [
+  {
+    phoneme: "/s/ vs /ʃ/",
+    fr: "Les chaussettes de l'archiduchesse sont-elles sèches ou archi-sèches ?",
+    ipa: "/le ʃo.sɛt də laʁ.ʃi.dy.ʃɛs sɔ̃.t‿ɛl sɛʃ u aʁ.ʃi.sɛʃ/",
+    tr: "Arşidüşesin çorapları kuru mu yoksa aşırı kuru mu?",
+    tip: "Dudakları öne uzatarak /ʃ/ sesi ile diş arkasından çıkan keskin /s/ sesinin hızlı geçiş kontrolü."
+  },
+  {
+    phoneme: "/ʃ/ & /s/",
+    fr: "Un chasseur sachant chasser sans son chien est un bon chasseur.",
+    ipa: "/œ̃ ʃa.sœʁ sa.ʃɑ̃ ʃa.se sɑ̃ sɔ̃ ʃjɛ̃ ɛt‿œ̃ bɔ̃ ʃa.sœʁ/",
+    tr: "Köpeği olmadan avlanmayı bilen bir avcı, iyi bir avcıdır.",
+    tip: "Geniz ünlüleri (/ɑ̃/, /ɔ̃/, /ɛ̃/) ile /ʃ/-/s/ diziliminin akıcılığı."
+  },
+  {
+    phoneme: "/y/ vs /u/",
+    fr: "As-tu vu le tutu de tulle de la tortue Lulu ?",
+    ipa: "/a ty vy lə ty.ty də tyl də la tɔʁ.ty ly.ly/",
+    tr: "Kaplumbağa Lulu'nun tülden tütüsünü gördün mü?",
+    tip: "Türkçe 'u' ile Fransızca ince ve dudakları büzerek çıkarılan /y/ ('ü' benzeri) foneminin netliği."
+  },
+  {
+    phoneme: "/p/ & /b/",
+    fr: "Papier, panier, piano. Panier, piano, papier.",
+    ipa: "/pa.pje pa.nje pja.no - pa.nje pja.no pa.pje/",
+    tr: "Kâğıt, sepet, piyano. Sepet, piyano, kâğıt.",
+    tip: "Dudak patlamaları ve /j/ yarı ünlüsünün ritmik hızlanması."
+  },
+  {
+    phoneme: "/s/ (Tekrar)",
+    fr: "Six scies scient six cyprès, six cents scies scient six cent six cyprès.",
+    ipa: "/si si si si si.pʁɛ si sɑ̃ si si si sɑ̃ si si.pʁɛ/",
+    tr: "Altı testere altı selviyi keser, altı yüz testere altı yüz altı selviyi keser.",
+    tip: "Tekrarlayan /si/ hecelerinde dil ucunun diş arkasında sabit kalması."
+  },
+  {
+    phoneme: "/ʁ/ (Boğaz R)",
+    fr: "Le rat rouge regarde le renard roux qui roule sur la route.",
+    ipa: "/lə ʁa ʁuʒ ʁə.ɡaʁd lə ʁə.naʁ ʁu ki ʁul syʁ la ʁut/",
+    tr: "Kırmızı sıçan, yolda yuvarlanan kızıl tilkiyi izliyor.",
+    tip: "Küçük dilden (uvula) gelen yumuşak Fransızca /ʁ/ vibrasyonu."
+  },
+  {
+    phoneme: "/t/ & /k/",
+    fr: "Quatre cafards courent contre quatre coqs dans la cour.",
+    ipa: "/katʁ ka.faʁ kuʁ kɔ̃tʁ katʁ kɔk dɑ̃ la kuʁ/",
+    tr: "Dört hamamböceği, avluda dört horoza karşı koşuyor.",
+    tip: "Arka damak patlayıcısı /k/ ve konsonant öbekleri (quatre)."
+  },
+  {
+    phoneme: "/t/ & /d/",
+    fr: "Ta tante t'attend dans la tente avec trente tartes aux tomates.",
+    ipa: "/ta tɑ̃t ta.tɑ̃ dɑ̃ la tɑ̃t a.vɛk tʁɑ̃t taʁt o tɔ.mat/",
+    tr: "Teyzen çadırda seni otuz domatesli tartla bekliyor.",
+    tip: "Diş eti /t/ patlaması ve geniz ünlüsü /ɑ̃/ artikülasyonu."
+  }
+];
+
+function renderVirelangues() {
+  const container = document.getElementById('virelanguesContainer');
+  if (!container) return;
+
+  container.innerHTML = virelanguesData.map((item, idx) => `
+    <div class="virelangue-card">
+      <div class="virelangue-header">
+        <span class="virelangue-phoneme">${item.phoneme}</span>
+        <small style="color: var(--text-muted);">Egzersiz #${idx + 1}</small>
+      </div>
+      <div class="virelangue-fr">"${item.fr}"</div>
+      <div class="virelangue-ipa">${item.ipa}</div>
+      <div class="virelangue-tr">${item.tr}</div>
+      <p style="font-size: 0.78rem; color: var(--accent); margin-top: 4px;">💡 <em>${item.tip}</em></p>
+      <div class="virelangue-actions">
+        <button class="btn-secondary" onclick="playVirelangueAudio(${idx}, 0.75)" style="flex:1;">🐢 Yavaş (0.75x)</button>
+        <button class="btn-primary" onclick="playVirelangueAudio(${idx}, 1.0)" style="flex:1;">🔊 Normal (1.0x)</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function playVirelangueAudio(idx, speed) {
+  const item = virelanguesData[idx];
+  if (!item || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(item.fr);
+  utterance.lang = 'fr-FR';
+  utterance.rate = speed;
+  window.speechSynthesis.speak(utterance);
+  playTone(550, 'sine', 0.05);
+}
+
+// ==========================================================================
+// 33. LIAISON & ENCHAÎNEMENT INTERACTIVE SIMULATOR
+// ==========================================================================
+const liaisonQuizData = [
+  {
+    phrase: "Les enfants",
+    type: "obligatoire",
+    ipa: "/le.z‿ɑ̃.fɑ̃/",
+    rule: "Zorunlu Ulama (Liaison Obligatoire): Belirteç (Les) + Ünlüyle Başlayan İsim (Enfants) arasında 's' harfi /z/ olarak ulanır."
+  },
+  {
+    phrase: "Un livre et une plume",
+    type: "interdite",
+    ipa: "/œ̃ livʁ e yn plym/",
+    rule: "Yasak Ulama (Liaison Interdite): Fransızcada 'et' (ve) bağlacından sonra ASLA ulama yapılmaz."
+  },
+  {
+    phrase: "Un grand homme",
+    type: "obligatoire",
+    ipa: "/œ̃ ɡʁɑ̃.t‿ɔm/",
+    rule: "Zorunlu Ulama: Tek heceli sıfat (grand) + İsim (homme) arasında 'd' harfi /t/ sesiyle ulanır."
+  },
+  {
+    phrase: "Les héros",
+    type: "interdite",
+    ipa: "/le e.ʁo/",
+    rule: "Yasak Ulama: 'Héros' kelimesi nefesli H (H aspiré) ile başladığı için ulama yasaktır. Ulama yapılırsa 'les zéros' (sıfırlar) ile karışır!"
+  },
+  {
+    phrase: "Vous avez raison",
+    type: "obligatoire",
+    ipa: "/vu.z‿a.ve ʁɛ.zɔ̃/",
+    rule: "Zorunlu Ulama: Kişi zamiri (Vous) + Fiil (Avez) arasında /z/ ulaması zorunludur."
+  },
+  {
+    phrase: "Un soldat intelligent",
+    type: "interdite",
+    ipa: "/œ̃ sɔl.da ɛ̃.tɛ.li.ʒɑ̃/",
+    rule: "Yasak Ulama: Tekil İsim (soldat) + Sıfat (intelligent) arasında kural olarak ulama yapılmaz."
+  },
+  {
+    phrase: "Dans une heure",
+    type: "obligatoire",
+    ipa: "/dɑ̃.z‿yn œʁ/",
+    rule: "Zorunlu Ulama: Tek heceli edat (dans, en, chez, sous) + Belirteç/İsim arasında ulama zorunludur."
+  },
+  {
+    phrase: "Sont-ils arrivés ?",
+    type: "interdite",
+    ipa: "/sɔ̃.t‿il a.ʁi.ve/",
+    rule: "Yasak Ulama: Ters çevrilmiş soru fiil-öznesinden (Sont-ils) sonraki kelimeye ulama yapılmaz."
+  }
+];
+
+function renderLiaisonQuiz() {
+  const container = document.getElementById('liaisonQuizContainer');
+  if (!container) return;
+
+  container.innerHTML = liaisonQuizData.map((item, idx) => `
+    <div class="liaison-card" id="liaisonCard_${idx}">
+      <div class="liaison-phrase">
+        "${item.phrase}"
+        <button class="btn-voice-mini" onclick="speakText('${item.phrase.replace(/'/g, "\\'")}')" title="Dinle">🔊</button>
+      </div>
+      <div class="liaison-buttons">
+        <button class="liaison-btn" onclick="checkLiaison(${idx}, 'obligatoire', this)">🔗 Zorunlu (Obligatoire)</button>
+        <button class="liaison-btn" onclick="checkLiaison(${idx}, 'interdite', this)">❌ Yasak (Interdite)</button>
+      </div>
+      <div class="liaison-explanation" id="liaisonExp_${idx}">
+        <strong>IPA:</strong> <code>${item.ipa}</code><br>
+        ${item.rule}
+      </div>
+    </div>
+  `).join('');
+}
+
+function checkLiaison(index, chosenType, btnElement) {
+  const item = liaisonQuizData[index];
+  const card = document.getElementById(`liaisonCard_${index}`);
+  const exp = document.getElementById(`liaisonExp_${index}`);
+  if (!item || !card) return;
+
+  const isCorrect = item.type === chosenType;
+  const buttons = card.querySelectorAll('.liaison-btn');
+  buttons.forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    btnElement.classList.add('correct');
+    playTone(600, 'sine', 0.1);
+  } else {
+    btnElement.classList.add('incorrect');
+    buttons.forEach(b => {
+      if ((chosenType === 'obligatoire' && b.innerText.includes('Yasak')) ||
+          (chosenType === 'interdite' && b.innerText.includes('Zorunlu'))) {
+        b.classList.add('correct');
+      }
+    });
+    playTone(250, 'sawtooth', 0.15);
+  }
+
+  if (exp) {
+    exp.style.display = 'block';
+  }
+}
+
+// ==========================================================================
+// 34. LIVE CURRENCY CONVERTER & DELEGATION BUDGET ESTIMATOR
+// ==========================================================================
+let currentExchangeRateValue = 37.50;
+
+function convertCurrency(direction) {
+  const eurInput = document.getElementById('currencyEurInput');
+  const tryInput = document.getElementById('currencyTryInput');
+  if (!eurInput || !tryInput) return;
+
+  if (direction === 'eur') {
+    const eurVal = parseFloat(eurInput.value) || 0;
+    tryInput.value = (eurVal * currentExchangeRateValue).toFixed(2);
+  } else {
+    const tryVal = parseFloat(tryInput.value) || 0;
+    eurInput.value = (tryVal / currentExchangeRateValue).toFixed(2);
+  }
+}
+
+function toggleCustomRate() {
+  const row = document.getElementById('customRateRow');
+  if (row) {
+    row.style.display = row.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+function updateCustomRate(newRate) {
+  const r = parseFloat(newRate);
+  if (r && r > 0) {
+    currentExchangeRateValue = r;
+    const rateLbl = document.getElementById('currentExchangeRate');
+    if (rateLbl) rateLbl.innerText = r.toFixed(2);
+    convertCurrency('eur');
+    calculateDelegationBudget();
+  }
+}
+
+function setPresetEur(amount) {
+  const eurInput = document.getElementById('currencyEurInput');
+  if (eurInput) {
+    eurInput.value = amount;
+    convertCurrency('eur');
+    playTone(520, 'sine', 0.05);
+  }
+}
+
+function calculateDelegationBudget() {
+  const days = parseInt(document.getElementById('budgetDays')?.value) || 6;
+  const mealCost = parseFloat(document.getElementById('budgetMealPlan')?.value) || 28;
+  const transitCost = parseFloat(document.getElementById('budgetTransport')?.value) || 9;
+  const extrasCost = parseFloat(document.getElementById('budgetExtras')?.value) || 25;
+
+  const mealTotal = days * mealCost;
+  const transitTotal = days * transitCost;
+  const extrasTotal = days * extrasCost;
+  const totalEur = mealTotal + transitTotal + extrasTotal;
+  const totalTry = totalEur * currentExchangeRateValue;
+
+  const totalEurEl = document.getElementById('calcTotalEur');
+  const totalTryEl = document.getElementById('calcTotalTry');
+  const mealSumEl = document.getElementById('calcMealSum');
+  const transitSumEl = document.getElementById('calcTransitSum');
+  const cultureSumEl = document.getElementById('calcCultureSum');
+
+  if (totalEurEl) totalEurEl.innerText = `€ ${totalEur.toFixed(2)}`;
+  if (totalTryEl) totalTryEl.innerText = `≈ ₺ ${totalTry.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  if (mealSumEl) mealSumEl.innerText = `€ ${mealTotal.toFixed(2)}`;
+  if (transitSumEl) transitSumEl.innerText = `€ ${transitTotal.toFixed(2)}`;
+  if (cultureSumEl) cultureSumEl.innerText = `€ ${extrasTotal.toFixed(2)}`;
+}
+
+// ==========================================================================
+// 35. CERTIFICATE OF ACHIEVEMENT GENERATOR & SHARING
+// ==========================================================================
+function updateCertificatePreview() {
+  const nameInput = document.getElementById('certNameInput')?.value.trim() || 'Sayın Delegasyon Üyesi';
+  const roleSelect = document.getElementById('certRoleSelect')?.value || 'T.C. GSB Gençlik Delegasyonu Temsilcisi';
+
+  const nameEl = document.getElementById('certRecipientName');
+  const roleEl = document.getElementById('certRecipientRole');
+  const codeEl = document.getElementById('certCode');
+  const dateEl = document.getElementById('certDate');
+
+  if (nameEl) nameEl.innerText = nameInput;
+  if (roleEl) roleEl.innerText = roleSelect;
+
+  // Generate deterministic verification code based on name length
+  const hash = Math.abs(nameInput.split('').reduce((acc, char) => (acc << 5) - acc + char.charCodeAt(0), 0)) % 9000 + 1000;
+  if (codeEl) codeEl.innerText = `GSB-FR-2026-${hash}`;
+
+  if (dateEl) {
+    const now = new Date();
+    const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+    dateEl.innerText = `${months[now.getMonth()]} ${now.getFullYear()}`;
+  }
+}
+
+function copyCertShareLink() {
+  const code = document.getElementById('certCode')?.innerText || 'GSB-FR-2026-9842';
+  const name = document.getElementById('certRecipientName')?.innerText || 'Delegasyon Üyesi';
+  navigator.clipboard.writeText(`T.C. GSB & Maarif France Gençlik Diplomasisi Başarı Sertifikası | Katılımcı: ${name} | Doğrulama Kodu: ${code} | https://github.com/arch-yunus/gsb-france-exchange-2026`);
+  showToast('Sertifika doğrulama bilgisi panoya kopyalandı! 📋✨');
+  playTone(580, 'sine', 0.1);
+}
+
+// ==========================================================================
+// 36. INITIALIZATION ON DOM LOAD
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -4311,7 +5032,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initChecklist();
   renderProgram('all');
 
-  // Initialize newly added comprehensive modules
+  // Initialize modular engines
   renderMatrix(matrixData);
   renderListeningItem();
   loadVerlanWord('femme');
@@ -4319,6 +5040,14 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSmsTable(smsData);
   generateDiplomaticSpeech();
   renderAlsacePoi();
+
+  // Initialize new comprehensive modules
+  renderHeritageNodes(heritageNodesData);
+  calculateBilateralRoute();
+  renderVirelangues();
+  renderLiaisonQuiz();
+  calculateDelegationBudget();
+  updateCertificatePreview();
 
   // Check initial hash routing
   if (window.location.hash) {
@@ -4328,4 +5057,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
 
