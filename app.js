@@ -2642,6 +2642,33 @@ const atlasModalData = {
       <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('survival');" style="margin-top: 8px;">🤝 Görgü Kılavuzunu İncele →</button></p>
       <p><small>Detaylı dosya: <code>france-atlas/cross-cultural-etiquette.md</code></small></p>
     `
+  },
+  treatiesArchive: {
+    badge: "Ahitnameler & Paktlar",
+    title: "Türkiye - Fransa Tarihî Ahitname & Antlaşmalar Arşivi",
+    content: `
+      <p>1536 Kapitülasyonları, 1740 Sürekli Kapitülasyonlar, 1802 Paris Barış Muahedesi, 1868 Mekteb-i Sultânî Tüzüğü, 1921 Ankara Antlaşması (TBMM'nin tanınması) ve 2026 Gençlik Diplomasisi Eylem Planı metinleri.</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('treaties');" style="margin-top: 8px;">📜 Antlaşmalar Arşivini Aç →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/treaties-ahitname-archive.md</code></small></p>
+    `
+  },
+  frenchIdioms: {
+    badge: "Deyimler & Metaforlar",
+    title: "Fransızca Deyimler, Renkli Metaforlar & Bilmeceler",
+    content: `
+      <p>Mutfaktan süzülen deyimler (Poser un lapin, Avoir du pain sur la planche, Raconter des salades, Les carottes sont cuites) ile duygu ve hayvan metaforları (Avoir le cafard, Coup de foudre, Appeler un chat un chat).</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('slang');" style="margin-top: 8px;">🗣️ Deyimler Laboratuvarına Git →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/french-idioms-metaphors.md</code></small></p>
+    `
+  },
+  museumsArchitecture: {
+    badge: "Müzeler & Mimari",
+    title: "Fransa Müzeleri, Mimari Akımlar & Anıtlar Kılavuzu",
+    content: `
+      <p>Louvre Müzesi, Musée d'Orsay, Centre Pompidou, Strazburg Katedrali, Versailles Sarayı, Mucem Marsilya ile Romanesk'ten Gotik ve Haussmann'a 1000 yıllık Fransız mimari akımları.</p>
+      <p><button class="btn-primary" onclick="closeAtlasModal(); switchTab('regions');" style="margin-top: 8px;">🏛️ Müzeler Gezginini İncele →</button></p>
+      <p><small>Detaylı dosya: <code>france-atlas/french-museums-architecture.md</code></small></p>
+    `
   }
 };
 
@@ -5011,7 +5038,869 @@ function copyCertShareLink() {
 }
 
 // ==========================================================================
-// 36. INITIALIZATION ON DOM LOAD
+// 37. HISTORICAL TREATIES & AHITNAME ARCHIVE ENGINE
+// ==========================================================================
+let activeTreatyIndex = 0;
+let currentTreatyLang = 'fr';
+let currentTreatyEra = 'all';
+
+const treatiesData = [
+  {
+    id: "1536",
+    era: "classic",
+    year: "1536",
+    title: "I. Osmanlı - Fransız Ahitnamesi (Kapitülasyonlar)",
+    parties: "Kanuni Sultan Süleyman & I. François",
+    signers: "Pargalı İbrahim Paşa & Jean de La Forêt (Fransız Elçisi)",
+    context: "Kutsal Roma-Cermen İmparatoru Şarlken'e (V. Karl) karşı Doğu-Batı Akdeniz güvenlik ve ticaret dengesini kuran kurucu ittifaktır.",
+    excerptFr: "Les marchands sujets du Roi de France pourront naviguer, acheter et vendre librement dans toutes les mers, ports et échelles de l'Empire ottoman sous la protection et bienveillance du Grand Seigneur.",
+    excerptTr: "Fransa Kralı'nın tebaası olan tüccarlar, Ulu Hakan'ın himaye ve inayeti altında Osmanlı İmparatorluğu'nun tüm denizlerinde, limanlarında ve iskelelerinde serbestçe seyrüsefer edip ticaret yapabileceklerdir.",
+    clauses: [
+      "Fransız tüccarlarının Osmanlı sularında kendi bayraklarıyla serbest ticaret hakkı.",
+      "Fransız konsoloslarının kendi vatandaşları arasındaki hukuki ihtilaflara bakma yetkisi (yargı muafiyeti).",
+      "Kaza ve korsanlık durumunda Osmanlı donanmasının Fransız gemilerini koruma taahhüdü."
+    ],
+    modernImpact: "500 yıllık ikili ilişkilerin temelini atan, Osmanlı'nın Batı Avrupa ile imzaladığı ilk kapsamlı dostluk ve ticaret paktıdır."
+  },
+  {
+    id: "1740",
+    era: "classic",
+    year: "1740",
+    title: "Sürekli Kapitülasyonlar ve Dini Himaye Ahitnamesi",
+    parties: "Sultan I. Mahmud & XV. Louis",
+    signers: "Hacı İvaz Mehmed Paşa & Marquis de Villeneuve",
+    context: "1739 Belgrad Antlaşması'nda Fransa'nın Osmanlı lehine yürüttüğü başarılı arabuluculuk sonrası imzalanmıştır.",
+    excerptFr: "Le présent traité de paix, de commerce et d'amitié perpétuelle demeurera ferme, inviolable et perpétuel entre la Sublime Porte et la Couronne de France sans être limité à la vie des souverains.",
+    excerptTr: "İşbu ebedi barış, ticaret ve dostluk antlaşması, hükümdarların ömrüyle sınırlı olmaksızın Yüce Devlet (Bâb-ı Âlî) ile Fransa Krallığı arasında daimi ve sarsılmaz kalacaktır.",
+    clauses: [
+      "Kapitülasyon imtiyazlarının padişahların ömrüyle sınırlı olmaktan çıkarılıp 'ebedi' (sürekli) kılınması.",
+      "Kudüs ve kutsal topraklardaki Katolik kiliselerinin himayesinin Fransa'ya teyit edilmesi.",
+      "Fransız tüccarların gümrük vergilerinin %3 ile sınırlandırılması."
+    ],
+    modernImpact: "Fransızcanın Osmanlı diplomasisinde ve saray bürokrasisinde birinci yabancı dil haline gelmesini sağlamıştır."
+  },
+  {
+    id: "1802",
+    era: "classic",
+    year: "1802",
+    title: "Paris Barış Muahedesi (Traité de Paix de Paris)",
+    parties: "Sultan III. Selim & Napoléon Bonaparte (Birinci Konsül)",
+    signers: "Morali Seyyid Ali Efendi & Charles-Maurice de Talleyrand",
+    context: "1798 Napoléon Mısır Seferi sonrası bozulan ilişkileri onararak Osmanlı toprak bütünlüğünü yeniden teyit eden antlaşmadır.",
+    excerptFr: "Il y aura paix et amitié perpétuelle entre la République française et la Sublime Porte ottomane. Les anciens traités de capitulations sont rétablis dans toute leur force.",
+    excerptTr: "Fransa Cumhuriyeti ile Yüce Osmanlı Devleti arasında daimi barış ve dostluk yeniden kurulmuştur. Eski kapitülasyon antlaşmaları tüm hüküm ve kuvvetiyle yürürlüğe konmuştur.",
+    clauses: [
+      "Fransız birliklerinin Mısır'dan çekilmesinin ardından Osmanlı egemenliğinin tanınması.",
+      "Karadeniz'in Fransız ticaret gemilerine ilk kez açılması.",
+      "Paris'te daimi Osmanlı Büyükelçiliği'nin hukuki statüsünün güçlendirilmesi."
+    ],
+    modernImpact: "Nizam-ı Cedid modernleşmesinde Fransız subay ve mühendislerin Osmanlı ordusunda danışmanlık yapmasının önünü açmıştır."
+  },
+  {
+    id: "1868",
+    era: "modern",
+    year: "1868",
+    title: "Mekteb-i Sultânî (Galatasaray Lisesi) Kuruluş Protokolü",
+    parties: "Sultan Abdülaziz & III. Napoléon",
+    signers: "Sadrazam Âli Paşa, Safvet Paşa & Nicolas Prosper Bourée (Fransız Elçisi)",
+    context: "Tanzimat aydınlanması doğrultusunda Müslüman ve gayrimüslim tebaaya eşit, çift dilli ve çağdaş eğitim veren maarif hamlesi.",
+    excerptFr: "Le Lycée Impérial de Galata-Séraï dispensera un enseignement moderne de haut niveau en français et en turc, formant une élite intellectuelle vouée au service de l'État.",
+    excerptTr: "Mekteb-i Sultânî-i Galata, Fransızca ve Türkçe yüksek düzeyde çağdaş eğitim sunarak devlete hizmet edecek aydın bir bürokrat nesli yetiştirecektir.",
+    clauses: [
+      "Eğitimin Fransız lise müfredatı (Baccalauréat) standardında ve Türkçe edebiyat/tarih ile harmanlanarak yürütülmesi.",
+      "Tüm din ve etnik kökenlerden öğrencilerin liyakatle kabul edilmesi.",
+      "Paris'ten seçkin öğretmen ve akademisyen kadrosunun celbedilmesi."
+    ],
+    modernImpact: "Türkiye'nin en köklü Frankofon eğitim ve kamu diplomasisi kalesini inşa etmiştir."
+  },
+  {
+    id: "1921",
+    era: "modern",
+    year: "1921",
+    title: "1921 Ankara Antlaşması (Franklin-Bouillon Paktı)",
+    parties: "TBMM Hükümeti & Fransa Cumhuriyeti",
+    signers: "Yusuf Kemal Tengirşenk (Hariciye Vekili) & Henry Franklin-Bouillon",
+    context: "Sakarya Meydan Muharebesi sonrası TBMM Hükümeti'nin kazandığı en büyük diplomatik zaferdir.",
+    excerptFr: "Le Gouvernement de la République française reconnaît le Gouvernement de la Grande Assemblée Nationale de Turquie comme le représentant légitime de la nation turque.",
+    excerptTr: "Fransa Cumhuriyeti Hükümeti, Türkiye Büyük Millet Meclisi Hükümeti'ni Türk ulusunun meşru temsilcisi olarak tanır ve iki taraf arasında savaş durumuna son verir.",
+    clauses: [
+      "Fransa'nın TBMM'yi tanıyan ilk İtilaf Devleti olması ve Güney Cephesi'nin (Kilikya) kapanması.",
+      "Bugünkü Türkiye-Suriye sınırının çizilmesi ve İskenderun/Hatay için özel kültürel idare statüsü verilmesi.",
+      "Fransız kuvvetlerinin bölgedeki silah ve cephaneyi TBMM ordusuna devretmesi."
+    ],
+    modernImpact: "Milli Mücadele'nin uluslararası diplomasideki kırılma noktası olmuş, Lozan Antlaşması'nın zeminini hazırlamıştır."
+  },
+  {
+    id: "1939",
+    era: "modern",
+    year: "1939",
+    title: "Hatay'ın Anavatana Katılım Antlaşması & Karşılıklı Yardım",
+    parties: "Türkiye Cumhuriyeti & Fransa Cumhuriyeti",
+    signers: "Şükrü Saracoğlu & René Massigli (Fransız Büyükelçisi)",
+    context: "II. Dünya Savaşı arifesinde Akdeniz barışı ve Hatay Meclisi'nin Türkiye'ye katılma kararının tescili.",
+    excerptFr: "La France et la Turquie affirment leur volonté commune de garantir la paix en Méditerranée orientale et de respecter la décision souveraine du peuple du Hatay.",
+    excerptTr: "Fransa ve Türkiye, Doğu Akdeniz'de barışı güvence altına alma ve Hatay halkının anavatana katılma yönündeki egemen kararına saygı duyma iradelerini teyit ederler.",
+    clauses: [
+      "Hatay sınırlarının kesin olarak Türkiye Cumhuriyeti sınırlarına ilhak edilmesi.",
+      "İki ülke arasında Akdeniz'de karşılıklı güvenlik ve saldırmazlık dayanışması.",
+      "Fransız kültür ve eğitim kurumlarının Türkiye'deki faaliyetlerinin güvenceye alınması."
+    ],
+    modernImpact: "Misak-ı Millî'nin barışçıl diplomasiyle tamamlanmasını sağlamıştır."
+  },
+  {
+    id: "2026",
+    era: "youth",
+    year: "2026",
+    title: "T.C. GSB - Fransa 2026 Gençlik Diplomasisi Eylem Planı",
+    parties: "T.C. Gençlik ve Spor Bakanlığı & Maarif France / RF Jeunesse",
+    signers: "Gençlik Delegasyonları ve İkili Çalıştay Eşbaşkanları",
+    context: "500 yıllık diplomatik mirasın 21. yüzyılda gençlik, inovasyon ve sürdürülebilirlik ekseninde yeniden canlandırılması.",
+    excerptFr: "La jeunesse turque et française s'engage à bâtir un pont indéfectible d'amitié, de transition écologique et de souveraineté technologique pour les générations futures.",
+    excerptTr: "Türk ve Fransız gençliği; gelecek nesiller adına sarsılmaz bir dostluk, ekolojik dönüşüm ve teknolojik egemenlik köprüsü inşa etmeyi müştereken taahhüt eder.",
+    clauses: [
+      "MJC (Gençlik Evleri) ile GSB Gençlik Merkezleri arasında kardeşlik ve staj hareketliliği.",
+      "Station F ile Türk teknoloji merkezleri arasında Yapay Zekâ ve Yeşil Dönüşüm kuluçka programları.",
+      "Akdeniz havzasında ortak 'Türk-Fransız Gençlik Hatıra Ormanı' çevre kampları."
+    ],
+    modernImpact: "İkili kamu diplomasisini genç liderler ve sivil toplum eliyle sürdürülebilir kılmaktadır."
+  }
+];
+
+function renderTreatyList() {
+  const container = document.getElementById('treatyListContainer');
+  if (!container) return;
+
+  const searchVal = document.getElementById('treatySearchInput')?.value.toLowerCase() || '';
+
+  const filtered = treatiesData.filter(t => {
+    const matchEra = currentTreatyEra === 'all' || t.era === currentTreatyEra;
+    const matchSearch = t.title.toLowerCase().includes(searchVal) ||
+                        t.parties.toLowerCase().includes(searchVal) ||
+                        t.signers.toLowerCase().includes(searchVal) ||
+                        t.context.toLowerCase().includes(searchVal) ||
+                        t.year.includes(searchVal);
+    return matchEra && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div style="color:var(--text-muted); text-align:center; padding:1.5rem;">Aranan kriterde antlaşma bulunamadı.</div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map((t, idx) => {
+    const originalIndex = treatiesData.findIndex(item => item.id === t.id);
+    const isActive = originalIndex === activeTreatyIndex;
+    return `
+      <div class="treaty-card-item ${isActive ? 'active' : ''}" onclick="loadTreaty(${originalIndex})">
+        <div class="treaty-card-top">
+          <span class="treaty-year-badge">${t.year}</span>
+          <span class="badge-mini">${t.era === 'classic' ? 'Klasik' : (t.era === 'modern' ? 'Cumhuriyet' : '2026 Gençlik')}</span>
+        </div>
+        <div class="treaty-card-title">${t.title}</div>
+        <div class="treaty-card-signers">👥 ${t.parties}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function loadTreaty(index) {
+  activeTreatyIndex = index;
+  renderTreatyList();
+  const t = treatiesData[index];
+  const paper = document.getElementById('treatyDocPaper');
+  if (!t || !paper) return;
+
+  let excerptContent = '';
+  if (currentTreatyLang === 'fr') {
+    excerptContent = `<strong>🇫🇷 Orijinal / Fransızca Metin:</strong><br><em>"${t.excerptFr}"</em>`;
+  } else if (currentTreatyLang === 'tr') {
+    excerptContent = `<strong>🇹🇷 Türkçe Tercüme & Anlam:</strong><br><em>"${t.excerptTr}"</em>`;
+  } else {
+    excerptContent = `
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+        <div><strong>🇫🇷 Français:</strong><br><em>"${t.excerptFr}"</em></div>
+        <div><strong>🇹🇷 Türkçe:</strong><br><em>"${t.excerptTr}"</em></div>
+      </div>
+    `;
+  }
+
+  paper.innerHTML = `
+    <div class="treaty-doc-header">
+      <div class="treaty-header-meta">
+        <span class="treaty-year-badge" style="font-size:0.9rem;">📜 ${t.year} Muahedesi</span>
+        <span class="treaty-era-tag">🏛️ İmzacı Muhataplar: ${t.signers}</span>
+      </div>
+      <h3 class="treaty-doc-title">${t.title}</h3>
+      <div class="treaty-parties"><strong>Taraflar:</strong> ${t.parties}</div>
+    </div>
+
+    <div class="treaty-lang-tabs">
+      <button class="treaty-tab-btn ${currentTreatyLang === 'fr' ? 'active' : ''}" onclick="setTreatyLang('fr')">🇫🇷 Orijinal Metin</button>
+      <button class="treaty-tab-btn ${currentTreatyLang === 'tr' ? 'active' : ''}" onclick="setTreatyLang('tr')">🇹🇷 Türkçe Çeviri</button>
+      <button class="treaty-tab-btn ${currentTreatyLang === 'dual' ? 'active' : ''}" onclick="setTreatyLang('dual')">🌐 İki Dilli Karşılaştırma</button>
+    </div>
+
+    <div class="treaty-excerpt-box">
+      ${excerptContent}
+    </div>
+
+    <div>
+      <h4 style="font-size:0.92rem; margin-bottom:0.5rem; color:var(--text-main);">📌 Kritik Antlaşma Maddeleri:</h4>
+      <div class="treaty-clauses-list">
+        ${t.clauses.map((c, i) => `
+          <div class="treaty-clause-row"><strong>Madde ${i + 1}:</strong> ${c}</div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="treaty-modern-impact">
+      <strong>🌟 Tarihî & Diplomatik Önemi:</strong> ${t.modernImpact}
+    </div>
+
+    <div class="treaty-doc-actions">
+      <button class="btn-voice-mini" onclick="speakTreatyExcerpt()" title="Fransızca Olarak Dinle">🔊 Dinle</button>
+      <button class="btn-secondary" onclick="copyTreatyClauses()">📋 Kopyala</button>
+      <button class="btn-primary" onclick="downloadTreatyMarkdown()">💾 MD İndir</button>
+    </div>
+  `;
+}
+
+function setTreatyLang(lang) {
+  currentTreatyLang = lang;
+  loadTreaty(activeTreatyIndex);
+  playTone(500, 'sine', 0.05);
+}
+
+function filterTreatiesArchive() {
+  renderTreatyList();
+}
+
+function setTreatyEra(era, event) {
+  currentTreatyEra = era;
+  document.querySelectorAll('.treaty-controls-bar .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  renderTreatyList();
+}
+
+function speakTreatyExcerpt() {
+  const t = treatiesData[activeTreatyIndex];
+  if (t) speakText(t.excerptFr, 'fr-FR');
+}
+
+function copyTreatyClauses() {
+  const t = treatiesData[activeTreatyIndex];
+  if (!t) return;
+  const text = `${t.title} (${t.year})\nTaraflar: ${t.parties}\n\nFransızca Metin:\n"${t.excerptFr}"\n\nTürkçe Çeviri:\n"${t.excerptTr}"\n\nMaddeler:\n${t.clauses.map((c, i) => `${i+1}. ${c}`).join('\n')}`;
+  navigator.clipboard.writeText(text);
+  showToast('Antlaşma maddeleri panoya kopyalandı! 📜✨');
+  playTone(520, 'sine', 0.08);
+}
+
+function downloadTreatyMarkdown() {
+  const t = treatiesData[activeTreatyIndex];
+  if (!t) return;
+  const md = `# ${t.title} (${t.year})\n\n**Taraflar:** ${t.parties}\n**İmzacı Temsilciler:** ${t.signers}\n\n## Tarihî Bağlam\n${t.context}\n\n## Orijinal Fransızca Metin Alıntısı\n> "${t.excerptFr}"\n\n## Türkçe Tercümesi\n> "${t.excerptTr}"\n\n## Başlıca Maddeler\n${t.clauses.map((c, i) => `- **Madde ${i+1}:** ${c}`).join('\n')}\n\n## Diplomatik Miras\n${t.modernImpact}\n\n---\n*GSB Türkiye - Fransa Gençlik Değişimi 2026 Ahitnameler Arşivi*\n`;
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Antlasma_${t.year}_${t.id}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Antlaşma Markdown dosyası indirildi! 💾');
+}
+
+// ==========================================================================
+// 38. ATELIER CULINAIRE FRANCO-TURC & RECIPE SCALER ENGINE
+// ==========================================================================
+const recipesData = {
+  quiche: {
+    title: "Quiche Lorraine Traditionnelle",
+    region: "Alsace & Grand Est 🇫🇷",
+    prepTime: "20 dk",
+    cookTime: "35 dk",
+    difficulty: "Orta (Moyen)",
+    baseServings: 4,
+    verbs: ["Émincer", "Battre", "Dorer", "Enfourner"],
+    ingredients: [
+      { name: "Un (Farine)", amount: 200, unit: "g" },
+      { name: "Tereyağı (Beurre doux)", amount: 100, unit: "g" },
+      { name: "Taze Yumurta (Œufs frais)", amount: 3, unit: "adet" },
+      { name: "Krema (Crème fraîche épaisse)", amount: 200, unit: "ml" },
+      { name: "Süt (Lait entier)", amount: 150, unit: "ml" },
+      { name: "Küp Doğranmış Dana Füme / Lardon", amount: 180, unit: "g" },
+      { name: "Muskat Cevizi & Karabiber", amount: 1, unit: "tutam" }
+    ],
+    steps: [
+      "Un ve tereyağını yoğurarak tart hamurunu hazırlayın, kalıba yayıp çatalla delin.",
+      "Yumurta, krema, süt ve muskat cevizini çırpma teliyle pürüzsüz kıvama getirin (*battre*).",
+      "Küp etleri tavada hafifçe soteleyip hamurun tabanına serpiştirin.",
+      "Kremalı harcı üzerine dökün ve 180°C fırında üzeri altın rengi olana dek (*dorer*) 35 dk pişirin."
+    ],
+    parallel: "Türk mutfağındaki **Peynirli & Kıymalı Tepsi Böreği** veya **Sebzeli Kiş** ile benzer fırıncılık mantığına sahiptir."
+  },
+  flamme: {
+    title: "Tarte Flambée (Alsace Flammekueche)",
+    region: "Strazburg & Alsace 🥨",
+    prepTime: "15 dk",
+    cookTime: "12 dk",
+    difficulty: "Kolay (Facile)",
+    baseServings: 4,
+    verbs: ["Étaler", "Napper", "Parsemer", "Cuire"],
+    ingredients: [
+      { name: "İnce Ekmek Hamuru (Pâte fine)", amount: 250, unit: "g" },
+      { name: "Fransız Süzme Peyniri (Fromage blanc / Crème)", amount: 150, unit: "g" },
+      { name: "Ekşi Krema (Crème fraîche)", amount: 100, unit: "g" },
+      { name: "Halka Doğranmış Kuru Soğan (Oignons)", amount: 2, unit: "adet" },
+      { name: "İnce Füme Dilimleri (Lardons fumés)", amount: 150, unit: "g" },
+      { name: "Tuz, Karabiber & Muskat", amount: 1, unit: "tutam" }
+    ],
+    steps: [
+      "Mayasız ince hamuru taş fırın tepsisine kağıt gibi incecik açın (*étaler*).",
+      "Fromage blanc ve kremayı baharatlarla karıştırıp hamurun üzerine eşitçe yayın (*napper*).",
+      "İnce doğranmış soğanları ve et parçalarını serpiştirin (*parsemer*).",
+      "250°C çok sıcak fırında kenarları hafifçe çıtırlaşıp yanana kadar 10-12 dk fırınlayın."
+    ],
+    parallel: "Türk mutfağındaki çıtır **Taş Fırın Lahmacunu** ve **Trabzon Peynirli Pidesi**nin Alsace'taki kültürel ikizidir."
+  },
+  ratatouille: {
+    title: "Ratatouille Provençale Mijotée",
+    region: "Provence & Nice (Güney Fransa) 🌿",
+    prepTime: "25 dk",
+    cookTime: "45 dk",
+    difficulty: "Kolay (Facile)",
+    baseServings: 4,
+    verbs: ["Émincer", "Faire revenir", "Mijoter", "Assaisonner"],
+    ingredients: [
+      { name: "Patlıcan (Aubergines)", amount: 2, unit: "adet" },
+      { name: "Kabak (Courgettes)", amount: 2, unit: "adet" },
+      { name: "Kırmızı & Sarı Biber (Poivrons)", amount: 2, unit: "adet" },
+      { name: "Olgun Domates (Tomates mûres)", amount: 4, unit: "adet" },
+      { name: "Sarımsak & Provence Otları (Thym, Romarin)", amount: 3, unit: "diş" },
+      { name: "Sızma Zeytinyağı (Huile d'olive)", amount: 50, unit: "ml" }
+    ],
+    steps: [
+      "Tüm sebzeleri eşit küpler halinde doğrayın (*émincer*).",
+      "Zeytinyağında sırasıyla soğan, biber, patlıcan ve kabakları ayrı ayrı soteleyin (*faire revenir*).",
+      "Domates, sarımsak ve taze kekik/biberiye ekleyerek tüm sebzeleri döküm tencerede buluşturun.",
+      "Kısık ateşte kendi suyunda 45 dakika kapağı kapalı olarak ağır ağır pişirin (*mijoter*)."
+    ],
+    parallel: "Ege ve Akdeniz mutfağındaki **Zeytinyağlı Türlü**, **İmam Bayıldı** ve **Şakşuka** ile birebir aynı Akdeniz ruhunu taşır."
+  },
+  crepes: {
+    title: "Crêpes Fines & Galettes de Bretagne",
+    region: "Bretagne (Batı Fransa) 🥞",
+    prepTime: "15 dk (+ 30 dk dinlendirme)",
+    cookTime: "15 dk",
+    difficulty: "Kolay (Facile)",
+    baseServings: 4,
+    verbs: ["Fouetter", "Laisser reposer", "Verser", "Retourner"],
+    ingredients: [
+      { name: "Un (Farine de blé)", amount: 250, unit: "g" },
+      { name: "Ilık Süt (Lait tiède)", amount: 500, unit: "ml" },
+      { name: "Yumurta (Œufs)", amount: 3, unit: "adet" },
+      { name: "Eritilmiş Tereyağı (Beurre fondu)", amount: 40, unit: "g" },
+      { name: "Vanilya Şekeri / Portakal Kabuğu", amount: 1, unit: "paket" },
+      { name: "Tuz", amount: 1, unit: "çimdik" }
+    ],
+    steps: [
+      "Unu çukur kaba alın, ortasına yumurta ve sütü ekleyerek pürüzsüz olana kadar çırpın (*fouetter*).",
+      "Eritilmiş tereyağını ekleyip hamuru buzdolabında 30 dk dinlendirin (*laisser reposer*).",
+      "Hafif yağlanmış kızgın tavaya bir kepçe döküp dairesel hareketle yayın (*verser*).",
+      "Altı altın sarısı olunca spatula ile ters çevirip diğer yüzünü de 1 dk pişirin (*retourner*)."
+    ],
+    parallel: "Anadolu'daki geleneksel **Akıtma**, **Cıllık** ve kahvaltılık **Gözleme** kültürünün Fransız karşılığıdır."
+  },
+  boeuf: {
+    title: "Bœuf Bourguignon Traditionnel",
+    region: "Bourgogne (Merkez Fransa) 🍷",
+    prepTime: "30 dk",
+    cookTime: "2.5 saat",
+    difficulty: "İleri (Avancé)",
+    baseServings: 4,
+    verbs: ["Saisir", "Saupoudrer", "Mijoter", "Glacer"],
+    ingredients: [
+      { name: "Kuşbaşı Dana Gerdan / Kol (Bœuf à braiser)", amount: 800, unit: "g" },
+      { name: "Havuç (Carottes en rondelles)", amount: 3, unit: "adet" },
+      { name: "Arpacık Soğan (Petits oignons grelots)", amount: 12, unit: "adet" },
+      { name: "Kültür Mantarı (Champignons de Paris)", amount: 200, unit: "g" },
+      { name: "Dana Kemik Suyu & Üzüm Suyu", amount: 400, unit: "ml" },
+      { name: "Defne Yaprağı, Kekik & Sarımsak", amount: 1, unit: "demet" }
+    ],
+    steps: [
+      "Etleri döküm tencerede yüksek ateşte dışı mühürlenene kadar kızartın (*saisir*).",
+      "Un serpiştirip karıştırın, ardından et suyu ve aromatik otları ilave edin.",
+      "Kısık ateşte kapağı kapalı olarak 2 saat ağır ağır lokum gibi pişirin (*mijoter*).",
+      "Ayrı tavada tereyağında sotelenmiş mantar ve karamelize arpacık soğanları ekleyip 20 dk daha dinlendirin."
+    ],
+    parallel: "Geleneksel Türk mutfağındaki **Tas Kebabı**, **Orman Kebabı** ve **Güveçte Dana Yahni** ile özdeştir."
+  },
+  brule: {
+    title: "Crème Brûlée à la Vanille de Bourbon",
+    region: "Île-de-France & Tüm Fransa 🍮",
+    prepTime: "15 dk",
+    cookTime: "40 dk",
+    difficulty: "Orta (Moyen)",
+    baseServings: 4,
+    verbs: ["Infuser", "Blanchir", "Cuire au bain-marie", "Caraméliser"],
+    ingredients: [
+      { name: "Yumurta Sarısı (Jaunes d'œufs)", amount: 5, unit: "adet" },
+      { name: "Sıvı Krema (Crème liquide 30%)", amount: 400, unit: "ml" },
+      { name: "Toz Şeker (Sucre)", amount: 70, unit: "g" },
+      { name: "Hakiki Vanilya Çubuğu (Gousse de vanille)", amount: 1, unit: "adet" },
+      { name: "Üzeri İçin Esmer Şeker (Cassonade)", amount: 40, unit: "g" }
+    ],
+    steps: [
+      "Kremayı vanilya çubuğuyla birlikte ısıtıp 10 dk demlendirin (*infuser*).",
+      "Yumurta sarıları ile şekeri beyazlaşana kadar çırpın (*blanchir*).",
+      "Ilık kremayı yavaşça yumurtalara yedirip sufle kaplarına paylaştırın.",
+      "140°C fırında benmari usulü 40 dk pişirip soğutun, üzerine esmer şeker serpip pürmüzle yakın (*caraméliser*)."
+    ],
+    parallel: "Türk tatlı geleneğindeki üzeri yakılmış **Fırın Sütlaç** ve **Kazandibi** karamelizasyon ustalığının Fransız versiyonudur."
+  }
+};
+
+function renderActiveRecipe() {
+  const select = document.getElementById('recipeSelect')?.value || 'flamme';
+  const portions = parseInt(document.getElementById('portionSelect')?.value) || 4;
+  const container = document.getElementById('recipeDisplayContainer');
+  const recipe = recipesData[select];
+  if (!recipe || !container) return;
+
+  const scaleFactor = portions / recipe.baseServings;
+
+  container.innerHTML = `
+    <div class="recipe-info-grid">
+      <div class="recipe-info-item"><span>Bölge:</span><strong>📍 ${recipe.region}</strong></div>
+      <div class="recipe-info-item"><span>Hazırlık:</span><strong>⏱️ ${recipe.prepTime}</strong></div>
+      <div class="recipe-info-item"><span>Pişirme:</span><strong>🔥 ${recipe.cookTime}</strong></div>
+      <div class="recipe-info-item"><span>Zorluk:</span><strong>📊 ${recipe.difficulty}</strong></div>
+    </div>
+
+    <div class="cooking-verbs-strip">
+      <span>👨‍🍳 Fransızca Mutfak Teknikleri (Dinle):</span>
+      ${recipe.verbs.map(v => `
+        <span class="cooking-verb-pill" onclick="speakText('${v}', 'fr-FR')" title="Telaffuzu Dinle">🔊 ${v}</span>
+      `).join('')}
+    </div>
+
+    <div class="recipe-layout-columns">
+      <div class="recipe-ingredients-card">
+        <h4>🛒 Malzemeler (${portions} Kişilik Ölçek):</h4>
+        <ul class="recipe-ingredients-list">
+          ${recipe.ingredients.map(ing => {
+            const scaledAmount = (ing.amount * scaleFactor).toFixed(ing.unit === 'adet' || ing.unit === 'diş' || ing.unit === 'tutam' || ing.unit === 'paket' || ing.unit === 'çimdik' || ing.unit === 'demet' ? 0 : 0);
+            return `<li><span>${ing.name}</span><strong>${scaledAmount} ${ing.unit}</strong></li>`;
+          }).join('')}
+        </ul>
+      </div>
+
+      <div class="recipe-steps-card">
+        <h4 style="font-size:0.95rem; color:var(--text-main);">👩‍🍳 Adım Adım Hazırlanışı:</h4>
+        <div class="recipe-steps-list">
+          ${recipe.steps.map((st, i) => `
+            <div class="recipe-step-item">
+              <span class="step-number">${i + 1}.</span>
+              <span>${st}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="recipe-cultural-parallel">
+          <strong>🇹🇷 Türk Mutfağındaki Kültürel İzdüşümü:</strong> ${recipe.parallel}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ==========================================================================
+// 39. FRENCH IDIOMS & METAPHORS ENGINE & QUIZ
+// ==========================================================================
+let currentIdiomCat = 'all';
+let currentIdiomQuizIndex = 0;
+
+const idiomsData = [
+  {
+    fr: "Poser un lapin",
+    cat: "animals",
+    literal: "Birine tavşan koymak",
+    figurative: "Randevuya gelmemek, birini ekmek / satmak",
+    origin: "19. yüzyılda para ödemeden kaçanlar için kullanılan tabirden türemiştir.",
+    tr: "Ekmek / Satmak",
+    example: "J'ai attendu une heure devant le café, mais il m'a posé un lapin !"
+  },
+  {
+    fr: "Avoir du pain sur la planche",
+    cat: "gastronomy",
+    literal: "Tahtanın üzerinde ekmeği olmak",
+    figurative: "Yapacak çok işi/ödevi olmak, başını kaşıyacak vakti olmamak",
+    origin: "Eski fırıncıların pişirecekleri hamurları tahta üzerine dizmesinden gelir.",
+    tr: "Dağ gibi işi olmak",
+    example: "Avant le sommet de Strasbourg, la délégation a beaucoup de pain sur la planche."
+  },
+  {
+    fr: "Raconter des salades",
+    cat: "gastronomy",
+    literal: "Salatalar anlatmak",
+    figurative: "Yalanlar uydurmak, lafı dolandırmak, masal okumak",
+    origin: "Salatanın birçok malzemenin karışımı olması gibi lafları harmanlayıp uydurmak.",
+    tr: "Masal anlatmak / Uydurmak",
+    example: "Arrête de me raconter des salades, dis-moi la vérité !"
+  },
+  {
+    fr: "Les carottes sont cuites",
+    cat: "gastronomy",
+    literal: "Havuçlar pişti",
+    figurative: "Artık çok geç, her şey bitti, geri dönüş yok",
+    origin: "Eskiden çaresiz fakirlerin tek yemeği havuçtu; II. Dünya Savaşı'nda Londra Radyosu şifreli mesajıydı.",
+    tr: "İş işten geçti / Atı alan Üsküdar'ı geçti",
+    example: "Le délai est expiré, les carottes sont cuites pour cette candidature."
+  },
+  {
+    fr: "Mettre son grain de sel",
+    cat: "gastronomy",
+    literal: "Kendi tuz tanesini koymak",
+    figurative: "İstenmediği halde her konuya burnunu sokmak, fikir beyan etmek",
+    origin: "Latince 'cum grano salis' (bir tutam tuz ile) deyiminin halk diline evrilmesidir.",
+    tr: "Her şeye maydanoz olmak / Burnunu sokmak",
+    example: "Il faut toujours qu'il vienne mettre son grain de sel dans nos réunions !"
+  },
+  {
+    fr: "Tomber dans les pommes",
+    cat: "gastronomy",
+    literal: "Elmaların içine düşmek",
+    figurative: "Bayılmak, kendinden geçmek",
+    origin: "Eski Fransızca 'tomber dans les pâmes' (bitkin düşmek) ses benzerliğiyle elmaya dönüşmüştür.",
+    tr: "Bayılmak / Kendini kaybetmek",
+    example: "Il faisait tellement chaud dans la salle qu'un étudiant est tombé dans les pommes."
+  },
+  {
+    fr: "Avoir le coup de foudre",
+    cat: "emotions",
+    literal: "Yıldırım çarpması yaşamak",
+    figurative: "İlk görüşte aşık olmak, bir mekana/sanata anında vurulmak",
+    origin: "Aşkın aniliği ve şiddetinin gök gürültülü yıldırımla bağdaştırılması.",
+    tr: "Yıldırım aşkına tutulmak",
+    example: "Quand j'ai vu la cathédrale de Strasbourg, j'ai eu un vrai coup de foudre."
+  },
+  {
+    fr: "Être dans la lune",
+    cat: "emotions",
+    literal: "Ayda olmak",
+    figurative: "Dalgın olmak, hayallere dalmak, aklı başka yerde olmak",
+    origin: "Zihnin dünyevi gerçeklerden kopup Ay'a kadar uçtuğu romantik tasavvur.",
+    tr: "Aklı bir karış havada olmak",
+    example: "Écoute attentivement le protocole, tu es encore dans la lune !"
+  },
+  {
+    fr: "Avoir le cafard",
+    cat: "emotions",
+    literal: "Hamamböceğine sahip olmak",
+    figurative: "Hüzünlü olmak, efkarlanmak, melankoliye kapılmak",
+    origin: "Charles Baudelaire'in 'Kötülük Çiçekleri'nde melankoli simgesi olarak kullanmasıyla yerleşti.",
+    tr: "İçi kararmak / Efkar basmak",
+    example: "Les jours de pluie d'automne me donnent un peu le cafard."
+  },
+  {
+    fr: "Appeler un chat un chat",
+    cat: "animals",
+    literal: "Kediye kedi demek",
+    figurative: "Şeyleri gerçek adıyla anmak, eğip bükmeden dosdoğru konuşmak",
+    origin: "17. yüzyıl şairi Boileau'nun dürüstlük ve sadelik hicivlerinden gelir.",
+    tr: "Eğri oturup doğru konuşmak",
+    example: "En diplomatie constructive, il faut parfois savoir appeler un chat un chat."
+  },
+  {
+    fr: "Donner sa langue au chat",
+    cat: "animals",
+    literal: "Dilini kediye vermek",
+    figurative: "Bir bilmecenin cevabını tahmin etmekten vazgeçmek, pes etmek",
+    origin: "Eskiden sırrı saklaması için konuşmayan kediye 'dilini emanet etme' inancı.",
+    tr: "Pes etmek / Bilememek",
+    example: "Je ne trouve pas la solution diplomatique, je donne ma langue au chat."
+  },
+  {
+    fr: "Ce n'est pas de la tarte",
+    cat: "gastronomy",
+    literal: "Bu tart değil",
+    figurative: "Kolay bir iş değil, oldukça zor ve zahmetli",
+    origin: "Tatlı ve lezzetli bir tart yemek kadar zahmetsiz olmadığını vurgulamak.",
+    tr: "Çocuk oyuncağı değil",
+    example: "Négocier un traité bilatéral en français, ce n'est pas de la tarte !"
+  }
+];
+
+function renderIdioms() {
+  const container = document.getElementById('idiomsGridContainer');
+  if (!container) return;
+
+  const searchVal = document.getElementById('idiomSearchInput')?.value.toLowerCase() || '';
+
+  const filtered = idiomsData.filter(item => {
+    const matchCat = currentIdiomCat === 'all' || item.cat === currentIdiomCat;
+    const matchSearch = item.fr.toLowerCase().includes(searchVal) ||
+                        item.literal.toLowerCase().includes(searchVal) ||
+                        item.figurative.toLowerCase().includes(searchVal) ||
+                        item.tr.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
+
+  container.innerHTML = filtered.map(item => `
+    <div class="idiom-card">
+      <div class="idiom-head">
+        <span class="idiom-cat-badge">${item.cat === 'gastronomy' ? '🥐 Mutfak' : (item.cat === 'animals' ? '🐱 Hayvan' : '⚡ Duygu')}</span>
+        <button class="btn-voice-mini" onclick="speakText('${item.fr.replace(/'/g, "\\'")}', 'fr-FR')" title="Seslendir">🔊</button>
+      </div>
+      <div class="idiom-fr">"${item.fr}"</div>
+      <div class="idiom-literal">Kelime anlamı: ${item.literal}</div>
+      <div class="idiom-figurative">🎯 ${item.figurative}</div>
+      <div class="idiom-origin">💡 <em>${item.origin}</em></div>
+      <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;"><strong>Örnek:</strong> <em>"${item.example}"</em></div>
+    </div>
+  `).join('');
+}
+
+function filterIdioms() {
+  renderIdioms();
+}
+
+function filterIdiomCat(cat, event) {
+  currentIdiomCat = cat;
+  document.querySelectorAll('.idioms-controls .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  renderIdioms();
+}
+
+// Idiom Quiz Game
+const idiomQuizQuestions = [
+  {
+    q: "Bir Fransız arkadaşınız 'Je te pose un lapin' derse ne yapmıştır?",
+    options: ["Size hediye tavşan getirmiştir", "Randevunuza gelmeyip sizi ekmiştir", "Size yemek ısmarlamıştır", "Hızlı koşmanızı istemiştir"],
+    correct: 1,
+    exp: "'Poser un lapin', randevuya bilerek gelmeyip karşı tarafı ekmek / bekletmek demektir."
+  },
+  {
+    q: "'Avoir du pain sur la planche' ifadesi neyi anlatır?",
+    options: ["Karnının çok aç olduğunu", "Fırıncı olduğunu", "Yapacak çok işi ve meşguliyeti olduğunu", "Tahta masada oturduğunu"],
+    correct: 2,
+    exp: "'Avoir du pain sur la planche', yapacak dağ gibi işi ve yetiştirecek sorumluluğu olmak anlamına gelir."
+  },
+  {
+    q: "'Avoir le cafard' diyen bir genç hangi ruh halindedir?",
+    options: ["Çok öfkeli", "Efkarlı, hüzünlü ve içi kararmış", "Aşırı neşeli", "Uykusu gelmiş"],
+    correct: 1,
+    exp: "'Avoir le cafard', Baudelaire şiirinden bu yana melankoli ve efkarlanmayı anlatır."
+  },
+  {
+    q: "'Les carottes sont cuites' deyimi ne zaman kullanılır?",
+    options: ["Yemek hazır olduğunda", "Artık çok geç olup iş işten geçtiğinde", "Bahçe hasadında", "Pazarlık yaparken"],
+    correct: 1,
+    exp: "'Les carottes sont cuites', her şeyin bittiğini ve geri dönüşün kalmadığını ifade eder."
+  }
+];
+
+function renderIdiomQuiz() {
+  const container = document.getElementById('idiomQuizContent');
+  if (!container) return;
+
+  const item = idiomQuizQuestions[currentIdiomQuizIndex];
+  container.innerHTML = `
+    <p style="font-size:0.95rem; font-weight:700; color:var(--text-main); margin-bottom:0.75rem;">
+      Soru ${currentIdiomQuizIndex + 1} / ${idiomQuizQuestions.length}: ${item.q}
+    </p>
+    <div class="iq-options-grid">
+      ${item.options.map((opt, i) => `
+        <button class="iq-option-btn" onclick="checkIdiomAnswer(${i}, this)">${opt}</button>
+      `).join('')}
+    </div>
+    <div id="iqFeedback" style="display:none; font-size:0.85rem; padding:0.6rem; border-radius:6px; margin-top:0.5rem;"></div>
+    <button class="btn-secondary" id="btnIqNext" style="display:none; margin-top:0.75rem;" onclick="nextIdiomQuiz()">Sonraki Bilmece →</button>
+  `;
+}
+
+function checkIdiomAnswer(chosenIndex, btnElement) {
+  const item = idiomQuizQuestions[currentIdiomQuizIndex];
+  const fb = document.getElementById('iqFeedback');
+  const nextBtn = document.getElementById('btnIqNext');
+  if (!item || !fb) return;
+
+  const buttons = document.querySelectorAll('.iq-option-btn');
+  buttons.forEach(b => b.disabled = true);
+
+  if (chosenIndex === item.correct) {
+    btnElement.classList.add('correct');
+    fb.style.display = 'block';
+    fb.style.background = 'rgba(16, 185, 129, 0.1)';
+    fb.style.color = '#065f46';
+    fb.innerHTML = `🎉 <strong>Doğru!</strong> ${item.exp}`;
+    playTone(600, 'sine', 0.1);
+  } else {
+    btnElement.classList.add('incorrect');
+    buttons[item.correct].classList.add('correct');
+    fb.style.display = 'block';
+    fb.style.background = 'rgba(239, 68, 68, 0.1)';
+    fb.style.color = '#991b1b';
+    fb.innerHTML = `❌ <strong>Yanlış!</strong> Doğru cevap: <em>${item.options[item.correct]}</em>. ${item.exp}`;
+    playTone(250, 'sawtooth', 0.15);
+  }
+
+  if (nextBtn) nextBtn.style.display = 'inline-block';
+}
+
+function nextIdiomQuiz() {
+  currentIdiomQuizIndex = (currentIdiomQuizIndex + 1) % idiomQuizQuestions.length;
+  renderIdiomQuiz();
+}
+
+// ==========================================================================
+// 40. MUSEUMS, MONUMENTS & ARCHITECTURAL ERAS ENGINE
+// ==========================================================================
+let currentMuseumCat = 'all';
+
+const museumsData = [
+  {
+    name: "Musée du Louvre",
+    city: "Paris (1er Arrondissement) 🇫🇷",
+    cat: "paris",
+    arch: "Rönesans & Klasik Saray + Pei Cam Piramidi",
+    desc: "1793'te açılan dünyanın en büyük sanat müzesi; 35.000'den fazla şaheseri barındırır.",
+    art: "Mona Lisa (La Joconde), Semadirek Kanatlı Zaferi, Milo Venüsü, Halka Yol Gösteren Özgürlük.",
+    audioText: "Musée du Louvre à Paris, le plus grand musée d'art du monde."
+  },
+  {
+    name: "Musée d'Orsay",
+    city: "Paris (7e Arrondissement) 🇫🇷",
+    cat: "paris",
+    arch: "Beaux-Arts & Tarihi Tren Garı (1900)",
+    desc: "1848-1914 arası Empresyonist ve Post-Empresyonist devrimin anıtsal mabedidir.",
+    art: "Monet (Nilüferler), Van Gogh (Yıldızlı Gece Arles), Renoir, Degas, Cézanne.",
+    audioText: "Musée d'Orsay à Paris, chef-d'œuvre de l'impressionnisme."
+  },
+  {
+    name: "Centre Georges-Pompidou",
+    city: "Paris (Beaubourg - 4e) 🇫🇷",
+    cat: "paris",
+    arch: "High-Tech & Dekonstrüktivist (Piano & Rogers)",
+    desc: "Tüm boruları ve yürüyen merdivenleri dış cephesinde renk kodlarıyla sergilenen modern sanat merkezi.",
+    art: "Kandinsky, Picasso, Matisse, Duchamp, Yves Klein.",
+    audioText: "Centre Pompidou, musée national d'art moderne."
+  },
+  {
+    name: "Cathédrale Notre-Dame de Strasbourg",
+    city: "Strazburg (Alsace) 🇫🇷",
+    cat: "alsace",
+    arch: "Yüksek Gotik & Alevli Gotik (Vosges Pembesi)",
+    desc: "142 metrelik kulesiyle 227 yıl dünyanın en yüksek yapısı olan mimari şaheser.",
+    art: "Rönesans Astronomi Saati, Gül Pencereler, Melekler Sütunu.",
+    audioText: "Cathédrale Notre-Dame de Strasbourg, chef-d'œuvre de l'art gothique."
+  },
+  {
+    name: "Château de Versailles",
+    city: "Versailles (Île-de-France) 🇫🇷",
+    cat: "monument",
+    arch: "Fransız Klasik Baroğu (Hardouin-Mansart & Le Nôtre)",
+    desc: "Güneş Kralı XIV. Louis'nin mutlakıyet ve estetik gücünü yansıtan kraliyet sarayı.",
+    art: "Aynalar Galerisi (Galerie des Glaces), Kraliyet Şapeli, Geometrik Bahçeler.",
+    audioText: "Château de Versailles et la Galerie des Glaces."
+  },
+  {
+    name: "Musée Unterlinden & Musée Bartholdi",
+    city: "Colmar (Alsace) 🇫🇷",
+    cat: "alsace",
+    arch: "13. Yy Manastırı & Geleneksel Ahşap Konak",
+    desc: "Grünewald'ın Isenheim Altarı ile Özgürlük Heykeli mimarı Bartholdi'nin eserleri.",
+    art: "Retable d'Issenheim (Matthias Grünewald), Bartholdi Özgürlük Heykeli Modelleri.",
+    audioText: "Musée Unterlinden et Musée Bartholdi à Colmar."
+  },
+  {
+    name: "Mucem (Akdeniz Medeniyetleri Müzesi)",
+    city: "Marsilya (Provence) 🇫🇷",
+    cat: "monument",
+    arch: "Çağdaş Beton Dantel (Rudy Ricciotti)",
+    desc: "Akdeniz'in ortak denizcilik, ticaret ve kültür mirasını sergileyen sahil müzesi.",
+    art: "Akdeniz Deniz Ticareti Koleksiyonları, Fort Saint-Jean Köprüsü.",
+    audioText: "Mucem à Marseille, Musée des civilisations de l'Europe et de la Méditerranée."
+  },
+  {
+    name: "Château de Chambord",
+    city: "Loire Vadisi (Centre-Val de Loire) 🇫🇷",
+    cat: "monument",
+    arch: "Fransız Rönesansı (I. François)",
+    desc: "Leonardo da Vinci tasarım çift sarmal merdiveni ve masalsı kuleleriyle kraliyet av şatosu.",
+    art: "Escalier à double hélice (Çift Sarmal Merdiven), Teras Manzarası.",
+    audioText: "Château de Chambord dans la vallée de la Loire."
+  }
+];
+
+const archErasData = [
+  { name: "Romanesk (Roman)", era: "10 – 12. Yy", feat: "Kalın taş duvarlar, yarım daire kemerler, masif kuleler." },
+  { name: "Gotik (Gothique)", era: "12 – 15. Yy", feat: "Sivri kemerler, kaburgalı tonozlar, uçan payandalar ve renkli vitraylar." },
+  { name: "Rönesans", era: "16. Yy", feat: "Antik simetri, İtalyan oranları, çift sarmal merdivenler ve süslemeli şatolar." },
+  { name: "Klasisizm & Barok", era: "17 – 18. Yy", feat: "Görkemli oranlar, anıtsal Aynalar Galerisi, geometrik Fransız bahçeleri." },
+  { name: "Haussmannian", era: "19. Yy (1853-70)", feat: "Kesme taş cepheler, mansard çatı, ferforje balkonlar ve geniş bulvarlar." },
+  { name: "Modern & High-Tech", era: "20 – 21. Yy", feat: "Çelik, cam, açıkta bırakılan yapısal borular ve organik formlar." }
+];
+
+function renderMuseums() {
+  const container = document.getElementById('museumsGridContainer');
+  if (!container) return;
+
+  const searchVal = document.getElementById('museumSearchInput')?.value.toLowerCase() || '';
+
+  const filtered = museumsData.filter(m => {
+    const matchCat = currentMuseumCat === 'all' || m.cat === currentMuseumCat;
+    const matchSearch = m.name.toLowerCase().includes(searchVal) ||
+                        m.city.toLowerCase().includes(searchVal) ||
+                        m.arch.toLowerCase().includes(searchVal) ||
+                        m.art.toLowerCase().includes(searchVal);
+    return matchCat && matchSearch;
+  });
+
+  container.innerHTML = filtered.map(m => `
+    <div class="museum-card">
+      <div class="museum-head">
+        <h4>${m.name}</h4>
+        <span class="museum-arch-badge">${m.arch.split(' ')[0]}</span>
+      </div>
+      <div class="museum-city">📍 ${m.city}</div>
+      <p class="museum-desc">${m.desc}</p>
+      <div class="museum-art-list">
+        <strong>🎨 Öne Çıkan Eserler:</strong> ${m.art}
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:0.4rem;">
+        <small style="color:var(--text-muted);">🏛️ ${m.arch}</small>
+        <button class="btn-voice-mini" onclick="speakText('${m.audioText.replace(/'/g, "\\'")}', 'fr-FR')" title="Dinle">🔊 Dinle</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderArchEras() {
+  const container = document.getElementById('archErasGrid');
+  if (!container) return;
+
+  container.innerHTML = archErasData.map(e => `
+    <div class="arch-era-box">
+      <div class="era-name">${e.name}</div>
+      <div class="era-century">${e.era}</div>
+      <div class="era-features">${e.feat}</div>
+    </div>
+  `).join('');
+}
+
+function filterMuseums() {
+  renderMuseums();
+}
+
+function filterMuseumCat(cat, event) {
+  currentMuseumCat = cat;
+  document.querySelectorAll('.museums-controls .chip').forEach(c => c.classList.remove('active'));
+  event?.target?.classList.add('active');
+  renderMuseums();
+}
+
+// ==========================================================================
+// 41. INITIALIZATION ON DOM LOAD
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
@@ -5041,13 +5930,22 @@ document.addEventListener('DOMContentLoaded', () => {
   generateDiplomaticSpeech();
   renderAlsacePoi();
 
-  // Initialize new comprehensive modules
+  // Initialize heritage & practical modules
   renderHeritageNodes(heritageNodesData);
   calculateBilateralRoute();
   renderVirelangues();
   renderLiaisonQuiz();
   calculateDelegationBudget();
   updateCertificatePreview();
+
+  // Initialize newly added comprehensive modules (Treaties, Recipes, Idioms, Museums)
+  renderTreatyList();
+  loadTreaty(0);
+  renderActiveRecipe();
+  renderIdioms();
+  renderIdiomQuiz();
+  renderMuseums();
+  renderArchEras();
 
   // Check initial hash routing
   if (window.location.hash) {
@@ -5057,5 +5955,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
 
 

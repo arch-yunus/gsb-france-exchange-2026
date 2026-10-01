@@ -23,6 +23,7 @@
       <nav class="nav-links">
         <button class="nav-btn active" data-tab="atlas">🏛️ Atlas</button>
         <button class="nav-btn" data-tab="timeline">⏳ 500 Yıl Diplomasi</button>
+        <button class="nav-btn" data-tab="treaties">📜 Ahitnameler & Paktlar</button>
         <button class="nav-btn" data-tab="map">🗺️ Diplomasi Haritası</button>
         <button class="nav-btn" data-tab="quotes">💬 Düşünce & Alıntılar</button>
         <button class="nav-btn" data-tab="figures">👥 Fikir Önderleri</button>
@@ -264,6 +265,27 @@
           <p>Fransa'da 10 altın kural, Bonjour kutsiyeti, masa adabı, vouvoiement ve delegasyon protokolü.</p>
           <span class="card-link">Dossier'yi İncele →</span>
         </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('treatiesArchive')">
+          <div class="card-icon">📜</div>
+          <h3>Tarihî Ahitnameler & Paktlar</h3>
+          <p>1536 Kapitülasyonları, 1740 Sürekli Ahitname, 1868 Galatasaray Tüzüğü, 1921 Ankara ve 2026 Eylem Planı.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('frenchIdioms')">
+          <div class="card-icon">🗣️</div>
+          <h3>Deyimler & Renkli Metaforlar</h3>
+          <p>Poser un lapin, Avoir du pain sur la planche, Coup de foudre, Avoir le cafard ve Türkçedeki izdüşümleri.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
+
+        <div class="atlas-card" onclick="openAtlasModal('museumsArchitecture')">
+          <div class="card-icon">🏛️</div>
+          <h3>Müzeler, Anıtlar & Mimari</h3>
+          <p>Louvre, Orsay, Pompidou, Strazburg Katedrali, Versailles ve Romanesk'ten Haussmann'a mimari akımlar.</p>
+          <span class="card-link">Dossier'yi İncele →</span>
+        </div>
       </div>
     </section>
 
@@ -287,6 +309,40 @@
 
       <div class="interactive-timeline" id="timelineContainer">
         <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- TAB: HISTORICAL TREATIES & AHITNAME ARCHIVE -->
+    <section id="tab-treaties" class="tab-content">
+      <div class="section-header">
+        <h2>📜 Türkiye - Fransa Tarihî Ahitname & Diplomatik Antlaşmalar Arşivi</h2>
+        <p>1536 Kanuni-François Kapitülasyonlarından 1921 Ankara Paktı ve 2026 Gençlik Deklarasyonu'na 500 yıllık paktlar arşivi</p>
+      </div>
+
+      <!-- Treaty Controls Bar -->
+      <div class="treaty-controls-bar">
+        <input type="text" id="treatySearchInput" class="search-input" placeholder="Antlaşma adı, lider veya madde ara (örn. 1536 Kapitülasyon, 1921 Ankara, Galatasaray, Franklin-Bouillon)..." oninput="filterTreatiesArchive()">
+        <div class="filter-chips">
+          <button class="chip active" onclick="setTreatyEra('all', event)">Tüm Antlaşmalar (1536-2026)</button>
+          <button class="chip" onclick="setTreatyEra('classic', event)">🏛️ Klasik Ahitnameler (1536-1740)</button>
+          <button class="chip" onclick="setTreatyEra('modern', event)">🇹🇷 Tanzimat & Cumhuriyet (1868-1939)</button>
+          <button class="chip" onclick="setTreatyEra('youth', event)">🤝 2026 Gençlik Deklarasyonu</button>
+        </div>
+      </div>
+
+      <!-- Treaty Layout: Left Selector, Right Live Document Viewer -->
+      <div class="treaty-layout">
+        <!-- Treaty List Column -->
+        <div class="treaty-list-column" id="treatyListContainer">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Treaty Document Display Column -->
+        <div class="treaty-doc-column">
+          <div class="treaty-doc-paper" id="treatyDocPaper">
+            <!-- Injected by JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -514,6 +570,36 @@
       <div class="regions-grid" id="regionsContainer">
         <!-- Injected via JavaScript -->
       </div>
+
+      <!-- Museums, Monuments & Architectural Eras Guide -->
+      <div class="museums-section">
+        <div class="section-sub-header">
+          <h3>🏛️ Fransa'nın 8 Başyapıt Müzesi & Mimari Akımlar Gezgini</h3>
+          <p>Louvre'dan Pompidou'ya, Strazburg Katedrali'nden Versailles'a ikonik yapılar, başyapıtlar ve mimari dönemler:</p>
+        </div>
+
+        <div class="museums-controls">
+          <input type="text" id="museumSearchInput" class="search-input" placeholder="Müze, anıt veya şehir ara (örn. Louvre, Orsay, Versailles, Katedral, Colmar)..." oninput="filterMuseums()">
+          <div class="filter-chips">
+            <button class="chip active" onclick="filterMuseumCat('all', event)">Tüm Anıt & Müzeler</button>
+            <button class="chip" onclick="filterMuseumCat('paris', event)">🏛️ Paris Müzeleri</button>
+            <button class="chip" onclick="filterMuseumCat('alsace', event)">🥨 Alsace & Doğu</button>
+            <button class="chip" onclick="filterMuseumCat('monument', event)">👑 Şatolar & Katedraller</button>
+          </div>
+        </div>
+
+        <div class="museums-grid" id="museumsGridContainer">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Architectural Eras Visual Strip -->
+        <div class="arch-eras-card">
+          <h4>🏰 1000 Yıllık Fransız Mimari Akımları Zaman Şeridi</h4>
+          <div class="arch-eras-grid" id="archErasGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- TAB 7: GASTRONOMY & TERROIR -->
@@ -542,6 +628,44 @@
 
       <div class="cheese-grid" id="cheeseContainer">
         <!-- Injected via JS -->
+      </div>
+
+      <!-- Atelier Culinaire Franco-Turc & Recipe Scaler -->
+      <div class="recipe-studio-section">
+        <div class="section-sub-header">
+          <h3>👨‍🍳 Türk - Fransız Mutfak Atölyesi & İnteraktif Tarif Ölçekleyici</h3>
+          <p>Klasik Fransız lezzetlerini, porsiyon hesaplayıcısını ve Türk mutfağındaki kültürel izdüşümlerini inceleyin:</p>
+        </div>
+
+        <div class="recipe-studio-card">
+          <div class="recipe-controls-row">
+            <div class="form-group" style="flex: 1.5;">
+              <label for="recipeSelect"><strong>Tarif Seçiniz:</strong></label>
+              <select id="recipeSelect" class="select-input" onchange="renderActiveRecipe()">
+                <option value="quiche">🥧 Quiche Lorraine (Alsace-Lorraine usulü tuzlu tart)</option>
+                <option value="flamme" selected>🍕 Tarte Flambée / Flammekueche (Geleneksel Alsace Pidesi)</option>
+                <option value="ratatouille">🍆 Ratatouille Provençale (Akdeniz sebze güveci)</option>
+                <option value="crepes">🥞 Crêpes Suzette & Galettes (Bretagne krep sanatı)</option>
+                <option value="boeuf">🥩 Bœuf Bourguignon (Bourgogne usulü ağır ateşte yahni)</option>
+                <option value="brule">🍮 Crème Brûlée (Karamelize vanilyalı tatlı)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="flex: 1;">
+              <label for="portionSelect"><strong>Porsiyon / Kişi Sayısı:</strong></label>
+              <select id="portionSelect" class="select-input" onchange="renderActiveRecipe()">
+                <option value="2">2 Kişilik (İkili Heyet)</option>
+                <option value="4" selected>4 Kişilik (Standart)</option>
+                <option value="6">6 Kişilik (Çalışma Grubu)</option>
+                <option value="8">8 Kişilik (Tüm Delegasyon)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="recipe-content-display" id="recipeDisplayContainer">
+            <!-- Injected by JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -965,6 +1089,39 @@
               <!-- Injected via JS -->
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- French Idioms & Metaphors Lab -->
+      <div class="idioms-lab-section">
+        <div class="section-sub-header">
+          <h3>🗣️ Fransızca Deyimler, Renkli Metaforlar & Bilmece Testi</h3>
+          <p>Mutfaktan, hayvanlardan ve gündelik hayattan süzülen 12 meşhur Fransız deyimi ve Türkçe karşılıkları:</p>
+        </div>
+
+        <div class="idioms-controls">
+          <input type="text" id="idiomSearchInput" class="search-input" placeholder="Deyim veya anlam ara (örn. Lapin, Pain, Salades, Foudre, Cafard)..." oninput="filterIdioms()">
+          <div class="filter-chips">
+            <button class="chip active" onclick="filterIdiomCat('all', event)">Tüm Deyimler</button>
+            <button class="chip" onclick="filterIdiomCat('gastronomy', event)">🥐 Mutfak & Yemek</button>
+            <button class="chip" onclick="filterIdiomCat('animals', event)">🐱 Hayvanlar & Doğa</button>
+            <button class="chip" onclick="filterIdiomCat('emotions', event)">⚡ Duygular & Aşk</button>
+          </div>
+        </div>
+
+        <div class="idioms-grid" id="idiomsGridContainer">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Interactive Idiom Quiz Box -->
+        <div class="idiom-quiz-card">
+          <div class="iq-header">
+            <span class="route-badge">Mini Bilgi Oyunu</span>
+            <h4>🎯 "Bu Deyim Ne Anlama Geliyor?" Testi</h4>
+          </div>
+          <div id="idiomQuizContent">
+            <!-- Injected by JS -->
+          </div>
         </div>
       </div>
     </section>

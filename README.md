@@ -678,8 +678,11 @@ gsb-france-exchange-2026/
 │   ├── everyday-culture.md                # 🥐 Gündelik Yaşam Sanatı, Sosyoloji, Argot & Verlan
 │   ├── franco-turkish-relations.md        # 🤝 500 Yıllık Türkiye-Fransa İlişkileri & Frankofoni
 │   ├── diplomacy-chronology-1536-2026.md  # ⏳ 500 Yıllık Diplomatik & Kültürel Kronoloji
+│   ├── treaties-ahitname-archive.md       # 📜 1536-2026 Tarihî Ahitnameler & Diplomatik Paktlar
 │   ├── phonetics-linguistics-guide.md     # 🗣️ Fonetik, Sesbilim, Burun Ünlüleri & Faux Amis
 │   ├── virelangues-phonetics.md           # 🗣️ Tekerlemeler (Virelangues), Ulamalar & Artikülasyon
+│   ├── french-idioms-metaphors.md         # 🗣️ Fransızca Deyimler, Metaforlar & İfadeler
+│   ├── french-museums-architecture.md     # 🏛️ Fransa Müzeleri, Mimari Akımlar & Anıtlar
 │   ├── franco-turkish-etiquette-guide.md  # 🤝 Sosyolojik Görgü Kuralları & Karşılaştırmalı Protokol
 │   ├── cross-cultural-etiquette.md        # 🎩 Fransa'da 10 Altın Görgü Kuralı & Delegasyon Kodları
 │   ├── diplomatic-heritage-map.md         # 🗺️ 12 Şehirde 500 Yıllık Diplomasi & Miras Topografyası
@@ -733,7 +736,11 @@ http://localhost:8000
 ```
 
 ### 🌟 Portalın Kapsamlı Modülleri ve Gelişmiş Özellikleri:
-* 🗺️ **Fransa - Türkiye Diplomasi & Kültürel Miras Haritası:** Paris (Hôtel de Monaco, Panthéon, Station F), Strazburg (Avrupa Konseyi, AİHM, Maarif France), Colmar, Lyon, Marsilya, İstanbul (Galatasaray, Institut Français, Palais de France) ve Ankara (GSB, Fransız Elçiliği) durakları; kategori filtreleme, koordinatlar, sesli rehber ve **İnteraktif Delegasyon Rota & Mesafe Hesaplayıcı (TGV/YHT/Hava yolu)**.
+* 📜 **Türkiye - Fransa Tarihî Ahitname & Antlaşmalar Arşivi:** 1536 Kapitülasyonları, 1740 Sürekli Ahitname, 1802 Paris Barış Antlaşması, 1868 Mekteb-i Sultânî Tüzüğü, 1921 Ankara Antlaşması, 1939 Hatay ve 2026 Gençlik Deklarasyonu; orijinal Fransızca alıntılar, Türkçe analizler, sesli okuma ve Markdown dışa aktarımı.
+* 👨‍🍳 **Türk-Fransız Mutfak Atölyesi & İnteraktif Tarif Ölçekleyici:** Quiche Lorraine, Tarte Flambée (Alsace Flammekueche), Ratatouille Provençale, Crêpes Suzette, Bœuf Bourguignon ve Crème Brûlée; 2, 4, 6, 8 kişilik porsiyon ölçekleyici, Fransızca pişirme teknikleri sesli sözlüğü ve Türk mutfağı izdüşümleri.
+* 🗣️ **Fransızca Deyimler, Renkli Metaforlar & Bilmece Testi:** 12 popüler Fransız deyimi (*Poser un lapin, Du pain sur la planche, Raconter des salades, Coup de foudre, Avoir le cafard*), kelime ve mecazi anlam kartları, köken hikayeleri ve etkileşimli deyim bilgi oyunu.
+* 🏛️ **Fransa'nın 8 Başyapıt Müzesi & Mimari Akımlar Gezgini:** Louvre, Orsay, Centre Pompidou, Strazburg Katedrali, Versailles, Unterlinden, Mucem ve Chambord Şatosu; şaheser listeleri, sesli anlatım ve Romanesk'ten Haussmann'a 1000 yıllık mimari zaman şeridi.
+* 🗺️ **Fransa - Türkiye Diplomasi & Kültürel Miras Haritası:** Paris, Strazburg, Colmar, Lyon, Marsilya, İstanbul ve Ankara durakları; kategori filtreleme, koordinatlar, sesli rehber ve **İnteraktif Delegasyon Rota & Mesafe Hesaplayıcı (TGV/YHT/Hava yolu)**.
 * 🗣️ **Fransızca Tekerleme Laboratuvarı (Virelangues Antolojisi):** 8 klasik Fransızca tekerleme (/s/-/ʃ/, /y/-/u/, /r/, /p/-/b/), Uluslararası Fonetik Alfabe (IPA) dökümü, Türkçe çevirileri ve 0.75x (yavaş) ile 1.0x (normal) hızda sesli telaffuz antrenmanları.
 * 🔗 **Fransızca Ulama & Kaynama Test Simülatörü (Liaison & Enchaînement):** Zorunlu (*Obligatoire*) ve Yasak (*Interdite*) ulama kurallarını anlık olarak test eden interaktif fonetik simülatörü.
 * 💱 **Canlı Euro / TL Çevirici & Delegasyon Bütçe Hesaplayıcı:** Ayarlanabilir döviz kuru, hızlı preset butonları (€10, €25, €50, €100, €250), gün sayısı ve tercihlere göre beslenme, ulaşım ve kültür masraflarını hesaplayan **Saha Bütçe Simülatörü**.
@@ -745,7 +752,7 @@ http://localhost:8000
 * 📅 **Maarif France & GSB Strazburg-Alsace Programı (25-30 Eylül):** 6 günlük interaktif zaman çizelgesi, resmi program afişi tam boyut modalı ve 8 kilit ziyaret mekanına ait **Alsace POI Sesli Gezi Rehberi** (Notre-Dame Katedrali, Petite France, Avrupa Parlamentosu, CEDH/AİHM, Maarif France, Colmar, Batorama, Kehl Köprüsü).
 * ⚡ **Gelişmiş Flashcard Sistemi:** Kategori bazlı filtreleme (Diplomasi, Günlük, Argot/Verlan, Deyimler, Alsace), kart karıştırma (🔀), favori/öğrenildi yıldızlama (⭐), `localStorage` kalıcı hafıza ve klavye kısayolları (`Space`, `Arrow`, `L`, `S`).
 * 🌙 **Karanlık / Aydınlık Mod (Dark & Light Theme):** Kalıcı `localStorage` destekli modern camlaşma (glassmorphism) teması.
-* 🔍 **Omni-Search Spotlight (Ctrl+K / Cmd+K):** Atlas, sözlük, şahsiyetler, kronoloji, matris, argot ve program dosyalarında anında genel arama.
+* 🔍 **Omni-Search Spotlight (Ctrl+K / Cmd+K):** Atlas, sözlük, şahsiyetler, kronoloji, matris, argot, antlaşmalar ve program dosyalarında anında genel arama.
 * 👥 **18 Düşünce ve Diplomasi Önderi Portreleri:** Kanuni'den De Gaulle'e, Şinasi'den Baudelaire'e kapsamlı biyografiler ve sesli aforizmalar.
 * 📖 **İnteraktif Fiil Çekim Motoru:** 14 kritik düzensiz fiilin 6 zaman kipi, sesli telaffuzu ve diplomatik nezaket grameri kuralları.
 * 🎭 **Saha Rol Yapma & Durumsal Diyalog Simülatörü:** Paris bistrosu, resmi bakanlık görüşmesi, Station F sunumu, metro ve eczane durum senaryoları.

@@ -4637,8 +4637,6 @@ kbd {
   font-size: 0.68rem;
   text-align: center;
   box-shadow: 0 4px 10px rgba(217, 119, 6, 0.2);
-}
-
 .cert-meta-row {
   display: flex;
   justify-content: space-between;
@@ -4650,14 +4648,643 @@ kbd {
 }
 
 /* ==========================================================================
-   17. PRINT STYLES
+   18. TREATIES & AHITNAME ARCHIVE STYLES
+   ========================================================================== */
+.treaty-controls-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  background: var(--bg-card);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.treaty-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+  .treaty-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.treaty-list-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 800px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.treaty-card-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.treaty-card-item:hover {
+  transform: translateX(4px);
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.treaty-card-item.active {
+  border-color: var(--accent);
+  background: rgba(217, 119, 6, 0.04);
+  border-left: 4px solid var(--accent);
+}
+
+.treaty-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.treaty-year-badge {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.78rem;
+  color: var(--accent);
+  background: rgba(217, 119, 6, 0.12);
+  padding: 0.2rem 0.55rem;
+  border-radius: 12px;
+}
+
+.treaty-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.treaty-card-signers {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Treaty Doc Paper */
+.treaty-doc-paper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 90px;
+}
+
+.treaty-doc-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.treaty-header-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.treaty-era-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  background: rgba(37, 99, 235, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+}
+
+.treaty-doc-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main);
+  font-family: var(--font-serif);
+}
+
+.treaty-parties {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.treaty-lang-tabs {
+  display: flex;
+  gap: 0.35rem;
+  background: var(--bg-main);
+  padding: 0.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.treaty-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+
+.treaty-tab-btn.active {
+  background: var(--bg-card);
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.treaty-excerpt-box {
+  background: var(--bg-main);
+  border-radius: 8px;
+  padding: 1.15rem;
+  border-left: 4px solid var(--primary-light);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.treaty-clauses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.treaty-clause-row {
+  background: var(--bg-main);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  border-left: 3px solid var(--accent);
+}
+
+.treaty-modern-impact {
+  background: rgba(16, 185, 129, 0.06);
+  border-left: 3px solid #10b981;
+  padding: 0.75rem 1rem;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.84rem;
+}
+
+.treaty-doc-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+/* ==========================================================================
+   19. ATELIER CULINAIRE & RECIPE SCALER STYLES
+   ========================================================================== */
+.recipe-studio-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.recipe-studio-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.recipe-controls-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.recipe-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  background: var(--bg-main);
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .recipe-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.recipe-info-item span {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.recipe-info-item strong {
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.recipe-layout-columns {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .recipe-layout-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recipe-ingredients-card {
+  background: var(--bg-main);
+  border-radius: 8px;
+  padding: 1.15rem;
+  border: 1px solid var(--border-color);
+}
+
+.recipe-ingredients-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.4rem;
+}
+
+.recipe-ingredients-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+}
+
+.recipe-ingredients-list li {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .recipe-ingredients-list li {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+}
+
+.recipe-steps-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.recipe-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.recipe-step-item {
+  background: var(--bg-main);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.84rem;
+  display: flex;
+  gap: 0.6rem;
+  line-height: 1.45;
+}
+
+.step-number {
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.recipe-cultural-parallel {
+  background: rgba(227, 10, 23, 0.05);
+  border-left: 3px solid var(--secondary);
+  padding: 0.65rem 0.85rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem;
+}
+
+.cooking-verbs-strip {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.cooking-verb-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   20. IDIOMS & METAPHORS LAB STYLES
+   ========================================================================== */
+.idioms-lab-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.idioms-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.idioms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.idiom-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: var(--transition);
+}
+
+.idiom-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+
+.idiom-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.idiom-cat-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  background: rgba(217, 119, 6, 0.1);
+  color: var(--accent);
+}
+
+.idiom-fr {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.idiom-literal {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.idiom-figurative {
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 3px solid var(--primary-light);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  border-radius: 0 6px 6px 0;
+}
+
+.idiom-origin {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.idiom-quiz-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.iq-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.iq-option-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.iq-option-btn:hover {
+  background: var(--primary-light);
+  color: #fff;
+  border-color: var(--primary-light);
+}
+
+.iq-option-btn.correct {
+  background: #10b981 !important;
+  color: #fff !important;
+  border-color: #10b981 !important;
+}
+
+.iq-option-btn.incorrect {
+  background: #ef4444 !important;
+  color: #fff !important;
+  border-color: #ef4444 !important;
+}
+
+/* ==========================================================================
+   21. MUSEUMS & ARCHITECTURAL ERAS STYLES
+   ========================================================================== */
+.museums-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.museums-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.museums-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.museum-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: var(--transition);
+}
+
+.museum-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-light);
+}
+
+.museum-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.museum-head h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.museum-arch-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 12px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary-light);
+  white-space: nowrap;
+}
+
+.museum-city {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.museum-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.museum-art-list {
+  background: var(--bg-main);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--text-main);
+}
+
+.arch-eras-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.arch-eras-card h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
+.arch-eras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.arch-era-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: var(--transition);
+}
+
+.arch-era-box:hover {
+  border-color: var(--accent);
+}
+
+.arch-era-box .era-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--primary-light);
+}
+
+.arch-era-box .era-century {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--accent);
+}
+
+.arch-era-box .era-features {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   22. PRINT STYLES
    ========================================================================== */
 @media print {
   body {
     background: #ffffff !important;
     color: #000000 !important;
   }
-  .navbar, .theme-toggle, .github-link, .quotes-controls, .region-controls, .cheese-controls, .poetry-selector, .btn-voice, .fc-controls, .quiz-box, .match-game-box, .dialogue-selector-bar, .dialogue-actions-box, .res-actions, .figures-controls, .verb-controls, .footer, .modal-overlay, .program-filter-controls, .matrix-controls, .audio-engine-card, .verlan-quick-presets, .speech-controls-panel, .map-controls-bar, .route-simulator-card, .cert-controls-card, .btn-primary, .btn-secondary, .btn-voice-mini {
+  .navbar, .theme-toggle, .github-link, .quotes-controls, .region-controls, .cheese-controls, .poetry-selector, .btn-voice, .fc-controls, .quiz-box, .match-game-box, .dialogue-selector-bar, .dialogue-actions-box, .res-actions, .figures-controls, .verb-controls, .footer, .modal-overlay, .program-filter-controls, .matrix-controls, .audio-engine-card, .verlan-quick-presets, .speech-controls-panel, .map-controls-bar, .route-simulator-card, .cert-controls-card, .treaty-controls-bar, .recipe-controls-row, .idioms-controls, .museums-controls, .btn-primary, .btn-secondary, .btn-voice-mini {
     display: none !important;
   }
   .tab-content {
@@ -4673,7 +5300,7 @@ kbd {
     background: none !important;
     padding: 1rem 0 !important;
   }
-  .stat-card, .atlas-card, .timeline-item, .quote-card, .figure-card, .cheese-card, .ws-card, .budget-card, .verb-tense-card, .program-day-card, .pslot-content-col, .matrix-card, .slang-card, .poi-card, .speech-paper, .heritage-card {
+  .stat-card, .atlas-card, .timeline-item, .quote-card, .figure-card, .cheese-card, .ws-card, .budget-card, .verb-tense-card, .program-day-card, .pslot-content-col, .matrix-card, .slang-card, .poi-card, .speech-paper, .heritage-card, .treaty-card-item, .treaty-doc-paper, .recipe-studio-card, .idiom-card, .museum-card {
     border: 1px solid #ccc !important;
     box-shadow: none !important;
     break-inside: avoid;
